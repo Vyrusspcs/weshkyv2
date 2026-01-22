@@ -466,7 +466,7 @@ do -- Load items
     Inner.Position = UDim2.new(0, 2, 0, 2)
     Inner.Size = UDim2.new(1, -4, 1, -4)
     Inner.Image = "rbxassetid://3570695787"
-    Inner.ImageColor3 = Color3.fromRGB(176, 27, 16)
+    Inner.ImageColor3 = Color3.fromRGB(29, 73, 118)
     Inner.ScaleType = Enum.ScaleType.Slice
     Inner.SliceCenter = Rect.new(100, 100, 100, 100)
     Inner.SliceScale = 0.050
@@ -1067,7 +1067,7 @@ do -- Load items
     Inner_3.Position = UDim2.new(0, 2, 0, 2)
     Inner_3.Size = UDim2.new(1, -4, 1, -4)
     Inner_3.Image = "rbxassetid://3570695787"
-    Inner_3.ImageColor3 = Color3.fromRGB(176, 27, 16)
+    Inner_3.ImageColor3 = Color3.fromRGB(29, 73, 118)
     Inner_3.ScaleType = Enum.ScaleType.Slice
     Inner_3.SliceCenter = Rect.new(100, 100, 100, 100)
     Inner_3.SliceScale = 0.050
@@ -1984,9 +1984,9 @@ local library library = {
                     dropdownOptions = settings.new({
                         text = "New Dropdown",
                         size = 150,
-                        color = Color3.fromRGB(176, 27, 16),
+                        color = Color3.fromRGB(29, 73, 118),
                         rounding = options.rounding,
-                        selectioncolor = Color3.fromRGB(176, 27, 16),
+                        selectioncolor = Color3.fromRGB(29, 73, 118),
                     }).handle(dropdownOptions)
 
                     local dropdownButton = new("Dropdown")
