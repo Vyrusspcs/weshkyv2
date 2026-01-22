@@ -123,7 +123,7 @@ BlockBG.Image = "rbxassetid://2851926732"
 BlockBG.ImageColor3 = BACKGROUND_COLOR
 BlockBG.ImageTransparency = 0.3
 BlockBG.ScaleType = Enum.ScaleType.Slice
-BlockBG.SliceCenter = Rect.new(12, 12, 12, 12)
+BlockBG.SliceCenter = Rect.new(6, 6, 6, 6)
 BlockBG.BackgroundTransparency = 1
 BlockBG.ZIndex = 11
 
