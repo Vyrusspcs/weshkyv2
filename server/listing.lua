@@ -343,10 +343,10 @@ local function CreateExampleBlock()
     BlockInfo.Size = UDim2.new(1, 0, 0.5, 0)
     BlockInfo.Position = UDim2.new(0, 0, 0.5, 0)
     BlockInfo.BackgroundTransparency = 1
-    BlockName.Font = Enum.Font.GothamBold
+    BlockName.Font = Enum.Font.Gotham
     BlockInfo.Text = "Needed: 0 | Missing: 0"
     BlockInfo.TextColor3 = CONFIG.TEXT_COLOR
-    BlockInfo.TextSize = 15
+    BlockInfo.TextSize = 10
     BlockInfo.TextXAlignment = Enum.TextXAlignment.Left
     BlockInfo.TextYAlignment = Enum.TextYAlignment.Top
     BlockInfo.ZIndex = 14
