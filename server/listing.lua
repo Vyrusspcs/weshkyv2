@@ -192,6 +192,79 @@ ClearLayer.ScaleType = Enum.ScaleType.Slice
 ClearLayer.SliceCenter = Rect.new(100, 100, 100, 100)
 ClearLayer.SliceScale = 0.050
 
+local NAME_ALIASES = {
+    ["WoodBlock"] = "Wood Block",
+    ["SmoothWoodBlock"] = "Smooth Wood Block",
+    ["StoneBlock"] = "Stone Block",
+    ["RustedBlock"] = "Rusted Block",
+    ["MetalBlock"] = "Metal Block",
+    ["NeonBlock"] = "Neon Block",
+    ["GlassBlock"] = "Glass Block",
+    ["ConcreteBlock"] = "Concrete Block",
+    ["MarbleBlock"] = "Marble Block",
+    ["TitaniumBlock"] = "Titanium Block",
+    ["ObsidianBlock"] = "Obsidian Block",
+    ["GoldBlock"] = "Gold Block",
+    ["FabricBlock"] = "Fabric Block",
+    ["BrickBlock"] = "Brick Block",
+    ["BalloonBlock"] = "Balloon Block",
+    ["PlasticBlock"] = "Plastic Block",
+    ["ToyBlock"] = "Toy Block",
+    ["IceBlock"] = "Ice Block",
+    ["CoalBlock"] = "Coal Block",
+    ["BouncyBlock"] = "Bouncy Block",
+    ["SandBlock"] = "Sand Block",
+    ["GrassBlock"] = "Grass Block",
+    ["Motor"] = "Legacy Wheels",
+    ["WoodRod"] = "Wood Rod",
+    ["StoneRod"] = "Stone Rod",
+    ["RustedRod"] = "Rusted Rod",
+    ["MetalRod"] = "Metal Rod",
+    ["ConcreteRod"] = "Concrete Rod",
+    ["MarbleRod"] = "Marble Rod",
+    ["TitaniumRod"] = "Titanium Rod",
+    ["FrontWheel"] = "Front Wheel",
+    ["BackWheel"] = "Back Wheel",
+    ["CarSeat"] = "Car Seat",
+    ["PilotSeat"] = "Pilot Seat",
+    ["UltraThruster"] = "Ultra Thruster",
+    ["MegaThruster"] = "Mega Thruster",
+    ["DragonHarpoon"] = "Dragon Harpoon",
+    ["GoldenHarpoon"] = "Golden Harpoon",
+    ["JetTurbine"] = "Jet Turbine",
+    ["SonicJetTurbine"] = "Sonic Jet Turbine",
+    ["ClassicFirework"] = "Classic Firework",
+    ["DomeCamera"] = "Dome Camera",
+    ["BoatMotor"] = "Boat Motor",
+    ["DualCandyCaneHarpoon"] = "Dual Candy Cane Harpoon",
+    ["MiniGun"] = "Mini Gun",
+    ["SpikeTrap"] = "Spike Trap",
+    ["PineTree"] = "Pine Tree",
+    ["BoatMotor"] = "Boat Motor",
+    ["BigCanon"] = "Big Canon",
+    ["EggCannon"] = "Egg Cannon",
+    ["SnowballLauncher"] = "Snowball Launcher",
+    ["LockedDoor"] = "Locked Door",
+    ["CornerWedge"] = "Corner Wedge",
+    ["SoccerBall"] = "Soccer Ball",
+    ["UltraBoatMotor"] = "Ultra Boat Motor",
+    ["LightBulb"] = "Light Bulb",
+    ["ParachuteBlock"] = "Parachute Block",
+    ["MusicNote"] = "Music Note",
+    ["Bread"] = "Baskets Brain",
+    ["UltraJetpack"] = "Ultra Jetpack",
+    ["MysteryBox"] = "Mystery Box",
+}
+
+local function getDisplayName(originalName)
+    local alias = NAME_ALIASES[originalName]
+    if alias then
+        return alias
+    end
+    
+    return originalName
+end
+
 local function CreateExampleBlock()
     local ExampleBlock = Instance.new("Frame")
     ExampleBlock.Name = "Block"
@@ -273,7 +346,7 @@ local function CreateExampleBlock()
     BlockInfo.Font = Enum.Font.Gotham
     BlockInfo.Text = "Needed: 0 | Missing: 0"
     BlockInfo.TextColor3 = CONFIG.TEXT_COLOR
-    BlockInfo.TextSize = 12
+    BlockInfo.TextSize = 15
     BlockInfo.TextXAlignment = Enum.TextXAlignment.Left
     BlockInfo.TextYAlignment = Enum.TextYAlignment.Top
     BlockInfo.ZIndex = 14
@@ -412,6 +485,8 @@ function Functions:Add(name, needed, missing)
     needed = tonumber(needed) or 0
     missing = tonumber(missing) or nil
     
+    local displayName = getDisplayName(name)
+    
     local block = ExampleBlock:Clone()
     block.Name = "Block"
     block.Visible = true
@@ -447,7 +522,7 @@ function Functions:Add(name, needed, missing)
         icon.Visible = true
     end
     
-    blockNameLabel.Text = tostring(name)
+    blockNameLabel.Text = tostring(displayName)
     
     if missing and missing > 0 then
         blockInfoLabel.Text = string.format("Needed: %d | Missing: %d", needed, missing)
@@ -494,6 +569,26 @@ function Functions:UpdateConfig(newConfig)
     Content.ImageColor3 = CONFIG.BACKGROUND_COLOR
     Title.TextColor3 = CONFIG.TEXT_COLOR
     updateTransparency(CONFIG.TRANSPARENCY)
+end
+
+function Functions:AddAlias(originalName, displayName)
+    if originalName and displayName then
+        NAME_ALIASES[originalName] = displayName
+    end
+end
+
+function Functions:RemoveAlias(originalName)
+    if originalName then
+        NAME_ALIASES[originalName] = nil
+    end
+end
+
+function Functions:GetAliases()
+    local aliases = {}
+    for key, value in pairs(NAME_ALIASES) do
+        aliases[key] = value
+    end
+    return aliases
 end
 
 ClearButton.MouseButton1Click:Connect(function()
