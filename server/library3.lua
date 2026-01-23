@@ -7,8 +7,8 @@
 --]]
 
 repeat wait() until game:GetService("Players").LocalPlayer
-if game:GetService("CoreGui"):FindFirstChild("imgui3_3") then
-    game:GetService("CoreGui"):FindFirstChild("imgui3_3"):Destroy()
+if game:GetService("CoreGui"):FindFirstChild("imgui2") then
+    game:GetService("CoreGui"):FindFirstChild("imgui2"):Destroy()
 end
 
 local tzu = Enum.Font.GothamBold -- All
@@ -16,7 +16,7 @@ local tzu2 = Enum.Font.GothamBold -- Title
 local tzu3 = Enum.Font.GothamBold  -- Tabs
 
 do -- Load items
-    local imgui3_3 = Instance.new("ScreenGui")
+    local imgui2 = Instance.new("ScreenGui")
     local Presets = Instance.new("Frame")
     local Label = Instance.new("TextLabel")
     local TabButton = Instance.new("TextButton")
@@ -117,11 +117,11 @@ do -- Load items
     local Text_4 = Instance.new("TextLabel")
     local Cache_2 = Instance.new("Frame")
 
-    imgui3_3.Name = "imgui3_3"
-    imgui3_3.Parent = game:GetService("CoreGui")
+    imgui2.Name = "imgui2"
+    imgui2.Parent = game:GetService("CoreGui")
 
     Presets.Name = "Presets"
-    Presets.Parent = imgui3_3
+    Presets.Parent = imgui2
     Presets.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Presets.Size = UDim2.new(0, 100, 0, 100)
     Presets.Visible = false
@@ -160,7 +160,7 @@ do -- Load items
     Folder_2.BackgroundTransparency = 1.000
     Folder_2.Size = UDim2.new(1, 0, 0, 20)
     Folder_2.Image = "rbxassetid://3570695787"
-    Folder_2.ImageColor3 = Color3.fromRGB(41, 74, 122)
+    Folder_2.ImageColor3 = Color3.fromRGB(29, 73, 118)
     Folder_2.ScaleType = Enum.ScaleType.Slice
     Folder_2.SliceCenter = Rect.new(100, 100, 100, 100)
     Folder_2.SliceScale = 0.050
@@ -401,7 +401,7 @@ do -- Load items
     ImageLabel.Size = UDim2.new(1, 0, 1, 0)
     ImageLabel.ZIndex = 2
     ImageLabel.Image = "rbxassetid://3570695787"
-    ImageLabel.ImageColor3 = Color3.fromRGB(41, 74, 122)
+    ImageLabel.ImageColor3 = Color3.fromRGB(29, 73, 118)
     ImageLabel.ScaleType = Enum.ScaleType.Slice
     ImageLabel.SliceCenter = Rect.new(100, 100, 100, 100)
     ImageLabel.SliceScale = 0.050
@@ -466,7 +466,7 @@ do -- Load items
     Inner.Position = UDim2.new(0, 2, 0, 2)
     Inner.Size = UDim2.new(1, -4, 1, -4)
     Inner.Image = "rbxassetid://3570695787"
-    Inner.ImageColor3 = Color3.fromRGB(176, 27, 16)
+    Inner.ImageColor3 = Color3.fromRGB(29, 73, 118)
     Inner.ScaleType = Enum.ScaleType.Slice
     Inner.SliceCenter = Rect.new(100, 100, 100, 100)
     Inner.SliceScale = 0.050
@@ -521,7 +521,7 @@ do -- Load items
     ImageLabel_2.Size = UDim2.new(1, 0, 1, 0)
     ImageLabel_2.ZIndex = 2
     ImageLabel_2.Image = "rbxassetid://3570695787"
-    ImageLabel_2.ImageColor3 = Color3.fromRGB(41, 74, 122)
+    ImageLabel_2.ImageColor3 = Color3.fromRGB(29, 73, 118)
     ImageLabel_2.ScaleType = Enum.ScaleType.Slice
     ImageLabel_2.SliceCenter = Rect.new(100, 100, 100, 100)
     ImageLabel_2.SliceScale = 0.050
@@ -834,7 +834,7 @@ do -- Load items
     Inner_2.Position = UDim2.new(0, 2, 0, 2)
     Inner_2.Size = UDim2.new(1, -4, 1, -4)
     Inner_2.Image = "rbxassetid://3570695787"
-    Inner_2.ImageColor3 = Color3.fromRGB(122, 41, 41)
+    Inner_2.ImageColor3 = Color3.fromRGB(29, 73, 118)
     Inner_2.ScaleType = Enum.ScaleType.Slice
     Inner_2.SliceCenter = Rect.new(100, 100, 100, 100)
     Inner_2.SliceScale = 0.050
@@ -850,6 +850,7 @@ do -- Load items
     TextBox.TextColor3 = Color3.fromRGB(178, 178, 178)
     TextBox.TextSize = 14.000
     TextBox.TextXAlignment = Enum.TextXAlignment.Left
+    TextBox.ClipsDescendants = true
 
     Selected.Name = "Selected"
     Selected.Parent = Content_2
@@ -1067,7 +1068,7 @@ do -- Load items
     Inner_3.Position = UDim2.new(0, 2, 0, 2)
     Inner_3.Size = UDim2.new(1, -4, 1, -4)
     Inner_3.Image = "rbxassetid://3570695787"
-    Inner_3.ImageColor3 = Color3.fromRGB(176, 27, 16)
+    Inner_3.ImageColor3 = Color3.fromRGB(29, 73, 118)
     Inner_3.ScaleType = Enum.ScaleType.Slice
     Inner_3.SliceCenter = Rect.new(100, 100, 100, 100)
     Inner_3.SliceScale = 0.050
@@ -1097,7 +1098,7 @@ do -- Load items
     Text_4.TextXAlignment = Enum.TextXAlignment.Left
 
     Cache_2.Name = "Cache"
-    Cache_2.Parent = imgui3_3
+    Cache_2.Parent = imgui2
     Cache_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Cache_2.Size = UDim2.new(0, 100, 0, 100)
     Cache_2.Visible = false
@@ -1106,7 +1107,7 @@ end
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
-local ScreenGui = CoreGui:FindFirstChild("imgui3_3")
+local ScreenGui = CoreGui:FindFirstChild("imgui2")
 local Presets = ScreenGui:FindFirstChild("Presets")
 local ScreenGuiCache = ScreenGui:FindFirstChild("Cache")
 
@@ -1381,7 +1382,7 @@ local library library = {
             size = Vector2.new(300, 200),
             shadow = 10,
             transparency = 0.2,
-            color = Color3.fromRGB(41, 74, 122),
+            color = Color3.fromRGB(29, 73, 118),
             boardcolor = Color3.fromRGB(21, 22, 23),
             rounding = 5,
             animation = 0.1,
@@ -1984,9 +1985,9 @@ local library library = {
                     dropdownOptions = settings.new({
                         text = "New Dropdown",
                         size = 150,
-                        color = Color3.fromRGB(176, 27, 16),
+                        color = Color3.fromRGB(29, 73, 118),
                         rounding = options.rounding,
-                        selectioncolor = Color3.fromRGB(176, 27, 16),
+                        selectioncolor = Color3.fromRGB(29, 73, 118),
                     }).handle(dropdownOptions)
 
                     local dropdownButton = new("Dropdown")
