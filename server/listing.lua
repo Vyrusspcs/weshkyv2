@@ -1,5 +1,3 @@
-print("eee")
-
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
@@ -96,6 +94,20 @@ Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 15
 Title.TextWrapped = true
 Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local Layer = Instance.new("ImageLabel")
+Layer.Name = "Layer"
+Layer.Parent = Main
+Layer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Layer.BackgroundTransparency = 1.000
+Layer.Position = UDim2.new(0, 2, 0, 2)
+Layer.Size = UDim2.new(1, 0, 10.090909, 0)
+Layer.ZIndex = 0
+Layer.Image = "rbxassetid://3570695787"
+Layer.ImageColor3 = Color3.fromRGB(10, 10, 11)
+Layer.ScaleType = Enum.ScaleType.Slice
+Layer.SliceCenter = Rect.new(100, 100, 100, 100)
+Layer.SliceScale = 0.050
 
 local Items = Instance.new("ScrollingFrame")
 Items.Name = "Items"
@@ -196,7 +208,7 @@ BlockInner.ZIndex = 12
 local Icon = Instance.new("ImageLabel", BlockInner)
 Icon.Size = UDim2.new(0, 30, 0, 30)
 Icon.Position = UDim2.new(0, 5, 0.5, -15)
-Icon.Image = "rbxassetid://845567732" 
+Icon.Image = "rbxassetid://845567732"
 Icon.BackgroundTransparency = 1
 Icon.ZIndex = 13
 
@@ -212,7 +224,7 @@ BlockText.BackgroundTransparency = 1
 BlockText.RichText = true
 BlockText.ZIndex = 14
 
---local images = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vyrusspcs/weshkyv2/refs/heads/main/server/blocklist.lua"))()
+local images = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vyrusspcs/weshkyv2/refs/heads/main/server/blocklist.lua"))()
 
 local function Resize(part, newProps, speed)
     local tween = TweenInfo.new(speed or 0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
@@ -245,6 +257,8 @@ end)
 
 local function updateLayers()
     local y = Main.AbsoluteSize.Y + Content.AbsoluteSize.Y
+    Layer.Size = UDim2.new(1, 0, 0, y)
+    Layer.SliceScale = 0.050
 end
 
 Content:GetPropertyChangedSignal("Size"):Connect(updateLayers)
@@ -282,7 +296,7 @@ local Functions = {}
 
 local COLORS = {
     RED = Color3.fromRGB(122, 41, 41),
-    YELLOW = Color3.fromRGB(145, 103, 25),
+    YELLOW = Color3.fromRGB(145, 103, 25), 
     GREEN = Color3.fromRGB(41, 122, 56),
     NEUTRAL = Color3.fromRGB(59, 59, 68),
 }
