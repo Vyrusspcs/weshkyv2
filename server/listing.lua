@@ -363,7 +363,6 @@ end)
 
 if success and type(imagesData) == "table" then
     images = imagesData
-    print("Loaded", #images, "block images")
 else
     print("problem loading block images:", imagesData)
 end
