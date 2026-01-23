@@ -2,9 +2,15 @@ local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 
-local MAIN_COLOR = Color3.fromRGB(41, 74, 122)
-local BACKGROUND_COLOR = Color3.fromRGB(21, 22, 23)
-local TEXT_COLOR = Color3.fromRGB(255, 255, 255)
+local CONFIG = {
+    MAIN_COLOR = Color3.fromRGB(41, 74, 122),
+    BACKGROUND_COLOR = Color3.fromRGB(21, 22, 23),
+    TEXT_COLOR = Color3.fromRGB(255, 255, 255),
+    TRANSPARENCY = 0.2,
+    POSITION = UDim2.new(0, 1112, 0, 40),
+    SIZE = UDim2.new(0, 300, 0, 22),
+    CONTENT_HEIGHT = 550
+}
 
 do
     local MainPart = game:GetService("CoreGui"):FindFirstChild("BlockListing")
@@ -23,11 +29,12 @@ Main.Name = "Main"
 Main.Parent = ScreenGui
 Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Main.BackgroundTransparency = 1.000
-Main.Position = UDim2.new(0, 1112, 0, 40)
-Main.Size = UDim2.new(0, 300, 0, 22)
+Main.Position = CONFIG.POSITION
+Main.Size = CONFIG.SIZE
 Main.ZIndex = 4
 Main.Image = "rbxassetid://3570695787"
-Main.ImageColor3 = Color3.fromRGB(29, 73, 118)
+Main.ImageColor3 = CONFIG.MAIN_COLOR
+Main.ImageTransparency = CONFIG.TRANSPARENCY
 Main.ScaleType = Enum.ScaleType.Slice
 Main.SliceCenter = Rect.new(100, 100, 100, 100)
 Main.SliceScale = 0.050
@@ -35,7 +42,8 @@ Main.Active = true
 
 local Frame = Instance.new("Frame")
 Frame.Parent = Main
-Frame.BackgroundColor3 = Color3.fromRGB(29, 73, 118)
+Frame.BackgroundColor3 = CONFIG.MAIN_COLOR
+Frame.BackgroundTransparency = CONFIG.TRANSPARENCY
 Frame.BorderSizePixel = 0
 Frame.Position = UDim2.new(0, 0, 1, -10)
 Frame.Size = UDim2.new(1, 0, 0, 10)
@@ -44,6 +52,7 @@ Frame.ZIndex = 4
 local Frame_2 = Instance.new("Frame")
 Frame_2.Parent = Frame
 Frame_2.BackgroundColor3 = Color3.fromRGB(59, 59, 68)
+Frame_2.BackgroundTransparency = CONFIG.TRANSPARENCY
 Frame_2.BorderSizePixel = 0
 Frame_2.Position = UDim2.new(0, 0, 1, 0)
 Frame_2.Size = UDim2.new(1, 0, 0, 2)
@@ -56,16 +65,18 @@ Content.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Content.BackgroundTransparency = 1.000
 Content.ClipsDescendants = true
 Content.Position = UDim2.new(0, 0, 1, 0)
-Content.Size = UDim2.new(1, 0, 0, 550)
+Content.Size = UDim2.new(1, 0, 0, CONFIG.CONTENT_HEIGHT)
 Content.Image = "rbxassetid://3570695787"
-Content.ImageColor3 = Color3.fromRGB(21, 22, 23)
+Content.ImageColor3 = CONFIG.BACKGROUND_COLOR
+Content.ImageTransparency = CONFIG.TRANSPARENCY
 Content.ScaleType = Enum.ScaleType.Slice
 Content.SliceCenter = Rect.new(100, 100, 100, 100)
 Content.SliceScale = 0.050
 
 local Frame_3 = Instance.new("Frame")
 Frame_3.Parent = Content
-Frame_3.BackgroundColor3 = Color3.fromRGB(21, 22, 23)
+Frame_3.BackgroundColor3 = CONFIG.BACKGROUND_COLOR
+Frame_3.BackgroundTransparency = CONFIG.TRANSPARENCY
 Frame_3.BorderSizePixel = 0
 Frame_3.Size = UDim2.new(1, 0, 0, 10)
 
@@ -90,7 +101,7 @@ Title.Size = UDim2.new(1, -30, 1, 0)
 Title.ZIndex = 4
 Title.Font = tzu2
 Title.Text = "Block Listing"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextColor3 = CONFIG.TEXT_COLOR
 Title.TextSize = 15
 Title.TextWrapped = true
 Title.TextXAlignment = Enum.TextXAlignment.Left
@@ -105,6 +116,7 @@ Layer.Size = UDim2.new(1, 0, 10.090909, 0)
 Layer.ZIndex = 0
 Layer.Image = "rbxassetid://3570695787"
 Layer.ImageColor3 = Color3.fromRGB(10, 10, 11)
+Layer.ImageTransparency = CONFIG.TRANSPARENCY
 Layer.ScaleType = Enum.ScaleType.Slice
 Layer.SliceCenter = Rect.new(100, 100, 100, 100)
 Layer.SliceScale = 0.050
@@ -113,7 +125,8 @@ local Items = Instance.new("ScrollingFrame")
 Items.Name = "Items"
 Items.Parent = Content
 Items.Active = true
-Items.BackgroundColor3 = Color3.fromRGB(21, 22, 23)
+Items.BackgroundColor3 = CONFIG.BACKGROUND_COLOR
+Items.BackgroundTransparency = 1.000
 Items.BorderSizePixel = 0
 Items.Position = UDim2.new(0, 10, 0, 0)
 Items.Size = UDim2.new(1, -20, 1, 0)
@@ -141,7 +154,7 @@ ClearButton.Size = UDim2.new(0, 65, 0, 18)
 ClearButton.ZIndex = 5
 ClearButton.Font = tzu
 ClearButton.Text = "Clear"
-ClearButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ClearButton.TextColor3 = CONFIG.TEXT_COLOR
 ClearButton.TextSize = 13.000
 
 local ClearImageLabel = Instance.new("ImageLabel")
@@ -156,6 +169,7 @@ ClearImageLabel.Size = UDim2.new(1, 0, 1, 0)
 ClearImageLabel.ZIndex = 4
 ClearImageLabel.Image = "rbxassetid://3570695787"
 ClearImageLabel.ImageColor3 = Color3.fromRGB(122, 41, 41)
+ClearImageLabel.ImageTransparency = CONFIG.TRANSPARENCY
 ClearImageLabel.ScaleType = Enum.ScaleType.Slice
 ClearImageLabel.SliceCenter = Rect.new(100, 100, 100, 100)
 ClearImageLabel.SliceScale = 0.050
@@ -172,6 +186,7 @@ ClearLayer.Selectable = true
 ClearLayer.Size = UDim2.new(1, 0, 1, 0)
 ClearLayer.Image = "rbxassetid://3570695787"
 ClearLayer.ImageColor3 = Color3.fromRGB(61, 21, 21)
+ClearLayer.ImageTransparency = CONFIG.TRANSPARENCY
 ClearLayer.ScaleType = Enum.ScaleType.Slice
 ClearLayer.SliceCenter = Rect.new(100, 100, 100, 100)
 ClearLayer.SliceScale = 0.050
@@ -186,6 +201,7 @@ BlockOuter.Name = "Outer"
 BlockOuter.Size = UDim2.new(1, 0, 1, 0)
 BlockOuter.Image = "rbxassetid://3570695787"
 BlockOuter.ImageColor3 = Color3.fromRGB(59, 59, 68)
+BlockOuter.ImageTransparency = CONFIG.TRANSPARENCY
 BlockOuter.ScaleType = Enum.ScaleType.Slice
 BlockOuter.SliceCenter = Rect.new(100, 100, 100, 100)
 BlockOuter.SliceScale = 0.050
@@ -200,6 +216,7 @@ BlockInner.Position = UDim2.new(0, 2, 0, 2)
 BlockInner.Size = UDim2.new(1, -4, 1, -4)
 BlockInner.Image = "rbxassetid://3570695787"
 BlockInner.ImageColor3 = Color3.fromRGB(41, 74, 122)
+BlockInner.ImageTransparency = CONFIG.TRANSPARENCY
 BlockInner.ScaleType = Enum.ScaleType.Slice
 BlockInner.SliceCenter = Rect.new(100, 100, 100, 100)
 BlockInner.SliceScale = 0.050
@@ -217,7 +234,7 @@ BlockText.Size = UDim2.new(1, -40, 1, 0)
 BlockText.Position = UDim2.new(0, 35, 0, 0)
 BlockText.Text = "Needed: 1\nMissing: 0"
 BlockText.Font = tzu
-BlockText.TextColor3 = TEXT_COLOR
+BlockText.TextColor3 = CONFIG.TEXT_COLOR
 BlockText.TextSize = 12
 BlockText.TextXAlignment = Enum.TextXAlignment.Left
 BlockText.BackgroundTransparency = 1
@@ -234,6 +251,31 @@ end
 local originalContentSize = Content.Size
 local originalMainSize = Main.Size
 local isOpen = true
+
+local function updateTransparency(transparency)
+    CONFIG.TRANSPARENCY = math.clamp(transparency, 0, 1)
+    Main.ImageTransparency = CONFIG.TRANSPARENCY
+    Frame.BackgroundTransparency = CONFIG.TRANSPARENCY
+    Frame_2.BackgroundTransparency = CONFIG.TRANSPARENCY
+    Content.ImageTransparency = CONFIG.TRANSPARENCY
+    Frame_3.BackgroundTransparency = CONFIG.TRANSPARENCY
+    Layer.ImageTransparency = CONFIG.TRANSPARENCY
+    ClearImageLabel.ImageTransparency = CONFIG.TRANSPARENCY
+    ClearLayer.ImageTransparency = CONFIG.TRANSPARENCY
+    
+    for _, child in pairs(Items:GetChildren()) do
+        if child:IsA("Frame") and child.Name == "Block" then
+            local outer = child:FindFirstChild("Outer")
+            local inner = child:FindFirstChild("Inner")
+            if outer then
+                outer.ImageTransparency = CONFIG.TRANSPARENCY
+            end
+            if inner then
+                inner.ImageTransparency = CONFIG.TRANSPARENCY
+            end
+        end
+    end
+end
 
 UserInputService.InputBegan:Connect(function(input, gpe)
     if input.KeyCode == Enum.KeyCode.RightShift then
@@ -313,7 +355,15 @@ end
 function Functions:Add(name, needed, missing)
     local block = ExampleBlock:Clone()
     block.Parent = Items
+    
+    local outer = block:FindFirstChild("Outer")
     local inner = block:FindFirstChild("Inner")
+    if outer then
+        outer.ImageTransparency = CONFIG.TRANSPARENCY
+    end
+    if inner then
+        inner.ImageTransparency = CONFIG.TRANSPARENCY
+    end
     
     if images[name] then
         block:FindFirstChild("Icon").Image = images[name]
@@ -345,6 +395,27 @@ function Functions:Add(name, needed, missing)
         end
     end
     Items.CanvasSize = UDim2.new(0, 0, 0, totalHeight)
+end
+
+function Functions:SetTransparency(transparency)
+    updateTransparency(transparency)
+end
+
+function Functions:GetTransparency()
+    return CONFIG.TRANSPARENCY
+end
+
+function Functions:UpdateConfig(newConfig)
+    for key, value in pairs(newConfig) do
+        if CONFIG[key] ~= nil then
+            CONFIG[key] = value
+        end
+    end
+    
+    Main.ImageColor3 = CONFIG.MAIN_COLOR
+    Content.ImageColor3 = CONFIG.BACKGROUND_COLOR
+    Title.TextColor3 = CONFIG.TEXT_COLOR
+    updateTransparency(CONFIG.TRANSPARENCY)
 end
 
 ClearButton.MouseButton1Click:Connect(function()
