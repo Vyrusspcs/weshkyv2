@@ -356,8 +356,9 @@ function Functions:Add(name, needed, missing)
     local block = ExampleBlock:Clone()
     block.Parent = Items
     
-    local outer = block:FindFirstChild("Outer")
-    local inner = block:FindFirstChild("Inner")
+    local outer = block:WaitForChild("Outer")
+    local inner = block:WaitForChild("Outer"):WaitForChild("Inner")
+    
     if outer then
         outer.ImageTransparency = CONFIG.TRANSPARENCY
     end
@@ -365,13 +366,16 @@ function Functions:Add(name, needed, missing)
         inner.ImageTransparency = CONFIG.TRANSPARENCY
     end
     
-    if images[name] then
-        block:FindFirstChild("Icon").Image = images[name]
-    else
-        block:FindFirstChild("Icon").Visible = false
+    local icon = block:WaitForChild("Outer"):WaitForChild("Inner"):WaitForChild("Icon")
+    if icon then
+        if images[name] then
+            icon.Image = images[name]
+        else
+            icon.Visible = false
+        end
     end
     
-    local textLabel = block:FindFirstChild("BlockText")
+    local textLabel = block:WaitForChild("Outer"):WaitForChild("Inner"):WaitForChild("BlockText")
     textLabel.Text = string.format("Needed: %d\nMissing: %d", needed or 0, missing or 0)
     
     local color = COLORS.GREEN
