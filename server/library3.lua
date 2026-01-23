@@ -6,6 +6,8 @@
         Singularity#5490
 --]]
 
+print("ok")
+
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
     game:GetService("CoreGui"):FindFirstChild("imgui2"):Destroy()
