@@ -191,57 +191,81 @@ ClearLayer.ScaleType = Enum.ScaleType.Slice
 ClearLayer.SliceCenter = Rect.new(100, 100, 100, 100)
 ClearLayer.SliceScale = 0.050
 
-local ExampleBlock = Instance.new("Frame")
-ExampleBlock.Name = "Block"
-ExampleBlock.Size = UDim2.new(1, 0, 0, 40)
-ExampleBlock.BackgroundTransparency = 1
+local function CreateExampleBlock()
+    local ExampleBlock = Instance.new("Frame")
+    ExampleBlock.Name = "Block"
+    ExampleBlock.Size = UDim2.new(1, 0, 0, 40)
+    ExampleBlock.BackgroundTransparency = 1
+    ExampleBlock.Visible = false
 
-local BlockOuter = Instance.new("ImageLabel", ExampleBlock)
-BlockOuter.Name = "Outer"
-BlockOuter.Size = UDim2.new(1, 0, 1, 0)
-BlockOuter.Image = "rbxassetid://3570695787"
-BlockOuter.ImageColor3 = Color3.fromRGB(59, 59, 68)
-BlockOuter.ImageTransparency = CONFIG.TRANSPARENCY
-BlockOuter.ScaleType = Enum.ScaleType.Slice
-BlockOuter.SliceCenter = Rect.new(100, 100, 100, 100)
-BlockOuter.SliceScale = 0.050
-BlockOuter.BackgroundTransparency = 1
-BlockOuter.ZIndex = 11
+    local BlockOuter = Instance.new("ImageLabel")
+    BlockOuter.Name = "Outer"
+    BlockOuter.Size = UDim2.new(1, 0, 1, 0)
+    BlockOuter.Image = "rbxassetid://3570695787"
+    BlockOuter.ImageColor3 = Color3.fromRGB(59, 59, 68)
+    BlockOuter.ImageTransparency = CONFIG.TRANSPARENCY
+    BlockOuter.ScaleType = Enum.ScaleType.Slice
+    BlockOuter.SliceCenter = Rect.new(100, 100, 100, 100)
+    BlockOuter.SliceScale = 0.050
+    BlockOuter.BackgroundTransparency = 1
+    BlockOuter.ZIndex = 11
+    BlockOuter.Parent = ExampleBlock
 
-local BlockInner = Instance.new("ImageLabel", BlockOuter)
-BlockInner.Name = "Inner"
-BlockInner.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-BlockInner.BackgroundTransparency = 1.000
-BlockInner.Position = UDim2.new(0, 2, 0, 2)
-BlockInner.Size = UDim2.new(1, -4, 1, -4)
-BlockInner.Image = "rbxassetid://3570695787"
-BlockInner.ImageColor3 = Color3.fromRGB(41, 74, 122)
-BlockInner.ImageTransparency = CONFIG.TRANSPARENCY
-BlockInner.ScaleType = Enum.ScaleType.Slice
-BlockInner.SliceCenter = Rect.new(100, 100, 100, 100)
-BlockInner.SliceScale = 0.050
-BlockInner.ZIndex = 12
+    local BlockInner = Instance.new("ImageLabel")
+    BlockInner.Name = "Inner"
+    BlockInner.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    BlockInner.BackgroundTransparency = 1.000
+    BlockInner.Position = UDim2.new(0, 2, 0, 2)
+    BlockInner.Size = UDim2.new(1, -4, 1, -4)
+    BlockInner.Image = "rbxassetid://3570695787"
+    BlockInner.ImageColor3 = Color3.fromRGB(41, 74, 122)
+    BlockInner.ImageTransparency = CONFIG.TRANSPARENCY
+    BlockInner.ScaleType = Enum.ScaleType.Slice
+    BlockInner.SliceCenter = Rect.new(100, 100, 100, 100)
+    BlockInner.SliceScale = 0.050
+    BlockInner.ZIndex = 12
+    BlockInner.Parent = BlockOuter
 
-local Icon = Instance.new("ImageLabel", BlockInner)
-Icon.Size = UDim2.new(0, 30, 0, 30)
-Icon.Position = UDim2.new(0, 5, 0.5, -15)
-Icon.Image = "rbxassetid://845567732"
-Icon.BackgroundTransparency = 1
-Icon.ZIndex = 13
+    local Icon = Instance.new("ImageLabel")
+    Icon.Name = "Icon"
+    Icon.Size = UDim2.new(0, 30, 0, 30)
+    Icon.Position = UDim2.new(0, 5, 0.5, -15)
+    Icon.AnchorPoint = Vector2.new(0, 0.5)
+    Icon.Image = "rbxassetid://845567732"
+    Icon.BackgroundTransparency = 1
+    Icon.ZIndex = 13
+    Icon.Parent = BlockInner
 
-local BlockText = Instance.new("TextLabel", BlockInner)
-BlockText.Size = UDim2.new(1, -40, 1, 0)
-BlockText.Position = UDim2.new(0, 35, 0, 0)
-BlockText.Text = "Needed: 1\nMissing: 0"
-BlockText.Font = tzu
-BlockText.TextColor3 = CONFIG.TEXT_COLOR
-BlockText.TextSize = 12
-BlockText.TextXAlignment = Enum.TextXAlignment.Left
-BlockText.BackgroundTransparency = 1
-BlockText.RichText = true
-BlockText.ZIndex = 14
+    local BlockText = Instance.new("TextLabel")
+    BlockText.Name = "BlockText"
+    BlockText.Size = UDim2.new(1, -40, 1, 0)
+    BlockText.Position = UDim2.new(0, 35, 0, 0)
+    BlockText.Text = "Needed: 0\nMissing: 0"
+    BlockText.Font = tzu
+    BlockText.TextColor3 = CONFIG.TEXT_COLOR
+    BlockText.TextSize = 12
+    BlockText.TextXAlignment = Enum.TextXAlignment.Left
+    BlockText.BackgroundTransparency = 1
+    BlockText.RichText = true
+    BlockText.ZIndex = 14
+    BlockText.Parent = BlockInner
 
-local images = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vyrusspcs/weshkyv2/refs/heads/main/server/blocklist.lua"))()
+    return ExampleBlock
+end
+
+local ExampleBlock = CreateExampleBlock()
+
+local images = {}
+local success, imagesData = pcall(function()
+    return loadstring(game:HttpGet("https://raw.githubusercontent.com/Vyrusspcs/weshkyv2/refs/heads/main/server/blocklist.lua"))()
+end)
+
+if success and type(imagesData) == "table" then
+    images = imagesData
+    print("Loaded", #images, "block images")
+else
+    print("problem loading block images:", imagesData)
+end
 
 local function Resize(part, newProps, speed)
     local tween = TweenInfo.new(speed or 0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
@@ -266,7 +290,7 @@ local function updateTransparency(transparency)
     for _, child in pairs(Items:GetChildren()) do
         if child:IsA("Frame") and child.Name == "Block" then
             local outer = child:FindFirstChild("Outer")
-            local inner = child:FindFirstChild("Inner")
+            local inner = outer and outer:FindFirstChild("Inner")
             if outer then
                 outer.ImageTransparency = CONFIG.TRANSPARENCY
             end
@@ -353,50 +377,67 @@ function Functions:Clear()
 end
 
 function Functions:Add(name, needed, missing)
+    if not name then return end
+    
+    needed = tonumber(needed) or 0
+    missing = tonumber(missing) or nil
+    
     local block = ExampleBlock:Clone()
+    block.Name = "Block"
+    block.Visible = true
     block.Parent = Items
     
     local outer = block:FindFirstChild("Outer")
-    local inner = outer and outer:FindFirstChild("Inner")
+    if not outer then return end
     
-    if outer then
-        outer.ImageTransparency = CONFIG.TRANSPARENCY
-    end
-    if inner then
-        inner.ImageTransparency = CONFIG.TRANSPARENCY
-        
-        local icon = inner:FindFirstChild("Icon")
-        if icon then
-            if images[name] then
-                icon.Image = images[name]
-            else
-                icon.Visible = false
-            end
-        end
-        
-        local textLabel = inner:FindFirstChild("BlockText")
-        if textLabel then
-            textLabel.Text = string.format("Needed: %d\nMissing: %d", needed or 0, missing or 0)
-        end
-        
-        local color = COLORS.GREEN
-        if needed and needed > 0 then
-            local perc = (missing or 0) / needed
-            if perc == 0 then 
-                color = COLORS.GREEN
-            elseif perc <= 0.5 then 
-                color = COLORS.YELLOW
-            else 
-                color = COLORS.RED 
-            end
-        end
-        
-        inner.ImageColor3 = color
+    local inner = outer:FindFirstChild("Inner")
+    if not inner then return end
+    
+    local icon = inner:FindFirstChild("Icon")
+    local textLabel = inner:FindFirstChild("BlockText")
+    
+    if not icon or not textLabel then return end
+    
+    outer.ImageTransparency = CONFIG.TRANSPARENCY
+    inner.ImageTransparency = CONFIG.TRANSPARENCY
+    
+    if images[name] then
+        icon.Image = images[name]
+        icon.Visible = true
+    else
+        icon.Image = "rbxassetid://845567732"
+        icon.Visible = true
     end
     
+    if missing and missing > 0 then
+        textLabel.Text = string.format("%s\nNeeded: %d\nMissing: %d", name, needed, missing)
+    else
+        textLabel.Text = string.format("%s\nNeeded: %d\nMissing: 0", name, needed)
+    end
+    
+    local color = COLORS.GREEN
+    
+    if needed > 0 then
+        local missingCount = missing or 0
+        local perc = missingCount / needed
+        
+        if missingCount == 0 then
+            color = COLORS.GREEN
+        elseif perc <= 0.5 then
+            color = COLORS.YELLOW
+        else
+            color = COLORS.RED
+        end
+    elseif missing and missing > 0 then
+        color = COLORS.RED
+    end
+    
+    inner.ImageColor3 = color
+    
+    task.wait(0.01)
     local totalHeight = 0
     for _, child in pairs(Items:GetChildren()) do
-        if not child:IsA("UIListLayout") and child.Name ~= "Padding" then
+        if child:IsA("Frame") and child.Name == "Block" then
             totalHeight = totalHeight + child.AbsoluteSize.Y + 5
         end
     end
@@ -429,5 +470,10 @@ ClearButton.MouseButton1Click:Connect(function()
 end)
 
 updateLayers()
+
+task.spawn(function()
+    wait(3)
+    Main.Visible = true
+end)
 
 return Functions
