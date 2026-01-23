@@ -3,7 +3,7 @@ local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 
 local CONFIG = {
-    MAIN_COLOR = Color3.fromRGB(41, 74, 122),
+    MAIN_COLOR = Color3.fromRGB(29, 73, 118),
     BACKGROUND_COLOR = Color3.fromRGB(21, 22, 23),
     TEXT_COLOR = Color3.fromRGB(255, 255, 255),
     TRANSPARENCY = 0.2,
@@ -34,7 +34,7 @@ Main.Size = CONFIG.SIZE
 Main.ZIndex = 4
 Main.Image = "rbxassetid://3570695787"
 Main.ImageColor3 = CONFIG.MAIN_COLOR
-Main.ImageTransparency = CONFIG.TRANSPARENCY
+Main.ImageTransparency = 0
 Main.ScaleType = Enum.ScaleType.Slice
 Main.SliceCenter = Rect.new(100, 100, 100, 100)
 Main.SliceScale = 0.050
