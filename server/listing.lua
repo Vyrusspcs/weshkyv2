@@ -356,41 +356,43 @@ function Functions:Add(name, needed, missing)
     local block = ExampleBlock:Clone()
     block.Parent = Items
     
-    local outer = block:WaitForChild("Outer")
-    local inner = block:WaitForChild("Outer"):WaitForChild("Inner")
+    local outer = block:FindFirstChild("Outer")
+    local inner = outer and outer:FindFirstChild("Inner")
     
     if outer then
         outer.ImageTransparency = CONFIG.TRANSPARENCY
     end
     if inner then
         inner.ImageTransparency = CONFIG.TRANSPARENCY
-    end
-    
-    local icon = block:WaitForChild("Outer"):WaitForChild("Inner"):WaitForChild("Icon")
-    if icon then
-        if images[name] then
-            icon.Image = images[name]
-        else
-            icon.Visible = false
+        
+        local icon = inner:FindFirstChild("Icon")
+        if icon then
+            if images[name] then
+                icon.Image = images[name]
+            else
+                icon.Visible = false
+            end
         end
-    end
-    
-    local textLabel = block:WaitForChild("Outer"):WaitForChild("Inner"):WaitForChild("BlockText")
-    textLabel.Text = string.format("Needed: %d\nMissing: %d", needed or 0, missing or 0)
-    
-    local color = COLORS.GREEN
-    if needed and needed > 0 then
-        local perc = (missing or 0) / needed
-        if perc == 0 then 
-            color = COLORS.GREEN
-        elseif perc <= 0.5 then 
-            color = COLORS.YELLOW
-        else 
-            color = COLORS.RED 
+        
+        local textLabel = inner:FindFirstChild("BlockText")
+        if textLabel then
+            textLabel.Text = string.format("Needed: %d\nMissing: %d", needed or 0, missing or 0)
         end
+        
+        local color = COLORS.GREEN
+        if needed and needed > 0 then
+            local perc = (missing or 0) / needed
+            if perc == 0 then 
+                color = COLORS.GREEN
+            elseif perc <= 0.5 then 
+                color = COLORS.YELLOW
+            else 
+                color = COLORS.RED 
+            end
+        end
+        
+        inner.ImageColor3 = color
     end
-    
-    inner.ImageColor3 = color
     
     local totalHeight = 0
     for _, child in pairs(Items:GetChildren()) do
