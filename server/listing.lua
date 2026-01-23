@@ -133,15 +133,16 @@ Items.Size = UDim2.new(1, -20, 1, 0)
 Items.CanvasSize = UDim2.new(0, 0, 0, 0)
 Items.ScrollBarThickness = 6
 Items.ScrollBarImageColor3 = Color3.new()
+Items.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 local UIListLayout = Instance.new("UIListLayout", Items)
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.Padding = UDim.new(0, 5)
+UIListLayout.Padding = UDim.new(0, 8)
+UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
-local Padding = Instance.new("Frame", Items)
-Padding.Name = "Padding"
-Padding.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Padding.BackgroundTransparency = 1.000
+local UIPadding = Instance.new("UIPadding", Items)
+UIPadding.PaddingTop = UDim.new(0, 10)
+UIPadding.PaddingBottom = UDim.new(0, 10)
 
 local ClearButton = Instance.new("TextButton")
 ClearButton.Name = "Clear"
@@ -194,10 +195,10 @@ ClearLayer.SliceScale = 0.050
 local function CreateExampleBlock()
     local ExampleBlock = Instance.new("Frame")
     ExampleBlock.Name = "Block"
-    ExampleBlock.Size = UDim2.new(1, 0, 0, 40)
+    ExampleBlock.Size = UDim2.new(1, 0, 0, 52)
     ExampleBlock.BackgroundTransparency = 1
     ExampleBlock.Visible = false
-
+    
     local BlockOuter = Instance.new("ImageLabel")
     BlockOuter.Name = "Outer"
     BlockOuter.Size = UDim2.new(1, 0, 1, 0)
@@ -213,10 +214,10 @@ local function CreateExampleBlock()
 
     local BlockInner = Instance.new("ImageLabel")
     BlockInner.Name = "Inner"
-    BlockInner.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    BlockInner.BackgroundTransparency = 1.000
-    BlockInner.Position = UDim2.new(0, 2, 0, 2)
-    BlockInner.Size = UDim2.new(1, -4, 1, -4)
+    BlockInner.AnchorPoint = Vector2.new(0.5, 0.5)
+    BlockInner.Position = UDim2.new(0.5, 0, 0.5, 0)
+    BlockInner.Size = UDim2.new(1, -6, 1, -6)
+    BlockInner.BackgroundTransparency = 1
     BlockInner.Image = "rbxassetid://3570695787"
     BlockInner.ImageColor3 = Color3.fromRGB(41, 74, 122)
     BlockInner.ImageTransparency = CONFIG.TRANSPARENCY
@@ -225,34 +226,61 @@ local function CreateExampleBlock()
     BlockInner.SliceScale = 0.050
     BlockInner.ZIndex = 12
     BlockInner.Parent = BlockOuter
-
+    
+    local ContentContainer = Instance.new("Frame")
+    ContentContainer.Name = "ContentContainer"
+    ContentContainer.BackgroundTransparency = 1
+    ContentContainer.Size = UDim2.new(1, 0, 1, 0)
+    ContentContainer.Parent = BlockInner
+    
     local Icon = Instance.new("ImageLabel")
     Icon.Name = "Icon"
-    Icon.Size = UDim2.new(0, 30, 0, 30)
-    Icon.Position = UDim2.new(0, 5, 0.5, -15)
+    Icon.Size = UDim2.new(0, 42, 0, 42)
+    Icon.Position = UDim2.new(0, 10, 0.5, 0)
     Icon.AnchorPoint = Vector2.new(0, 0.5)
     Icon.Image = "rbxassetid://845567732"
     Icon.BackgroundTransparency = 1
     Icon.ZIndex = 13
-    Icon.Parent = BlockInner
-
-    local BlockText = Instance.new("TextLabel")
-    BlockText.Name = "BlockText"
-    BlockText.Size = UDim2.new(1, -40, 1, 0)
-    BlockText.Position = UDim2.new(0, 35, 0, 0)
-    BlockText.Text = "Needed: 0\nMissing: 0"
-    BlockText.Font = tzu
-    BlockText.TextColor3 = CONFIG.TEXT_COLOR
-    BlockText.TextSize = 12
-    BlockText.TextXAlignment = Enum.TextXAlignment.Left
-    BlockText.BackgroundTransparency = 1
-    BlockText.RichText = true
-    BlockText.ZIndex = 14
-    BlockText.Parent = BlockInner
+    Icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    Icon.Parent = ContentContainer
+    
+    local TextContainer = Instance.new("Frame")
+    TextContainer.Name = "TextContainer"
+    TextContainer.BackgroundTransparency = 1
+    TextContainer.Position = UDim2.new(0, 60, 0, 0) 
+    TextContainer.Size = UDim2.new(1, -60, 1, 0) 
+    TextContainer.Parent = ContentContainer
+    
+    local BlockName = Instance.new("TextLabel")
+    BlockName.Name = "BlockName"
+    BlockName.Size = UDim2.new(1, 0, 0.5, 0)
+    BlockName.Position = UDim2.new(0, 0, 0, 0)
+    BlockName.BackgroundTransparency = 1
+    BlockName.Font = Enum.Font.GothamBold
+    BlockName.Text = "Block Name"
+    BlockName.TextColor3 = CONFIG.TEXT_COLOR
+    BlockName.TextSize = 14
+    BlockName.TextXAlignment = Enum.TextXAlignment.Left
+    BlockName.TextYAlignment = Enum.TextYAlignment.Bottom
+    BlockName.ZIndex = 14
+    BlockName.Parent = TextContainer
+    
+    local BlockInfo = Instance.new("TextLabel")
+    BlockInfo.Name = "BlockInfo"
+    BlockInfo.Size = UDim2.new(1, 0, 0.5, 0)
+    BlockInfo.Position = UDim2.new(0, 0, 0.5, 0)
+    BlockInfo.BackgroundTransparency = 1
+    BlockInfo.Font = Enum.Font.Gotham
+    BlockInfo.Text = "Needed: 0 | Missing: 0"
+    BlockInfo.TextColor3 = CONFIG.TEXT_COLOR
+    BlockInfo.TextSize = 12
+    BlockInfo.TextXAlignment = Enum.TextXAlignment.Left
+    BlockInfo.TextYAlignment = Enum.TextYAlignment.Top
+    BlockInfo.ZIndex = 14
+    BlockInfo.Parent = TextContainer
 
     return ExampleBlock
 end
-
 local ExampleBlock = CreateExampleBlock()
 
 local images = {}
@@ -369,7 +397,7 @@ local COLORS = {
 
 function Functions:Clear()
     for _, child in pairs(Items:GetChildren()) do
-        if not child:IsA("UIListLayout") and child.Name ~= "Padding" then
+        if not child:IsA("UIListLayout") and child.Name ~= "Padding" and not child:IsA("UIPadding") then
             child:Destroy()
         end
     end
@@ -377,7 +405,9 @@ function Functions:Clear()
 end
 
 function Functions:Add(name, needed, missing)
-    if not name then return end
+    if not name or name == "" then 
+        name = "Unknown Block"
+    end
     
     needed = tonumber(needed) or 0
     missing = tonumber(missing) or nil
@@ -393,10 +423,18 @@ function Functions:Add(name, needed, missing)
     local inner = outer:FindFirstChild("Inner")
     if not inner then return end
     
-    local icon = inner:FindFirstChild("Icon")
-    local textLabel = inner:FindFirstChild("BlockText")
+    local contentContainer = inner:FindFirstChild("ContentContainer")
+    if not contentContainer then return end
     
-    if not icon or not textLabel then return end
+    local icon = contentContainer:FindFirstChild("Icon")
+    local textContainer = contentContainer:FindFirstChild("TextContainer")
+    
+    if not icon or not textContainer then return end
+    
+    local blockNameLabel = textContainer:FindFirstChild("BlockName")
+    local blockInfoLabel = textContainer:FindFirstChild("BlockInfo")
+    
+    if not blockNameLabel or not blockInfoLabel then return end
     
     outer.ImageTransparency = CONFIG.TRANSPARENCY
     inner.ImageTransparency = CONFIG.TRANSPARENCY
@@ -409,10 +447,12 @@ function Functions:Add(name, needed, missing)
         icon.Visible = true
     end
     
+    blockNameLabel.Text = tostring(name)
+    
     if missing and missing > 0 then
-        textLabel.Text = string.format("%s\nNeeded: %d\nMissing: %d", name, needed, missing)
+        blockInfoLabel.Text = string.format("Needed: %d | Missing: %d", needed, missing)
     else
-        textLabel.Text = string.format("%s\nNeeded: %d\nMissing: 0", name, needed)
+        blockInfoLabel.Text = string.format("Needed: %d | Missing: 0", needed)
     end
     
     local color = COLORS.GREEN
@@ -433,15 +473,6 @@ function Functions:Add(name, needed, missing)
     end
     
     inner.ImageColor3 = color
-    
-    task.wait(0.01)
-    local totalHeight = 0
-    for _, child in pairs(Items:GetChildren()) do
-        if child:IsA("Frame") and child.Name == "Block" then
-            totalHeight = totalHeight + child.AbsoluteSize.Y + 5
-        end
-    end
-    Items.CanvasSize = UDim2.new(0, 0, 0, totalHeight)
 end
 
 function Functions:SetTransparency(transparency)
