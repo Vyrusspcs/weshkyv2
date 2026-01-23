@@ -2,8 +2,8 @@ local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 
-local MAIN_COLOR = Color3.fromRGB(41, 74, 122) -- Matches your library's blue color
-local BACKGROUND_COLOR = Color3.fromRGB(21, 22, 23) -- Matches your library's content color
+local MAIN_COLOR = Color3.fromRGB(41, 74, 122)
+local BACKGROUND_COLOR = Color3.fromRGB(21, 22, 23)
 local TEXT_COLOR = Color3.fromRGB(255, 255, 255)
 
 do
@@ -11,7 +11,6 @@ do
     if MainPart then MainPart:Destroy() end
 end
 
--- Load the imgui2 library style
 local tzu = Enum.Font.GothamBold
 local tzu2 = Enum.Font.GothamBold
 local tzu3 = Enum.Font.GothamBold
@@ -19,7 +18,6 @@ local tzu3 = Enum.Font.GothamBold
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
 ScreenGui.Name = "BlockListing"
 
--- Create main window in your library style
 local Main = Instance.new("ImageLabel")
 Main.Name = "Main"
 Main.Parent = ScreenGui
@@ -58,7 +56,7 @@ Content.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Content.BackgroundTransparency = 1.000
 Content.ClipsDescendants = true
 Content.Position = UDim2.new(0, 0, 1, 0)
-Content.Size = UDim2.new(1, 0, 0, 550) -- Adjusted height
+Content.Size = UDim2.new(1, 0, 0, 550)
 Content.Image = "rbxassetid://3570695787"
 Content.ImageColor3 = Color3.fromRGB(21, 22, 23)
 Content.ScaleType = Enum.ScaleType.Slice
@@ -196,7 +194,7 @@ BlockInner.ZIndex = 12
 local Icon = Instance.new("ImageLabel", BlockInner)
 Icon.Size = UDim2.new(0, 30, 0, 30)
 Icon.Position = UDim2.new(0, 5, 0.5, -15)
-Icon.Image = "rbxassetid://845567732"
+Icon.Image = "rbxassetid://845567732" 
 Icon.BackgroundTransparency = 1
 Icon.ZIndex = 13
 
@@ -212,7 +210,7 @@ BlockText.BackgroundTransparency = 1
 BlockText.RichText = true
 BlockText.ZIndex = 14
 
-local images = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vyrusspcs/weshkyv2/refs/heads/main/server/blocklist.lua"))()
+--local images = loadstring(game:HttpGet("https://raw.githubusercontent.com/Vyrusspcs/weshkyv2/refs/heads/main/server/blocklist.lua"))()
 
 local function Resize(part, newProps, speed)
     local tween = TweenInfo.new(speed or 0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
