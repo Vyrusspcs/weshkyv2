@@ -346,7 +346,7 @@ local function CreateExampleBlock()
     BlockInfo.Font = Enum.Font.Gotham
     BlockInfo.Text = "Needed: 0 | Missing: 0"
     BlockInfo.TextColor3 = CONFIG.TEXT_COLOR
-    BlockInfo.TextSize = 10
+    BlockInfo.TextSize = 12
     BlockInfo.TextXAlignment = Enum.TextXAlignment.Left
     BlockInfo.TextYAlignment = Enum.TextYAlignment.Top
     BlockInfo.ZIndex = 14
