@@ -343,7 +343,7 @@ local function CreateExampleBlock()
     BlockInfo.Size = UDim2.new(1, 0, 0.5, 0)
     BlockInfo.Position = UDim2.new(0, 0, 0.5, 0)
     BlockInfo.BackgroundTransparency = 1
-    BlockName.Font = Enum.Font.Gotham
+    BlockInfo.Font = Enum.Font.Gotham
     BlockInfo.Text = "Needed: 0 | Missing: 0"
     BlockInfo.TextColor3 = CONFIG.TEXT_COLOR
     BlockInfo.TextSize = 10
@@ -363,6 +363,7 @@ end)
 
 if success and type(imagesData) == "table" then
     images = imagesData
+    print("Loaded", #images, "block images")
 else
     print("problem loading block images:", imagesData)
 end
