@@ -535,9 +535,9 @@ function Functions:Add(name, needed, missing)
     blockNameLabel.Text = tostring(displayName)
     
     if missing and missing > 0 then
-        blockInfoLabel.Text = string.format("Needed: %d | Missing: %d", needed, missing)
+        blockInfoLabel.Text = string.format("Needed: %d   Missing: %d", needed, missing)
     else
-        blockInfoLabel.Text = string.format("Needed: %d | Missing: 0", needed)
+        blockInfoLabel.Text = string.format("Needed: %d   Missing: 0", needed)
     end
     
     local color = COLORS.GREEN
