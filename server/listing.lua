@@ -277,61 +277,7 @@ local NAME_ALIASES = {
 }
 
 -- Gold Icon http://www.roblox.com/asset/?id=5445578732
-
-local PRICE_BLOCKS = { -- workspace:WaitForChild("ItemBoughtFromShop"):InvokeServer("WoodBlock", 1) / Block - Amount 
-    ["WoodBlock"] = {250, 50},  -- First value price, Second value amount of blocks you get for that price (you cant buy less than that amount, but you can buy it multiple times. so you cant buy like the half of the blocks, but you can buy 250 blocks for 250 gold, or 500 blocks for 500 gold, etc.)
-    ["SmoothWoodBlock"] = {250, 50},
-    ["StoneBlock"] = {275, 50},
-	["RustedBlock"] = {300, 50},
-	["MetalBlock"] = {325, 50},
-	["GlassBlock"] = {250, 25},
-	["ConcreteBlock"] = {350, 50},
-	["MarbleBlock"] = {375, 50},
-	["TitaniumBlock"] = {400, 50},
-	["ObsidianBlock"] = {425, 50},
-	["FabricBlock"] = {300, 50},
-	["BrickBlock"] = {375, 50},
-	["BalloonBlock"] = {45, 3},
-	["PlasticBlock"] = {300, 50},
-	["IceBlock"] = {350, 50},
-	["CoalBlock"] = {375, 50},
-	["BouncyBlock"] = {300, 50},
-	["SandBlock"] = {300, 50},
-	["GrassBlock"] = {300, 50},
-	["JetTurbine"] = {4000, 3},
-	["Harpoon"] = {200, 1},
-	["Magnet"] = {125, 1},
-	["SticksOfTNT"] = {20, 1},
-	["SpikeTrap"] = {25, 1},
-	["Cannon"] = {80, 1},
-	["MiniGun"] = {150, 1},
-	["Piston"] = {65, 1},
-	["Delay"] = {50, 2},
-	["Hinge"] = {45, 3},
-	["CarSeat"] = {750, 1},
-	["PilotSeat"] = {4000, 1},
-	["Hinge"] = {45, 3},
-	["Note"] = {40, 2}, 
-	["Switch"] = {50, 1},
-	["Camera"] = {85, 1},
-	["CameraDome"] = {85, 1},
-	["Motor"] = {750, 4},
-	["Servo"] = {750, 2},
-	["BackWheel"] = {750, 2},
-	["FrontWheel"] = {750, 2},
-	["Button"] = {85, 1},
-	["CannonMount"] = {50, 1},
-	["GunMount"] = {50, 1},
-	["SwordMount"] = {50, 1},
-	["Bar"] = {60, 3},
-	["Rope"] = {60, 3},
-	["Spring"] = {60, 3},
-	["JetPack"] = {350, 1},
-	["LockedDoor"] = {30, 1},
-	["ShieldGenerator"] = {150, 1},
-	["BoatMotor"] = {450, 1},
-	["Sign"] = {45, 1}
-}
+-- workspace:WaitForChild("ItemBoughtFromShop"):InvokeServer("WoodBlock", 1)
 
 local function getDisplayName(originalName)
     local alias = NAME_ALIASES[originalName]
