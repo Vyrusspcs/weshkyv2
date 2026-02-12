@@ -7,9 +7,9 @@ local CONFIG = {
     BACKGROUND_COLOR = Color3.fromRGB(21, 22, 23),
     TEXT_COLOR = Color3.fromRGB(255, 255, 255),
     TRANSPARENCY = 0.2,
-    POSITION = UDim2.new(0, 1112, 0, 40),
+    POSITION = UDim2.new(0, 1053, 0, 40),
     SIZE = UDim2.new(0, 300, 0, 22),
-    CONTENT_HEIGHT = 550
+    CONTENT_HEIGHT = 540
 }
 
 do
@@ -105,6 +105,16 @@ Title.TextColor3 = CONFIG.TEXT_COLOR
 Title.TextSize = 15
 Title.TextWrapped = true
 Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local DragBar = Instance.new("Frame")
+DragBar.Name = "DragBar"
+DragBar.Parent = Main
+DragBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+DragBar.BackgroundTransparency = 1
+DragBar.Size = UDim2.new(1, 0, 1, 0)
+DragBar.ZIndex = 10 
+DragBar.Active = true
+DragBar.Selectable = true
 
 local Layer = Instance.new("ImageLabel")
 Layer.Name = "Layer"
@@ -260,10 +270,67 @@ local NAME_ALIASES = {
     ["Bread"] = "Baskets Brain",
     ["UltraJetpack"] = "Ultra Jetpack",
     ["MysteryBox"] = "Mystery Box",
-    ["FrontWheelCookie"] = "Front Wheel Cookie",
-    ["BackWheelCookie"] = "Back Wheel Cookie",
-    ["FrontWheelMint"] = "Front Wheel Mint",
-    ["BackWheelMint"] = "Back Wheel Mint"
+    ["FrontWheelCookie"] = "Cookie Front Wheel",
+    ["BackWheelCookie"] = "Cookie Back Wheel",
+    ["FrontWheelMint"] = "Mint Front Wheel",
+    ["BackWheelMint"] = "Mint Back Wheel"
+}
+
+-- Gold Icon http://www.roblox.com/asset/?id=5445578732
+
+local PRICE_BLOCKS = { -- workspace:WaitForChild("ItemBoughtFromShop"):InvokeServer("WoodBlock", 1) / Block - Amount 
+    ["WoodBlock"] = {250, 50},  -- First value price, Second value amount of blocks you get for that price (you cant buy less than that amount, but you can buy it multiple times. so you cant buy like the half of the blocks, but you can buy 250 blocks for 250 gold, or 500 blocks for 500 gold, etc.)
+    ["SmoothWoodBlock"] = {250, 50},
+    ["StoneBlock"] = {275, 50},
+	["RustedBlock"] = {300, 50},
+	["MetalBlock"] = {325, 50},
+	["GlassBlock"] = {250, 25},
+	["ConcreteBlock"] = {350, 50},
+	["MarbleBlock"] = {375, 50},
+	["TitaniumBlock"] = {400, 50},
+	["ObsidianBlock"] = {425, 50},
+	["FabricBlock"] = {300, 50},
+	["BrickBlock"] = {375, 50},
+	["BalloonBlock"] = {45, 3},
+	["PlasticBlock"] = {300, 50},
+	["IceBlock"] = {350, 50},
+	["CoalBlock"] = {375, 50},
+	["BouncyBlock"] = {300, 50},
+	["SandBlock"] = {300, 50},
+	["GrassBlock"] = {300, 50},
+	["JetTurbine"] = {4000, 3},
+	["Harpoon"] = {200, 1},
+	["Magnet"] = {125, 1},
+	["SticksOfTNT"] = {20, 1},
+	["SpikeTrap"] = {25, 1},
+	["Cannon"] = {80, 1},
+	["MiniGun"] = {150, 1},
+	["Piston"] = {65, 1},
+	["Delay"] = {50, 2},
+	["Hinge"] = {45, 3},
+	["CarSeat"] = {750, 1},
+	["PilotSeat"] = {4000, 1},
+	["Hinge"] = {45, 3},
+	["Note"] = {40, 2}, 
+	["Switch"] = {50, 1},
+	["Camera"] = {85, 1},
+	["CameraDome"] = {85, 1},
+	["Motor"] = {750, 4},
+	["Servo"] = {750, 2},
+	["BackWheel"] = {750, 2},
+	["FrontWheel"] = {750, 2},
+	["Button"] = {85, 1},
+	["CannonMount"] = {50, 1},
+	["GunMount"] = {50, 1},
+	["SwordMount"] = {50, 1},
+	["Bar"] = {60, 3},
+	["Rope"] = {60, 3},
+	["Spring"] = {60, 3},
+	["JetPack"] = {350, 1},
+	["LockedDoor"] = {30, 1},
+	["ShieldGenerator"] = {150, 1},
+	["BoatMotor"] = {450, 1},
+	["Sign"] = {45, 1}
 }
 
 local function getDisplayName(originalName)
@@ -354,7 +421,7 @@ local function CreateExampleBlock()
     BlockInfo.Position = UDim2.new(0, 0, 0.5, 0)
     BlockInfo.BackgroundTransparency = 1
     BlockInfo.Font = Enum.Font.Gotham
-    BlockInfo.Text = "Needed: 0 | Missing: 0"
+    BlockInfo.Text = "Needed: 0 Missing: 0"
     BlockInfo.TextColor3 = CONFIG.TEXT_COLOR
     BlockInfo.TextSize = 14
     BlockInfo.TextXAlignment = Enum.TextXAlignment.Left
@@ -441,31 +508,80 @@ end
 Content:GetPropertyChangedSignal("Size"):Connect(updateLayers)
 Main:GetPropertyChangedSignal("Size"):Connect(updateLayers)
 
-local draggable = true
-Main.Active = true
+local dragging = false
+local dragInput = nil
+local dragStart = nil
+local startPos = nil
 
-Main.MouseEnter:Connect(function()
-    draggable = true
+local expandHovered = false
+local clearHovered = false
+
+Expand.MouseEnter:Connect(function()
+    expandHovered = true
 end)
 
-Main.MouseLeave:Connect(function()
-    draggable = false
+Expand.MouseLeave:Connect(function()
+    expandHovered = false
 end)
 
-UserInputService.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 and draggable then
-        local objectPosition = Vector2.new(UserInputService:GetMouseLocation().X - Main.AbsolutePosition.X, UserInputService:GetMouseLocation().Y - Main.AbsolutePosition.Y)
-        while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
-            Resize(Main, {
-                Position = UDim2.new(
-                    0, 
-                    UserInputService:GetMouseLocation().X - objectPosition.X + (Main.Size.X.Offset * Main.AnchorPoint.X), 
-                    0, 
-                    UserInputService:GetMouseLocation().Y - objectPosition.Y + (Main.Size.Y.Offset * Main.AnchorPoint.Y)
-                )
-            }, 0.1)
-            game:GetService("RunService").Heartbeat:Wait()
+ClearButton.MouseEnter:Connect(function()
+    clearHovered = true
+end)
+
+ClearButton.MouseLeave:Connect(function()
+    clearHovered = false
+end)
+
+local function updateDrag(input)
+    local delta = input.Position - dragStart
+    local newPosition = UDim2.new(
+        0, startPos.X.Offset + delta.X,
+        0, startPos.Y.Offset + delta.Y
+    )
+    
+    local screenSize = game:GetService("GuiService"):GetScreenResolution()
+    newPosition = UDim2.new(
+        0, math.clamp(newPosition.X.Offset, 0, screenSize.X - Main.AbsoluteSize.X),
+        0, math.clamp(newPosition.Y.Offset, 0, screenSize.Y - Main.AbsoluteSize.Y)
+    )
+    
+    Resize(Main, {Position = newPosition}, 0.05)
+end
+
+DragBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        if expandHovered or clearHovered then
+            return
         end
+        
+        dragging = true
+        dragStart = input.Position
+        startPos = Main.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+DragBar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        updateDrag(input)
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+        dragInput = nil
     end
 end)
 
@@ -535,9 +651,9 @@ function Functions:Add(name, needed, missing)
     blockNameLabel.Text = tostring(displayName)
     
     if missing and missing > 0 then
-        blockInfoLabel.Text = string.format("Needed: %d   Missing: %d", needed, missing)
+        blockInfoLabel.Text = string.format("Needed: %d  Missing: %d", needed, missing)
     else
-        blockInfoLabel.Text = string.format("Needed: %d   Missing: 0", needed)
+        blockInfoLabel.Text = string.format("Needed: %d  Missing: 0", needed)
     end
     
     local color = COLORS.GREEN
