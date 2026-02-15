@@ -6,6 +6,8 @@
         Singularity#5490
 --]]
 
+print("fixed version of Singularity shit outdated library")
+
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
     game:GetService("CoreGui"):FindFirstChild("imgui2"):Destroy()
@@ -2232,7 +2234,6 @@ local library library = {
                         UserInputService.InputBegan:Connect(function(inputObject)
                             if canType and findBrowsingTopMost() == dropdownWindow then
                                 local keycode = inputObject.KeyCode
-                                inputObject:Accept()  -- Block input from reaching game
                                 
                                 if keycode == Enum.KeyCode.Return or keycode == Enum.KeyCode.KeypadEnter then
                                     canType = false
@@ -2491,13 +2492,6 @@ local library library = {
                                 textBox.Visible = true
                                 textBox.Text = textValue
                                 textBox:CaptureFocus()
-                                
-                                -- Block game input while typing
-                                UserInputService.InputBegan:Connect(function(inputObject)
-                                    if canType and inputObject.UserInputType ~= Enum.UserInputType.MouseButton1 then
-                                        inputObject:Accept()  -- Consume the input
-                                    end
-                                end)
 
                                 spawn(function()
                                     while canType do
