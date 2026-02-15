@@ -6,8 +6,6 @@
         Singularity#5490
 --]]
 
-print("fixed version of Singularity shit outdated library")
-
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
     game:GetService("CoreGui"):FindFirstChild("imgui2"):Destroy()
@@ -1296,39 +1294,44 @@ local function betweenClosedInterval(n, n1, n2)
 end
 
 local function rgbtohsv(color)
-	local r = color.r
-    local g = color.g
-    local b = color.b
-	local max, min = math.max(r, g, b), math.min(r, g, b)
-	local h, s, v
-	v = max
+    if not color then
+        return 0, 0, 0  -- Return default black if color is nil
+    end
+    
+    -- Ensure color has r, g, b properties
+    local r = color.r or 0
+    local g = color.g or 0
+    local b = color.b or 0
+    
+    local max, min = math.max(r, g, b), math.min(r, g, b)
+    local h, s, v
+    v = max
 
-	local d = max - min
-	if max == 0 then
-		s = 0
-	else
-		s = d / max
-	end
+    local d = max - min
+    if max == 0 then
+        s = 0
+    else
+        s = d / max
+    end
 
-	if max == min then
-		h = 0
-	else
-		if max == r then
-			h = (g - b) / d
-			if g < b then
-				h = h + 6
-			end
-		elseif max == g then
-			h = (b - r) / d + 2
-		elseif max == b then
-			h = (r - g) / d + 4
-		end
-		h = h / 6
-	end
+    if max == min then
+        h = 0
+    else
+        if max == r then
+            h = (g - b) / d
+            if g < b then
+                h = h + 6
+            end
+        elseif max == g then
+            h = (b - r) / d + 2
+        elseif max == b then
+            h = (r - g) / d + 4
+        end
+        h = h / 6
+    end
 
-	return h, s, v
+    return h, s, v
 end
-
 local function new(n)
     return Presets:FindFirstChild(n):Clone()
 end
@@ -2863,3 +2866,4 @@ do -- window history zindex
 end
 
 return library
+rgbtohsv
