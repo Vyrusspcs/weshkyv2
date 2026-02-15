@@ -2866,4 +2866,3 @@ do -- window history zindex
 end
 
 return library
-rgbtohsv
