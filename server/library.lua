@@ -1112,6 +1112,7 @@ local ScreenGuiCache = ScreenGui:FindFirstChild("Cache")
 
 local colorpicking = false
 local sliding = false
+local uiInputFocused = false  -- Track if any UI input field is focused
 
 local event = { } do
     function event.new()
@@ -1293,39 +1294,44 @@ local function betweenClosedInterval(n, n1, n2)
 end
 
 local function rgbtohsv(color)
-	local r = color.r
-    local g = color.g
-    local b = color.b
-	local max, min = math.max(r, g, b), math.min(r, g, b)
-	local h, s, v
-	v = max
+    if not color then
+        return 0, 0, 0  -- Return default black if color is nil
+    end
+    
+    -- Ensure color has r, g, b properties
+    local r = color.r or 0
+    local g = color.g or 0
+    local b = color.b or 0
+    
+    local max, min = math.max(r, g, b), math.min(r, g, b)
+    local h, s, v
+    v = max
 
-	local d = max - min
-	if max == 0 then
-		s = 0
-	else
-		s = d / max
-	end
+    local d = max - min
+    if max == 0 then
+        s = 0
+    else
+        s = d / max
+    end
 
-	if max == min then
-		h = 0
-	else
-		if max == r then
-			h = (g - b) / d
-			if g < b then
-				h = h + 6
-			end
-		elseif max == g then
-			h = (b - r) / d + 2
-		elseif max == b then
-			h = (r - g) / d + 4
-		end
-		h = h / 6
-	end
+    if max == min then
+        h = 0
+    else
+        if max == r then
+            h = (g - b) / d
+            if g < b then
+                h = h + 6
+            end
+        elseif max == g then
+            h = (b - r) / d + 2
+        elseif max == b then
+            h = (r - g) / d + 4
+        end
+        h = h / 6
+    end
 
-	return h, s, v
+    return h, s, v
 end
-
 local function new(n)
     return Presets:FindFirstChild(n):Clone()
 end
@@ -1370,6 +1376,9 @@ local settings = {
 }
 
 local library library = {
+    isInputFocused = function()
+        return uiInputFocused
+    end,
     new = function(options)
         local cache = { }
         local self = {
@@ -2204,20 +2213,23 @@ local library library = {
 
                         clickArea.MouseButton1Click:Connect(function()
                             if findBrowsingTopMost() == dropdownWindow then
-                                canType = true
-                                updateTextDisplay()
-                                
-                                -- Cursor blinking effect
-                                spawn(function()
-                                    while canType do
-                                        if tick() - lastTick >= 0.5 then
-                                            lastTick = tick()
-                                            showCursor = not showCursor
-                                            updateTextDisplay()
+                                if not canType then
+                                    canType = true
+                                    uiInputFocused = true  -- Mark UI input as focused
+                                    updateTextDisplay()
+                                    
+                                    -- Cursor blinking effect
+                                    spawn(function()
+                                        while canType do
+                                            if tick() - lastTick >= 0.5 then
+                                                lastTick = tick()
+                                                showCursor = not showCursor
+                                                updateTextDisplay()
+                                            end
+                                            RunService.Heartbeat:Wait()
                                         end
-                                        RunService.Heartbeat:Wait()
-                                    end
-                                end)
+                                    end)
+                                end
                             end
                         end)
 
@@ -2228,6 +2240,7 @@ local library library = {
                                 
                                 if keycode == Enum.KeyCode.Return or keycode == Enum.KeyCode.KeypadEnter then
                                     canType = false
+                                    uiInputFocused = false
                                     showCursor = false
                                     updateTextDisplay()
                                     return
@@ -2235,6 +2248,7 @@ local library library = {
                                 
                                 if keycode == Enum.KeyCode.Escape then
                                     canType = false
+                                    uiInputFocused = false
                                     showCursor = false
                                     updateTextDisplay()
                                     return
@@ -2329,6 +2343,7 @@ local library library = {
                                 if not (mousePos.X >= innerAbsPos.X and mousePos.X <= innerAbsPos.X + innerAbsSize.X and
                                     mousePos.Y >= innerAbsPos.Y and mousePos.Y <= innerAbsPos.Y + innerAbsSize.Y) then
                                     canType = false
+                                    uiInputFocused = false
                                     showCursor = false
                                     updateTextDisplay()
                                 end
@@ -2406,9 +2421,11 @@ local library library = {
                     local showCursor = false
                     local hasFocused = false
                     local lastTick = tick()
+                    local textOffset = 0
 
                     inner.Active = true
                     inner.AutoButtonColor = false
+                    inner.Selectable = false  -- Prevent default selection behavior
 
                     local function formatText(text)
                         if inputOptions.numbersonly then
@@ -2418,23 +2435,30 @@ local library library = {
                     end
 
                     local function truncateText(text, maxWidth)
-                        if not inputOptions.textscaled or maxWidth <= 0 then
+                        if maxWidth <= 0 then
                             return text
                         end
 
-                        local truncated = text
-                        local textSize = TextService:GetTextSize(truncated, value.TextSize, value.Font, Vector2.new(math.huge, math.huge))
-
-                        while textSize.X > maxWidth and #truncated > 0 do
-                            truncated = truncated:sub(1, -2)
-                            textSize = TextService:GetTextSize(truncated .. "...", value.TextSize, value.Font, Vector2.new(math.huge, math.huge))
+                        local textSize = TextService:GetTextSize(text, value.TextSize, value.Font, Vector2.new(math.huge, math.huge))
+                        
+                        -- If text fits, return it as is
+                        if textSize.X <= maxWidth then
+                            return text
                         end
 
-                        if #truncated < #text then
-                            return truncated .. "..."
+                        -- Text is too long, need to scroll it
+                        local visibleChars = math.floor(#text * maxWidth / textSize.X)
+                        if visibleChars < 1 then visibleChars = 1 end
+                        
+                        -- Ensure we show from the right position for scrolling effect
+                        if textOffset > #text - visibleChars then
+                            textOffset = #text - visibleChars
                         end
-
-                        return text
+                        if textOffset < 0 then
+                            textOffset = 0
+                        end
+                        
+                        return text:sub(textOffset + 1, textOffset + visibleChars)
                     end
 
                     local function updateTextDisplay()
@@ -2460,14 +2484,16 @@ local library library = {
                         if findBrowsingTopMost() == main then
                             if not canType then
                                 canType = true
+                                uiInputFocused = true  -- Mark UI input as focused
 
                                 if inputOptions.clearonfocus and not hasFocused then
                                     textValue = ""
+                                    textOffset = 0
                                     hasFocused = true
                                 end
 
                                 textBox.Visible = true
-                                textBox.Text = textValue -- Vorheriger Text bleibt erhalten
+                                textBox.Text = textValue
                                 textBox:CaptureFocus()
 
                                 spawn(function()
@@ -2488,8 +2514,10 @@ local library library = {
 
                     textBox.FocusLost:Connect(function()
                         canType = false
+                        uiInputFocused = false  -- Unmark UI input as focused
                         showCursor = false
                         textBox.Visible = false
+                        textOffset = 0
 
                         local finalText = formatText(textBox.Text):sub(1, inputOptions.maxlength)
                         textValue = finalText
@@ -2504,6 +2532,15 @@ local library library = {
                                 newText = newText:sub(1, inputOptions.maxlength)
                             end
                             textValue = newText
+                            -- Scroll text to show cursor at the end
+                            local maxWidth = inner.AbsoluteSize.X - 40
+                            local textSize = TextService:GetTextSize(textValue, value.TextSize, value.Font, Vector2.new(math.huge, math.huge))
+                            if textSize.X > maxWidth then
+                                local avgCharWidth = textSize.X / #textValue
+                                textOffset = math.max(0, #textValue - math.floor(maxWidth / avgCharWidth))
+                            else
+                                textOffset = 0
+                            end
                             updateTextDisplay()
                             self.event:Fire(textValue)
                         end
