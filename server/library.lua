@@ -1993,9 +1993,9 @@ local library library = {
                     dropdownOptions = settings.new({
                         text = "New Dropdown",
                         size = 150,
-                        color = Color3.fromRGB(29, 73, 118),
+                        color = Color3.fromRGB(53, 63, 119),
                         rounding = options.rounding,
-                        selectioncolor = Color3.fromRGB(29, 73, 118),
+                        selectioncolor = Color3.fromRGB(53, 63, 119),
                     }).handle(dropdownOptions)
 
                     local dropdownButton = new("Dropdown")
