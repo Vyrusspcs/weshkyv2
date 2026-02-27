@@ -160,7 +160,7 @@ do -- Load items
     Folder_2.BackgroundTransparency = 1.000
     Folder_2.Size = UDim2.new(1, 0, 0, 20)
     Folder_2.Image = "rbxassetid://3570695787"
-    Folder_2.ImageColor3 = Color3.fromRGB(29, 73, 118)
+    Folder_2.ImageColor3 = Color3.fromRGB(46, 45, 107)
     Folder_2.ScaleType = Enum.ScaleType.Slice
     Folder_2.SliceCenter = Rect.new(100, 100, 100, 100)
     Folder_2.SliceScale = 0.050
@@ -401,7 +401,7 @@ do -- Load items
     ImageLabel.Size = UDim2.new(1, 0, 1, 0)
     ImageLabel.ZIndex = 2
     ImageLabel.Image = "rbxassetid://3570695787"
-    ImageLabel.ImageColor3 = Color3.fromRGB(29, 73, 118)
+    ImageLabel.ImageColor3 = Color3.fromRGB(46, 45, 107)
     ImageLabel.ScaleType = Enum.ScaleType.Slice
     ImageLabel.SliceCenter = Rect.new(100, 100, 100, 100)
     ImageLabel.SliceScale = 0.050
@@ -466,7 +466,7 @@ do -- Load items
     Inner.Position = UDim2.new(0, 2, 0, 2)
     Inner.Size = UDim2.new(1, -4, 1, -4)
     Inner.Image = "rbxassetid://3570695787"
-    Inner.ImageColor3 = Color3.fromRGB(29, 73, 118)
+    Inner.ImageColor3 = Color3.fromRGB(46, 45, 107)
     Inner.ScaleType = Enum.ScaleType.Slice
     Inner.SliceCenter = Rect.new(100, 100, 100, 100)
     Inner.SliceScale = 0.050
@@ -521,7 +521,7 @@ do -- Load items
     ImageLabel_2.Size = UDim2.new(1, 0, 1, 0)
     ImageLabel_2.ZIndex = 2
     ImageLabel_2.Image = "rbxassetid://3570695787"
-    ImageLabel_2.ImageColor3 = Color3.fromRGB(29, 73, 118)
+    ImageLabel_2.ImageColor3 = Color3.fromRGB(46, 45, 107)
     ImageLabel_2.ScaleType = Enum.ScaleType.Slice
     ImageLabel_2.SliceCenter = Rect.new(100, 100, 100, 100)
     ImageLabel_2.SliceScale = 0.050
@@ -834,7 +834,7 @@ do -- Load items
     Inner_2.Position = UDim2.new(0, 2, 0, 2)
     Inner_2.Size = UDim2.new(1, -4, 1, -4)
     Inner_2.Image = "rbxassetid://3570695787"
-    Inner_2.ImageColor3 = Color3.fromRGB(29, 73, 118)
+    Inner_2.ImageColor3 = Color3.fromRGB(46, 45, 107)
     Inner_2.ScaleType = Enum.ScaleType.Slice
     Inner_2.SliceCenter = Rect.new(100, 100, 100, 100)
     Inner_2.SliceScale = 0.050
@@ -1067,7 +1067,7 @@ do -- Load items
     Inner_3.Position = UDim2.new(0, 2, 0, 2)
     Inner_3.Size = UDim2.new(1, -4, 1, -4)
     Inner_3.Image = "rbxassetid://3570695787"
-    Inner_3.ImageColor3 = Color3.fromRGB(29, 73, 118)
+    Inner_3.ImageColor3 = Color3.fromRGB(46, 45, 107)
     Inner_3.ScaleType = Enum.ScaleType.Slice
     Inner_3.SliceCenter = Rect.new(100, 100, 100, 100)
     Inner_3.SliceScale = 0.050
@@ -1390,7 +1390,7 @@ local library library = {
             size = Vector2.new(300, 200),
             shadow = 10,
             transparency = 0.2,
-            color = Color3.fromRGB(29, 73, 118),
+            color = Color3.fromRGB(46, 45, 107),
             boardcolor = Color3.fromRGB(21, 22, 23),
             rounding = 5,
             animation = 0.1,
@@ -1506,7 +1506,7 @@ local library library = {
                     }).handle(labelOptions)
 
                     local label = new("Label")
-                    label.Parent = items
+                    label.Parent = items 
                     label.Text = labelOptions.text
                     label.TextSize = 13
                     label.Size = UDim2.new(0, label.TextBounds.X, 0, label.Size.Y.Offset)
