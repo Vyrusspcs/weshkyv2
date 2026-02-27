@@ -4,6 +4,10 @@
 	by Singularity
         https://v3rmillion.net/member.php?action=profile&uid=947830
         Singularity#5490
+    modified by Sxirbes
+        https://github.com/Vyrusspcs/
+        sxirbes32423
+        Added inputs and fixed some stuff
 --]]
 
 repeat wait() until game:GetService("Players").LocalPlayer
