@@ -1180,7 +1180,7 @@ local function getMouse()
         return UserInputService:GetMouseLocation()
     end)
     
-    if success then
+    if success and result then
         return Vector2.new(result.X + 1, result.Y - 35)
     end
     return Vector2.new(0, 0)  -- Fallback if mouse fetch fails
@@ -2408,8 +2408,8 @@ local library library = {
                                 local innerAbsPos = inner.AbsolutePosition
                                 local innerAbsSize = inner.AbsoluteSize
                                 
-                                if not (mousePos.X >= innerAbsPos.X and mousePos.X <= innerAbsPos.X + innerAbsSize.X and
-                                    mousePos.Y >= innerAbsPos.Y and mousePos.Y <= innerAbsPos.Y + innerAbsSize.Y) then
+                                if innerAbsPos and innerAbsSize and (not (mousePos.X >= innerAbsPos.X and mousePos.X <= innerAbsPos.X + innerAbsSize.X and
+                                    mousePos.Y >= innerAbsPos.Y and mousePos.Y <= innerAbsPos.Y + innerAbsSize.Y)) then
                                     canType = false
                                     uiInputFocused = false
                                     showCursor = false
@@ -2488,6 +2488,8 @@ local library library = {
                     textBox.ClearTextOnFocus = false
                     textBox.Parent = inner
                     textBox.Visible = false
+                    textBox.MultiLine = false
+                    textBox.ClipsDescendants = true
 
                     outer.SliceScale = inputOptions.rounding / 100
                     inner.SliceScale = inputOptions.rounding / 100
@@ -2548,6 +2550,7 @@ local library library = {
                     end
 
                     local function updateTextDisplay()
+                        if not inner or not inner.Parent then return end
                         if canType then
                             local displayText = textValue
                             if showCursor then
@@ -2575,40 +2578,40 @@ local library library = {
                     table.insert(connections, updateDisplayConn)
 
                     local clickConn = inner.MouseButton1Click:Connect(function()
-                        if findBrowsingTopMost() == main then
-                            if not canType then
-                                canType = true
-                                uiInputFocused = true
+                        if not canType then
+                            canType = true
+                            uiInputFocused = true
 
-                                if inputOptions.clearonfocus and not hasFocused then
-                                    textValue = ""
-                                    textOffset = 0
-                                    hasFocused = true
-                                end
-
-                                textBox.Visible = true
-                                textBox.Text = textValue
-                                textBox:CaptureFocus()
-
-                                updateTextDisplay()
+                            if inputOptions.clearonfocus and not hasFocused then
+                                textValue = ""
+                                textOffset = 0
+                                hasFocused = true
                             end
+
+                            textBox.Visible = true
+                            textBox.Text = textValue
+                            textBox:CaptureFocus()
+
+                            updateTextDisplay()
                         end
                     end)
                     table.insert(connections, clickConn)
 
                     local focusConn = textBox.FocusLost:Connect(function()
-                        canType = false
-                        uiInputFocused = false
-                        showCursor = false
-                        textBox.Visible = false
-                        textOffset = 0
+                        if canType then
+                            canType = false
+                            uiInputFocused = false
+                            showCursor = false
+                            textBox.Visible = false
+                            textOffset = 0
 
-                        local finalText = formatText(textBox.Text):sub(1, inputOptions.maxlength)
-                        textValue = finalText
-                        if not self.eventBlock then
-                            self.event:Fire(textValue)
+                            local finalText = formatText(textBox.Text):sub(1, inputOptions.maxlength)
+                            textValue = finalText
+                            if not self.eventBlock then
+                                self.event:Fire(textValue)
+                            end
+                            updateTextDisplay()
                         end
-                        updateTextDisplay()
                     end)
                     table.insert(connections, focusConn)
 
@@ -2733,8 +2736,12 @@ local library library = {
                             end
                         end
                         connections = {}
-                        textBox:Destroy()
-                        input:Destroy()
+                        if textBox and textBox.Parent then
+                            textBox:Destroy()
+                        end
+                        if input and input.Parent then
+                            input:Destroy()
+                        end
                     end
 
                     self.options = inputOptions
@@ -3302,6 +3309,7 @@ local library library = {
                     inner.SliceCenter = Rect.new(100, 100, 100, 100)
                     inner.SliceScale = 0.05
                     inner.ClipsDescendants = true
+                    inner.BorderSizePixel = 0
 
                     local bar = Instance.new("ImageLabel")
                     bar.Parent = inner
@@ -3326,9 +3334,12 @@ local library library = {
                     text.TextSize = 13
 
                     function self.set(val)
+                        if progressOptions.max <= 0 then
+                            progressOptions.max = 100
+                        end
                         val = math.clamp(tonumber(val) or 0, 0, progressOptions.max)
                         self.value = val
-                        local percent = (val / progressOptions.max)
+                        local percent = math.clamp(val / progressOptions.max, 0, 1)
                         
                         resize(bar, { Size = UDim2.new(percent, 0, 1, 0) }, progressOptions.animation)
                         
@@ -3347,7 +3358,9 @@ local library library = {
                     end
 
                     function self.setMax(max)
-                        progressOptions.max = math.max(1, tonumber(max) or 100)
+                        local newMax = math.max(1, tonumber(max) or 100)
+                        if newMax <= 0 then newMax = 100 end
+                        progressOptions.max = newMax
                         self.set(self.value)
                     end
 
@@ -3357,7 +3370,9 @@ local library library = {
 
                     self.options = progressOptions
                     self.self = container
-                    self.set(progressOptions.value)
+                    pcall(function()
+                        self.set(progressOptions.value)
+                    end)
 
                     return self
                 end
