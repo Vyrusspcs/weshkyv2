@@ -11,8 +11,6 @@
     Added inputs and fixed some stuff, better Organization, and more!
 --]]
 
-print("v2")
-
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
     game:GetService("CoreGui"):FindFirstChild("imgui2"):Destroy()
