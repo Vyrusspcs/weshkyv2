@@ -11,6 +11,8 @@
     Added inputs and fixed some stuff, better Organization, and more!
 --]]
 
+print("v2.1")
+
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
     game:GetService("CoreGui"):FindFirstChild("imgui2"):Destroy()
@@ -3579,12 +3581,16 @@ local library library = {
                     o.updated:Connect(updateCanvas)
                 end
 
-                return setmetatable(o, {
-                    __index = function(self, idx)
-                        return rawget(rawget(self, "event"), idx)
-                    end,
-                    __newindex = function()end,
-                })
+                if rawget(o, "event") then
+                    return setmetatable(o, {
+                        __index = function(self, idx)
+                            return rawget(rawget(self, "event"), idx)
+                        end,
+                        __newindex = function()end,
+                    })
+                else
+                    return o
+                end
             end
 
             function self.clearAll()
