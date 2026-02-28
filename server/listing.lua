@@ -3,7 +3,7 @@ local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 
 local CONFIG = {
-    MAIN_COLOR = Color3.fromRGB(46, 45, 107),
+    MAIN_COLOR = Color3.fromRGB(53, 63, 119),
     BACKGROUND_COLOR = Color3.fromRGB(21, 22, 23),
     TEXT_COLOR = Color3.fromRGB(255, 255, 255),
     TRANSPARENCY = 0.2,
