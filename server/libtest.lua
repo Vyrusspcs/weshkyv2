@@ -11,7 +11,7 @@
     Added inputs and fixed some stuff, better Organization, and more!
 --]]
 
-print("v2.1")
+print("v2")
 
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
@@ -171,9 +171,9 @@ do -- Load items
     Folder_2.Parent = Folder
     Folder_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Folder_2.BackgroundTransparency = 1.000
-    Folder_2.Size = UDim2.new(1, 0, 0, 22)
+    Folder_2.Size = UDim2.new(1, 0, 0, 20)
     Folder_2.Image = "rbxassetid://3570695787"
-    Folder_2.ImageColor3 = Color3.fromRGB(55, 65, 120)
+    Folder_2.ImageColor3 = Color3.fromRGB(46, 45, 107)
     Folder_2.ScaleType = Enum.ScaleType.Slice
     Folder_2.SliceCenter = Rect.new(100, 100, 100, 100)
     Folder_2.SliceScale = 0.050
@@ -251,28 +251,28 @@ do -- Load items
     Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Main.BackgroundTransparency = 1.000
     Main.Position = UDim2.new(0.309293151, 0, 0.41276595, 0)
-    Main.Size = UDim2.new(0, 300, 0, 24)
+    Main.Size = UDim2.new(0, 300, 0, 22)
     Main.ZIndex = 4
     Main.Image = "rbxassetid://3570695787"
-    Main.ImageColor3 = Color3.fromRGB(18, 18, 28)
+    Main.ImageColor3 = Color3.fromRGB(10, 10, 10)
     Main.ScaleType = Enum.ScaleType.Slice
     Main.SliceCenter = Rect.new(100, 100, 100, 100)
     Main.SliceScale = 0.050
 
     -- ========== Main Frame Border ==========
     Frame.Parent = Main
-    Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 28)
+    Frame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
     Frame.BorderSizePixel = 0
-    Frame.Position = UDim2.new(0, 0, 1, -12)
-    Frame.Size = UDim2.new(1, 0, 0, 12)
+    Frame.Position = UDim2.new(0, 0, 1, -10)
+    Frame.Size = UDim2.new(1, 0, 0, 10)
     Frame.ZIndex = 4
 
     -- ========== Frame Accent ==========
     Frame_2.Parent = Frame
-    Frame_2.BackgroundColor3 = Color3.fromRGB(100, 120, 200)
+    Frame_2.BackgroundColor3 = Color3.fromRGB(59, 59, 68)
     Frame_2.BorderSizePixel = 0
     Frame_2.Position = UDim2.new(0, 0, 1, 0)
-    Frame_2.Size = UDim2.new(1, 0, 0, 3)
+    Frame_2.Size = UDim2.new(1, 0, 0, 2)
     Frame_2.ZIndex = 2
 
     -- ========== Content Area ==========
@@ -284,14 +284,14 @@ do -- Load items
     Content.Position = UDim2.new(0, 0, 1, 0)
     Content.Size = UDim2.new(1, 0, 0, 200)
     Content.Image = "rbxassetid://3570695787"
-    Content.ImageColor3 = Color3.fromRGB(25, 25, 38)
+    Content.ImageColor3 = Color3.fromRGB(21, 22, 23)
     Content.ScaleType = Enum.ScaleType.Slice
     Content.SliceCenter = Rect.new(100, 100, 100, 100)
     Content.SliceScale = 0.050
 
     -- ========== Content Frame ==========
     Frame_3.Parent = Content
-    Frame_3.BackgroundColor3 = Color3.fromRGB(25, 25, 38)
+    Frame_3.BackgroundColor3 = Color3.fromRGB(21, 22, 23)
     Frame_3.BorderSizePixel = 0
     Frame_3.Size = UDim2.new(1, 0, 0, 10)
 
@@ -328,8 +328,8 @@ do -- Load items
     Title_2.ZIndex = 4
     Title_2.Font = tzu2
     Title_2.Text = "ImGui Demo"
-    Title_2.TextColor3 = Color3.fromRGB(230, 235, 255)
-    Title_2.TextSize = 16
+    Title_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title_2.TextSize = 15
     Title_2.TextWrapped = true
     Title_2.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -337,23 +337,23 @@ do -- Load items
     Shadow.Parent = Main
     Shadow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Shadow.BackgroundTransparency = 1.000
-    Shadow.Position = UDim2.new(0, 12, 0, 12)
+    Shadow.Position = UDim2.new(0, 10, 0, 10)
     Shadow.Size = UDim2.new(1, 0, 10.090909, 0)
     Shadow.ZIndex = 0
     Shadow.Image = "rbxassetid://3570695787"
     Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-    Shadow.ImageTransparency = 0.65
+    Shadow.ImageTransparency = 0.500
     Shadow.ScaleType = Enum.ScaleType.Slice
     Shadow.SliceCenter = Rect.new(100, 100, 100, 100)
     Shadow.SliceScale = 0.050
 
     Tabs.Name = "Tabs"
     Tabs.Parent = Main
-    Tabs.BackgroundColor3 = Color3.fromRGB(30, 30, 42)
+    Tabs.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
     Tabs.BorderSizePixel = 0
     Tabs.ClipsDescendants = true
-    Tabs.Position = UDim2.new(0, 0, 1, 3)
-    Tabs.Size = UDim2.new(1, 0, 0, 30)
+    Tabs.Position = UDim2.new(0, 0, 1, 2)
+    Tabs.Size = UDim2.new(1, 0, 0, 28)
 
     Items_3.Name = "Items"
     Items_3.Parent = Tabs
@@ -368,21 +368,21 @@ do -- Load items
     UIListLayout_3.Padding = UDim.new(0, 15)
 
     Frame_4.Parent = Tabs
-    Frame_4.BackgroundColor3 = Color3.fromRGB(100, 120, 200)
+    Frame_4.BackgroundColor3 = Color3.fromRGB(59, 59, 68)
     Frame_4.BorderSizePixel = 0
-    Frame_4.Position = UDim2.new(0, 0, 1, -3)
-    Frame_4.Size = UDim2.new(1, 0, 0, 3)
+    Frame_4.Position = UDim2.new(0, 0, 1, -2)
+    Frame_4.Size = UDim2.new(1, 0, 0, 2)
     Frame_4.ZIndex = 2
 
     Layer.Name = "Layer"
     Layer.Parent = Main
     Layer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Layer.BackgroundTransparency = 1.000
-    Layer.Position = UDim2.new(0, 3, 0, 3)
+    Layer.Position = UDim2.new(0, 2, 0, 2)
     Layer.Size = UDim2.new(1, 0, 10.090909, 0)
     Layer.ZIndex = 0
     Layer.Image = "rbxassetid://3570695787"
-    Layer.ImageColor3 = Color3.fromRGB(35, 35, 48)
+    Layer.ImageColor3 = Color3.fromRGB(10, 10, 11)
     Layer.ScaleType = Enum.ScaleType.Slice
     Layer.SliceCenter = Rect.new(100, 100, 100, 100)
     Layer.SliceScale = 0.050
@@ -427,7 +427,7 @@ do -- Load items
     ImageLabel.Size = UDim2.new(1, 0, 1, 0)
     ImageLabel.ZIndex = 2
     ImageLabel.Image = "rbxassetid://3570695787"
-    ImageLabel.ImageColor3 = Color3.fromRGB(70, 85, 155)
+    ImageLabel.ImageColor3 = Color3.fromRGB(46, 45, 107)
     ImageLabel.ScaleType = Enum.ScaleType.Slice
     ImageLabel.SliceCenter = Rect.new(100, 100, 100, 100)
     ImageLabel.SliceScale = 0.050
@@ -442,7 +442,7 @@ do -- Load items
     Layer_2.Selectable = true
     Layer_2.Size = UDim2.new(1, 0, 1, 0)
     Layer_2.Image = "rbxassetid://3570695787"
-    Layer_2.ImageColor3 = Color3.fromRGB(50, 60, 110)
+    Layer_2.ImageColor3 = Color3.fromRGB(21, 38, 63)
     Layer_2.ScaleType = Enum.ScaleType.Slice
     Layer_2.SliceCenter = Rect.new(100, 100, 100, 100)
     Layer_2.SliceScale = 0.050
@@ -480,7 +480,7 @@ do -- Load items
     Outer.BackgroundTransparency = 1.000
     Outer.Size = UDim2.new(0, 150, 1, 0)
     Outer.Image = "rbxassetid://3570695787"
-    Outer.ImageColor3 = Color3.fromRGB(40, 45, 75)
+    Outer.ImageColor3 = Color3.fromRGB(59, 59, 68)
     Outer.ScaleType = Enum.ScaleType.Slice
     Outer.SliceCenter = Rect.new(100, 100, 100, 100)
     Outer.SliceScale = 0.050
@@ -492,17 +492,17 @@ do -- Load items
     Inner.Position = UDim2.new(0, 2, 0, 2)
     Inner.Size = UDim2.new(1, -4, 1, -4)
     Inner.Image = "rbxassetid://3570695787"
-    Inner.ImageColor3 = Color3.fromRGB(65, 80, 145)
+    Inner.ImageColor3 = Color3.fromRGB(46, 45, 107)
     Inner.ScaleType = Enum.ScaleType.Slice
     Inner.SliceCenter = Rect.new(100, 100, 100, 100)
     Inner.SliceScale = 0.050
 
     Slider_2.Name = "Slider"
     Slider_2.Parent = Inner
-    Slider_2.BackgroundColor3 = Color3.fromRGB(100, 140, 220)
+    Slider_2.BackgroundColor3 = Color3.fromRGB(49, 88, 146)
     Slider_2.BorderSizePixel = 0
     Slider_2.Position = UDim2.new(0, 10, 0, 0)
-    Slider_2.Size = UDim2.new(0, 6, 1, 0)
+    Slider_2.Size = UDim2.new(0, 5, 1, 0)
 
     Value.Name = "Value"
     Value.Parent = Inner
@@ -547,7 +547,7 @@ do -- Load items
     ImageLabel_2.Size = UDim2.new(1, 0, 1, 0)
     ImageLabel_2.ZIndex = 2
     ImageLabel_2.Image = "rbxassetid://3570695787"
-    ImageLabel_2.ImageColor3 = Color3.fromRGB(70, 85, 155)
+    ImageLabel_2.ImageColor3 = Color3.fromRGB(46, 45, 107)
     ImageLabel_2.ScaleType = Enum.ScaleType.Slice
     ImageLabel_2.SliceCenter = Rect.new(100, 100, 100, 100)
     ImageLabel_2.SliceScale = 0.050
@@ -562,7 +562,7 @@ do -- Load items
     Layer_3.Selectable = true
     Layer_3.Size = UDim2.new(1, 0, 1, 0)
     Layer_3.Image = "rbxassetid://3570695787"
-    Layer_3.ImageColor3 = Color3.fromRGB(50, 60, 110)
+    Layer_3.ImageColor3 = Color3.fromRGB(21, 38, 63)
     Layer_3.ScaleType = Enum.ScaleType.Slice
     Layer_3.SliceCenter = Rect.new(100, 100, 100, 100)
     Layer_3.SliceScale = 0.050
@@ -577,8 +577,8 @@ do -- Load items
     Card.SliceCenter = Rect.new(100, 100, 100, 100)
     Card.SliceScale = 0.120
 
-    UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(60, 100, 180)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(80, 120, 200))}
-    UIGradient.Rotation = 45
+    UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 129, 167)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(0, 160, 168))}
+    UIGradient.Rotation = 30
     UIGradient.Parent = Card
 
     ImageLabel_3.Parent = Card
@@ -735,7 +735,7 @@ do -- Load items
     ImageLabel_6.Size = UDim2.new(1, 0, 1, 0)
     ImageLabel_6.ZIndex = 2
     ImageLabel_6.Image = "rbxassetid://3570695787"
-    ImageLabel_6.ImageColor3 = Color3.fromRGB(55, 70, 130)
+    ImageLabel_6.ImageColor3 = Color3.fromRGB(42, 44, 46)
     ImageLabel_6.ScaleType = Enum.ScaleType.Slice
     ImageLabel_6.SliceCenter = Rect.new(100, 100, 100, 100)
     ImageLabel_6.SliceScale = 0.050
@@ -745,26 +745,26 @@ do -- Load items
     DropdownWindow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     DropdownWindow.BackgroundTransparency = 1.000
     DropdownWindow.Position = UDim2.new(0.496228397, 0, 0.411765426, 0)
-    DropdownWindow.Size = UDim2.new(0, 200, 0, 24)
+    DropdownWindow.Size = UDim2.new(0, 200, 0, 22)
     DropdownWindow.ZIndex = 4
     DropdownWindow.Image = "rbxassetid://3570695787"
-    DropdownWindow.ImageColor3 = Color3.fromRGB(18, 18, 28)
+    DropdownWindow.ImageColor3 = Color3.fromRGB(10, 10, 10)
     DropdownWindow.ScaleType = Enum.ScaleType.Slice
     DropdownWindow.SliceCenter = Rect.new(100, 100, 100, 100)
     DropdownWindow.SliceScale = 0.050
 
     Frame_6.Parent = DropdownWindow
-    Frame_6.BackgroundColor3 = Color3.fromRGB(18, 18, 28)
+    Frame_6.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
     Frame_6.BorderSizePixel = 0
-    Frame_6.Position = UDim2.new(0, 0, 1, -12)
-    Frame_6.Size = UDim2.new(1, 0, 0, 12)
+    Frame_6.Position = UDim2.new(0, 0, 1, -10)
+    Frame_6.Size = UDim2.new(1, 0, 0, 10)
     Frame_6.ZIndex = 4
 
     Frame_7.Parent = Frame_6
-    Frame_7.BackgroundColor3 = Color3.fromRGB(100, 120, 200)
+    Frame_7.BackgroundColor3 = Color3.fromRGB(59, 59, 68)
     Frame_7.BorderSizePixel = 0
     Frame_7.Position = UDim2.new(0, 0, 1, 0)
-    Frame_7.Size = UDim2.new(1, 0, 0, 3)
+    Frame_7.Size = UDim2.new(1, 0, 0, 2)
     Frame_7.ZIndex = 2
 
     Title_3.Name = "Title"
@@ -776,8 +776,8 @@ do -- Load items
     Title_3.ZIndex = 4
     Title_3.Font = tzu
     Title_3.Text = "Dropdown"
-    Title_3.TextColor3 = Color3.fromRGB(230, 235, 255)
-    Title_3.TextSize = 16.000
+    Title_3.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title_3.TextSize = 15.000
     Title_3.TextWrapped = true
     Title_3.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -785,12 +785,12 @@ do -- Load items
     Shadow_2.Parent = DropdownWindow
     Shadow_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Shadow_2.BackgroundTransparency = 1.000
-    Shadow_2.Position = UDim2.new(0, 12, 0, 12)
+    Shadow_2.Position = UDim2.new(0, 10, 0, 10)
     Shadow_2.Size = UDim2.new(1, 0, 8.72700024, 10)
     Shadow_2.ZIndex = 0
     Shadow_2.Image = "rbxassetid://3570695787"
     Shadow_2.ImageColor3 = Color3.fromRGB(0, 0, 0)
-    Shadow_2.ImageTransparency = 0.65
+    Shadow_2.ImageTransparency = 0.500
     Shadow_2.ScaleType = Enum.ScaleType.Slice
     Shadow_2.SliceCenter = Rect.new(100, 100, 100, 100)
     Shadow_2.SliceScale = 0.050
@@ -799,11 +799,11 @@ do -- Load items
     Layer_5.Parent = DropdownWindow
     Layer_5.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Layer_5.BackgroundTransparency = 1.000
-    Layer_5.Position = UDim2.new(0, 3, 0, 3)
+    Layer_5.Position = UDim2.new(0, 2, 0, 2)
     Layer_5.Size = UDim2.new(1, 0, 9, 2)
     Layer_5.ZIndex = 0
     Layer_5.Image = "rbxassetid://3570695787"
-    Layer_5.ImageColor3 = Color3.fromRGB(35, 35, 48)
+    Layer_5.ImageColor3 = Color3.fromRGB(10, 10, 11)
     Layer_5.ScaleType = Enum.ScaleType.Slice
     Layer_5.SliceCenter = Rect.new(100, 100, 100, 100)
     Layer_5.SliceScale = 0.050
@@ -816,7 +816,7 @@ do -- Load items
     Content_2.Position = UDim2.new(0, 0, 1, 0)
     Content_2.Size = UDim2.new(1, 0, 0, 178)
     Content_2.Image = "rbxassetid://3570695787"
-    Content_2.ImageColor3 = Color3.fromRGB(25, 25, 38)
+    Content_2.ImageColor3 = Color3.fromRGB(21, 22, 23)
     Content_2.ScaleType = Enum.ScaleType.Slice
     Content_2.SliceCenter = Rect.new(100, 100, 100, 100)
     Content_2.SliceScale = 0.050
@@ -910,26 +910,26 @@ do -- Load items
     ColorPickerWindow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     ColorPickerWindow.BackgroundTransparency = 1.000
     ColorPickerWindow.Position = UDim2.new(0.712284446, 0, 0.110530853, 0)
-    ColorPickerWindow.Size = UDim2.new(0, 200, 0, 24)
+    ColorPickerWindow.Size = UDim2.new(0, 200, 0, 22)
     ColorPickerWindow.ZIndex = 4
     ColorPickerWindow.Image = "rbxassetid://3570695787"
-    ColorPickerWindow.ImageColor3 = Color3.fromRGB(18, 18, 28)
+    ColorPickerWindow.ImageColor3 = Color3.fromRGB(10, 10, 10)
     ColorPickerWindow.ScaleType = Enum.ScaleType.Slice
     ColorPickerWindow.SliceCenter = Rect.new(100, 100, 100, 100)
     ColorPickerWindow.SliceScale = 0.050
 
     Frame_8.Parent = ColorPickerWindow
-    Frame_8.BackgroundColor3 = Color3.fromRGB(18, 18, 28)
+    Frame_8.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
     Frame_8.BorderSizePixel = 0
-    Frame_8.Position = UDim2.new(0, 0, 1, -12)
-    Frame_8.Size = UDim2.new(1, 0, 0, 12)
+    Frame_8.Position = UDim2.new(0, 0, 1, -10)
+    Frame_8.Size = UDim2.new(1, 0, 0, 10)
     Frame_8.ZIndex = 4
 
     Frame_9.Parent = Frame_8
-    Frame_9.BackgroundColor3 = Color3.fromRGB(100, 120, 200)
+    Frame_9.BackgroundColor3 = Color3.fromRGB(59, 59, 68)
     Frame_9.BorderSizePixel = 0
     Frame_9.Position = UDim2.new(0, 0, 1, 0)
-    Frame_9.Size = UDim2.new(1, 0, 0, 3)
+    Frame_9.Size = UDim2.new(1, 0, 0, 2)
     Frame_9.ZIndex = 2
 
     Title_4.Name = "Title"
@@ -941,8 +941,8 @@ do -- Load items
     Title_4.ZIndex = 4
     Title_4.Font = tzu
     Title_4.Text = "Color Picker"
-    Title_4.TextColor3 = Color3.fromRGB(230, 235, 255)
-    Title_4.TextSize = 16.000
+    Title_4.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title_4.TextSize = 15.000
     Title_4.TextWrapped = true
     Title_4.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -950,12 +950,12 @@ do -- Load items
     Shadow_3.Parent = ColorPickerWindow
     Shadow_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Shadow_3.BackgroundTransparency = 1.000
-    Shadow_3.Position = UDim2.new(0, 12, 0, 12)
+    Shadow_3.Position = UDim2.new(0, 10, 0, 10)
     Shadow_3.Size = UDim2.new(1, 0, 8.72700024, 10)
     Shadow_3.ZIndex = 0
     Shadow_3.Image = "rbxassetid://3570695787"
     Shadow_3.ImageColor3 = Color3.fromRGB(0, 0, 0)
-    Shadow_3.ImageTransparency = 0.65
+    Shadow_3.ImageTransparency = 0.500
     Shadow_3.ScaleType = Enum.ScaleType.Slice
     Shadow_3.SliceCenter = Rect.new(100, 100, 100, 100)
     Shadow_3.SliceScale = 0.050
@@ -964,11 +964,11 @@ do -- Load items
     Layer_6.Parent = ColorPickerWindow
     Layer_6.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Layer_6.BackgroundTransparency = 1.000
-    Layer_6.Position = UDim2.new(0, 3, 0, 3)
+    Layer_6.Position = UDim2.new(0, 2, 0, 2)
     Layer_6.Size = UDim2.new(1, 0, 9, 2)
     Layer_6.ZIndex = 0
     Layer_6.Image = "rbxassetid://3570695787"
-    Layer_6.ImageColor3 = Color3.fromRGB(35, 35, 48)
+    Layer_6.ImageColor3 = Color3.fromRGB(10, 10, 11)
     Layer_6.ScaleType = Enum.ScaleType.Slice
     Layer_6.SliceCenter = Rect.new(100, 100, 100, 100)
     Layer_6.SliceScale = 0.050
@@ -991,7 +991,7 @@ do -- Load items
     Content_3.Position = UDim2.new(0, 0, 1, 0)
     Content_3.Size = UDim2.new(1, 0, 0, 178)
     Content_3.Image = "rbxassetid://3570695787"
-    Content_3.ImageColor3 = Color3.fromRGB(25, 25, 38)
+    Content_3.ImageColor3 = Color3.fromRGB(21, 22, 23)
     Content_3.ScaleType = Enum.ScaleType.Slice
     Content_3.SliceCenter = Rect.new(100, 100, 100, 100)
     Content_3.SliceScale = 0.050
