@@ -1,14 +1,17 @@
 --[[
-	rbimgui-2
-	version 1.2
-	by Singularity
-        https://v3rmillion.net/member.php?action=profile&uid=947830
-        Singularity#5490
+    rbimgui-2
+    version 1.2
+    by Singularity
+    https://v3rmillion.net/member.php?action=profile&uid=947830
+    Singularity#5490
+    
     modified by Sxirbes
-        https://github.com/Vyrusspcs/
-        sxirbes32423
-        Added inputs and fixed some stuff
+    https://github.com/Vyrusspcs/
+    sxirbes32423
+    Added inputs and fixed some stuff, better Organization, and more!
 --]]
+
+print("v2")
 
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
@@ -121,15 +124,18 @@ do -- Load items
     local Text_4 = Instance.new("TextLabel")
     local Cache_2 = Instance.new("Frame")
 
+    -- ========== Main Container ==========
     imgui2.Name = "imgui2"
     imgui2.Parent = game:GetService("CoreGui")
 
+    -- ========== Presets Frame ==========
     Presets.Name = "Presets"
     Presets.Parent = imgui2
     Presets.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Presets.Size = UDim2.new(0, 100, 0, 100)
     Presets.Visible = false
 
+    -- ========== Label Element ==========
     Label.Name = "Label"
     Label.Parent = Presets
     Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -141,6 +147,7 @@ do -- Load items
     Label.TextSize = 13.000
     Label.TextXAlignment = Enum.TextXAlignment.Left
 
+    -- ========== Tab Button ==========
     TabButton.Name = "TabButton"
     TabButton.Parent = Presets
     TabButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -151,6 +158,7 @@ do -- Load items
     TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     TabButton.TextSize = 16.000
 
+    -- ========== Folder Container ==========
     Folder.Name = "Folder"
     Folder.Parent = Presets
     Folder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -158,6 +166,7 @@ do -- Load items
     Folder.ClipsDescendants = true
     Folder.Size = UDim2.new(1, 0, 0, 100)
 
+    -- ========== Folder Header ==========
     Folder_2.Name = "Folder"
     Folder_2.Parent = Folder
     Folder_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -169,6 +178,7 @@ do -- Load items
     Folder_2.SliceCenter = Rect.new(100, 100, 100, 100)
     Folder_2.SliceScale = 0.050
 
+    -- ========== Expand Icon ==========
     Expand.Name = "Expand"
     Expand.Parent = Folder_2
     Expand.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -178,6 +188,7 @@ do -- Load items
     Expand.ZIndex = 4
     Expand.Image = "rbxassetid://7671465363"
 
+    -- ========== Title Label ==========
     Title.Name = "Title"
     Title.Parent = Folder_2
     Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -190,6 +201,7 @@ do -- Load items
     Title.TextSize = 13.000
     Title.TextXAlignment = Enum.TextXAlignment.Left
 
+    -- ========== Items Container ==========
     Items.Name = "Items"
     Items.Parent = Folder
     Items.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -197,10 +209,12 @@ do -- Load items
     Items.Position = UDim2.new(0, 10, 0, 25)
     Items.Size = UDim2.new(1, -10, 1, -25)
 
+    -- ========== List Layout ==========
     UIListLayout.Parent = Items
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, 5)
 
+    -- ========== Main Tab ==========
     Tab.Name = "Tab"
     Tab.Parent = Presets
     Tab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -208,6 +222,7 @@ do -- Load items
     Tab.Position = UDim2.new(0, 0, 0, 30)
     Tab.Size = UDim2.new(1, 0, 1, -30)
 
+    -- ========== Scrolling Items ==========
     Items_2.Name = "Items"
     Items_2.Parent = Tab
     Items_2.Active = true
@@ -219,15 +234,18 @@ do -- Load items
     Items_2.CanvasSize = UDim2.new(0, 0, 0, 0)
     Items_2.ScrollBarThickness = 6
 
+    -- ========== Items Layout ==========
     UIListLayout_2.Parent = Items_2
     UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout_2.Padding = UDim.new(0, 5)
 
+    -- ========== Padding Frame ==========
     Padding.Name = "Padding"
     Padding.Parent = Items_2
     Padding.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Padding.BackgroundTransparency = 1.000
 
+    -- ========== Main Window ==========
     Main.Name = "Main"
     Main.Parent = Presets
     Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -241,6 +259,7 @@ do -- Load items
     Main.SliceCenter = Rect.new(100, 100, 100, 100)
     Main.SliceScale = 0.050
 
+    -- ========== Main Frame Border ==========
     Frame.Parent = Main
     Frame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
     Frame.BorderSizePixel = 0
@@ -248,6 +267,7 @@ do -- Load items
     Frame.Size = UDim2.new(1, 0, 0, 10)
     Frame.ZIndex = 4
 
+    -- ========== Frame Accent ==========
     Frame_2.Parent = Frame
     Frame_2.BackgroundColor3 = Color3.fromRGB(59, 59, 68)
     Frame_2.BorderSizePixel = 0
@@ -255,6 +275,7 @@ do -- Load items
     Frame_2.Size = UDim2.new(1, 0, 0, 2)
     Frame_2.ZIndex = 2
 
+    -- ========== Content Area ==========
     Content.Name = "Content"
     Content.Parent = Main
     Content.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -268,6 +289,7 @@ do -- Load items
     Content.SliceCenter = Rect.new(100, 100, 100, 100)
     Content.SliceScale = 0.050
 
+    -- ========== Content Frame ==========
     Frame_3.Parent = Content
     Frame_3.BackgroundColor3 = Color3.fromRGB(21, 22, 23)
     Frame_3.BorderSizePixel = 0
@@ -1114,10 +1136,12 @@ local ScreenGui = CoreGui:FindFirstChild("imgui2")
 local Presets = ScreenGui:FindFirstChild("Presets")
 local ScreenGuiCache = ScreenGui:FindFirstChild("Cache")
 
+-- ========== Input Tracking ==========
 local colorpicking = false
 local sliding = false
 local uiInputFocused = false  -- Track if any UI input field is focused
 
+-- ========== Event System ==========
 local event = { } do
     function event.new()
         local event event = setmetatable({
@@ -1157,6 +1181,7 @@ local event = { } do
     end
 end
 
+-- ========== Mouse Input System ==========
 local mouse = { } do
     mouse.held = false
     mouse.InputBegan = event.new()
@@ -1175,6 +1200,7 @@ local mouse = { } do
     end)
 end
 
+-- ========== Utility Functions ==========
 local function getMouse()
     local success, result = pcall(function()
         return UserInputService:GetMouseLocation()
@@ -1193,6 +1219,7 @@ local function resize(part, new, _delay)
 	tween:Play()
 end
 
+-- ========== Window Management ==========
 local windowHistory = { }
 local windowCache = { }
 local mouseCache = { }
@@ -1267,6 +1294,7 @@ local function findBrowsingTopMost()
     return result
 end
 
+-- ========== Window Dragging System ==========
 local dragger = {} do
     local draggerCache = { }
     local isDragging = false
@@ -1386,6 +1414,7 @@ local function hoverColor(object)
     end)
 end
 
+-- ========== Settings & Configuration ==========
 local settings = {
     new = function(default)
         local function l(r)
@@ -1415,6 +1444,7 @@ local settings = {
     end,
 }
 
+-- ========== Main Library Object ==========
 local library library = {
     isInputFocused = function()
         return uiInputFocused
@@ -2780,24 +2810,32 @@ local library library = {
                     separatorOptions = settings.new({
                         color = Color3.fromRGB(59, 59, 68),
                         thickness = 1,
+                        padding = 8,
                     }).handle(separatorOptions)
 
+                    local container = Instance.new("Frame")
+                    container.Parent = items
+                    container.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    container.BackgroundTransparency = 1
+                    container.BorderSizePixel = 0
+                    container.Size = UDim2.new(1, 0, 0, separatorOptions.padding * 2 + separatorOptions.thickness)
+
                     local separator = Instance.new("Frame")
-                    separator.Parent = items
+                    separator.Parent = container
                     separator.BackgroundColor3 = separatorOptions.color
                     separator.BorderSizePixel = 0
                     separator.Size = UDim2.new(1, -20, 0, separatorOptions.thickness)
-                    separator.Position = UDim2.new(0, 10, 0, 0)
+                    separator.Position = UDim2.new(0, 10, 0, separatorOptions.padding)
 
                     function self.setColor(color)
                         separator.BackgroundColor3 = color
                     end
 
                     function self:Destroy()
-                        separator:Destroy()
+                        container:Destroy()
                     end
 
-                    self.self = separator
+                    self.self = container
                     return self
                 end
 				
@@ -3633,6 +3671,7 @@ local library library = {
     end,
 }
 
+-- ========== Window Z-Index Management ==========
 do -- window history zindex
     ScreenGui.ChildAdded:Connect(function(window)
         local content = window:FindFirstChild("Content")
