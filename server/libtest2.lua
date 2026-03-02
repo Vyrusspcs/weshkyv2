@@ -126,7 +126,6 @@ do -- Load items
 
     -- ========== Main Container ==========
     imgui2.Name = "imgui2"
-    imgui2.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     imgui2.Parent = game:GetService("CoreGui")
 
     -- ========== Presets Frame ==========
@@ -141,13 +140,12 @@ do -- Load items
     Label.Parent = Presets
     Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Label.BackgroundTransparency = 1.000
-    Label.Size = UDim2.new(0, 91, 0, 18)
+    Label.Size = UDim2.new(0, 91, 0, 15)
     Label.Font = tzu
     Label.Text = "Hello, World!"
     Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Label.TextSize = 14.000
+    Label.TextSize = 13.000
     Label.TextXAlignment = Enum.TextXAlignment.Left
-    Label.TextWrapped = true
 
     -- ========== Tab Button ==========
     TabButton.Name = "TabButton"
@@ -234,7 +232,7 @@ do -- Load items
     Items_2.Position = UDim2.new(0, 10, 0, 0)
     Items_2.Size = UDim2.new(1, -20, 1, 0)
     Items_2.CanvasSize = UDim2.new(0, 0, 0, 0)
-    Items_2.ScrollBarThickness = 8
+    Items_2.ScrollBarThickness = 6
 
     -- ========== Items Layout ==========
     UIListLayout_2.Parent = Items_2
@@ -405,14 +403,14 @@ do -- Load items
     Switch.Parent = Presets
     Switch.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Switch.BackgroundTransparency = 1.000
-    Switch.Size = UDim2.new(0, 70, 0, 24)
+    Switch.Size = UDim2.new(0, 70, 0, 20)
 
     Button.Name = "Button"
     Button.Parent = Switch
     Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Button.BackgroundTransparency = 1.000
     Button.BorderSizePixel = 0
-    Button.Size = UDim2.new(0, 24, 0, 24)
+    Button.Size = UDim2.new(0, 20, 0, 20)
     Button.ZIndex = 3
     Button.Font = tzu
     Button.Text = ""
@@ -719,7 +717,7 @@ do -- Load items
     DropdownOption.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     DropdownOption.BackgroundTransparency = 1.000
     DropdownOption.BorderSizePixel = 0
-    DropdownOption.Size = UDim2.new(1, 0, 0, 26)
+    DropdownOption.Size = UDim2.new(1, 0, 0, 20)
     DropdownOption.ZIndex = 3
     DropdownOption.Font = tzu
     DropdownOption.Text = "  Option"
@@ -1332,8 +1330,10 @@ end
 
 local function isTouchingWindow(window)
     if not mouse.touchPosition then return false end
-    local pos = window.AbsolutePosition
-    local size = window.AbsoluteSize
+    local ok, pos, size = pcall(function()
+        return window.AbsolutePosition, window.AbsoluteSize
+    end)
+    if not ok or not pos then return false end
     local tp = mouse.touchPosition
     return tp.X >= pos.X and tp.X <= pos.X + size.X
         and tp.Y >= pos.Y and tp.Y <= pos.Y + size.Y + 250
@@ -1522,8 +1522,8 @@ local settings = {
     end,
 }
 
--- ========== Auto UI Scale ==========
-do
+-- ========== Auto UI Scale (mobile only) ==========
+if isMobile then
     local uiScale = Instance.new("UIScale")
     uiScale.Scale = getUIScale()
     uiScale.Parent = ScreenGui
