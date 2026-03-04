@@ -11,7 +11,7 @@
     Added inputs and fixed some stuff, better Organization, and more!
 --]]
 
-print("v2.2")
+print("v2.1.1")
 
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
@@ -3589,6 +3589,7 @@ local library library = {
                             container:Destroy()
                         end
 
+                        sepSelf.self = container
                         sepSelf.instance = container
                         table.insert(folderCache, sepSelf)
                         if self.isopen then
@@ -3613,6 +3614,7 @@ local library library = {
                             spacer:Destroy()
                         end
 
+                        spacerSelf.self = spacer
                         spacerSelf.instance = spacer
                         table.insert(folderCache, spacerSelf)
                         if self.isopen then
@@ -3673,6 +3675,14 @@ local library library = {
                     end
                 end
                 return count
+            end
+
+            function self.separator(separatorOptions)
+                return self.new("separator", separatorOptions)
+            end
+
+            function self.spacer(spacerOptions)
+                return self.new("spacer", spacerOptions)
             end
 
             function self.show()
