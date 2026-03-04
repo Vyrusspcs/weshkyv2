@@ -11,7 +11,7 @@
     Added inputs and fixed some stuff, better Organization, and more!
 --]]
 
-print("v2.1.1")
+print("v2.1.2")
 
 repeat wait() until game:GetService("Players").LocalPlayer
 if game:GetService("CoreGui"):FindFirstChild("imgui2") then
@@ -3592,9 +3592,6 @@ local library library = {
                         sepSelf.self = container
                         sepSelf.instance = container
                         table.insert(folderCache, sepSelf)
-                        if self.isopen then
-                            self.open()
-                        end
                         return sepSelf
                     end
 
@@ -3617,9 +3614,6 @@ local library library = {
                         spacerSelf.self = spacer
                         spacerSelf.instance = spacer
                         table.insert(folderCache, spacerSelf)
-                        if self.isopen then
-                            self.open()
-                        end
                         return spacerSelf
                     end
 
