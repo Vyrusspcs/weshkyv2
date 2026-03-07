@@ -2,6 +2,9 @@
 -- also credits too: https://rscripts.net/script/auto-join-discord-script-E2ke
 
 local discordInvite = "https://discord.gg/k4fqHYaK5t"
+if setclipboard then
+	setclipboard(discordInvite)
+end
 
 local inviteCode =
     discordInvite:match("discord%.gg/(%w+)")
