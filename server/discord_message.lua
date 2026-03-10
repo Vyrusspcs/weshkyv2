@@ -1,3 +1,5 @@
+-- scapped well maybe someone else whos looking truh my source (lol) can do something with it
+
 do
 	local DiscordUi = game:GetService("CoreGui"):FindFirstChild("DiscordUi")
 	if DiscordUi then DiscordUi:Destroy() end
