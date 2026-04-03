@@ -1,0 +1,177 @@
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-02-27 07:47:39
+-- Luau version 6, Types version 3
+-- Time taken: 0.006532 seconds
+
+local LocalPlayer_upvr = game.Players.LocalPlayer
+local mouse_upvr = LocalPlayer_upvr:GetMouse()
+local Parent_upvr = script.Parent
+local var4_upvw
+local var5_upvw
+local var6_upvw
+local var7_upvw
+local var8_upvw
+local var9_upvw
+local var10_upvw = false
+local var11_upvw
+local GetBlockInfo_upvr = require(game.ReplicatedStorage.Scripts.GetBlockInfo)
+function mouseMove() -- Line 20
+	--[[ Upvalues[5]:
+		[1]: mouse_upvr (readonly)
+		[2]: GetBlockInfo_upvr (readonly)
+		[3]: LocalPlayer_upvr (readonly)
+		[4]: var9_upvw (read and write)
+		[5]: var10_upvw (read and write)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [4] 4. Error Block 2 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [4] 4. Error Block 2 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [6] 5. Error Block 3 start (CF ANALYSIS FAILED)
+	local GetBlockInfo_upvr_result1, _, GetBlockInfo_upvr_result3 = GetBlockInfo_upvr(workspace, LocalPlayer_upvr)
+	-- KONSTANTERROR: [6] 5. Error Block 3 end (CF ANALYSIS FAILED)
+end
+function mouseOnPaintFrame() -- Line 34
+	--[[ Upvalues[2]:
+		[1]: LocalPlayer_upvr (readonly)
+		[2]: mouse_upvr (readonly)
+	]]
+	local Frame = LocalPlayer_upvr.PlayerGui.PaintGui.Frame
+	if mouse_upvr.Y < Frame.AbsolutePosition.Y + Frame.AbsoluteSize.Y and Frame.AbsolutePosition.Y < mouse_upvr.Y and mouse_upvr.X < Frame.AbsolutePosition.X + Frame.AbsoluteSize.X and Frame.AbsolutePosition.X < mouse_upvr.X then
+		return true
+	end
+	return false
+end
+local tbl_upvw = {}
+local var18_upvw = false
+function active(arg1) -- Line 42
+	--[[ Upvalues[6]:
+		[1]: var9_upvw (read and write)
+		[2]: LocalPlayer_upvr (readonly)
+		[3]: tbl_upvw (read and write)
+		[4]: var11_upvw (read and write)
+		[5]: var18_upvw (read and write)
+		[6]: Parent_upvr (readonly)
+	]]
+	local Adornee = var9_upvw.Adornee
+	local BackgroundColor3 = LocalPlayer_upvr.PlayerGui.PaintGui.Frame.ColorDisplay.BackgroundColor3
+	if not Adornee or LocalPlayer_upvr.PlayerGui.PaintGui.Frame.FrameMore.Dropper.Selected or mouseOnPaintFrame() then
+	else
+		table.insert(tbl_upvw, {Adornee, BackgroundColor3})
+		var11_upvw(Adornee, BackgroundColor3)
+		if var18_upvw then return end
+		var18_upvw = true
+		if not arg1 then
+			local clone = script.ClickSound:Clone()
+			clone.Parent = Adornee
+			clone.PlaybackSpeed = 1
+			clone:Play()
+			game.Debris:AddItem(clone, 0.5)
+		end
+		wait(0.2)
+		tbl_upvw = {}
+		Parent_upvr.RF:InvokeServer(tbl_upvw)
+		var18_upvw = false
+	end
+end
+function uneq() -- Line 69
+	--[[ Upvalues[7]:
+		[1]: var9_upvw (read and write)
+		[2]: var10_upvw (read and write)
+		[3]: var4_upvw (read and write)
+		[4]: var5_upvw (read and write)
+		[5]: var6_upvw (read and write)
+		[6]: var7_upvw (read and write)
+		[7]: var8_upvw (read and write)
+	]]
+	var9_upvw:Destroy()
+	var9_upvw = nil
+	var10_upvw = false
+	game.Players.LocalPlayer.PlayerGui.PaintGui.Frame.Visible = false
+	var4_upvw:Disconnect()
+	var5_upvw:Disconnect()
+	var5_upvw = nil
+	var6_upvw:Disconnect()
+	var6_upvw = nil
+	var7_upvw:Disconnect()
+	var7_upvw = nil
+	var8_upvw:Disconnect()
+	var8_upvw = nil
+end
+local UserInputService_upvr = game:GetService("UserInputService")
+function eq() -- Line 88
+	--[[ Upvalues[10]:
+		[1]: var11_upvw (read and write)
+		[2]: Parent_upvr (readonly)
+		[3]: var9_upvw (read and write)
+		[4]: var4_upvw (read and write)
+		[5]: LocalPlayer_upvr (readonly)
+		[6]: var5_upvw (read and write)
+		[7]: UserInputService_upvr (readonly)
+		[8]: var6_upvw (read and write)
+		[9]: var7_upvw (read and write)
+		[10]: var8_upvw (read and write)
+	]]
+	if not var11_upvw then
+		var11_upvw = require(Parent_upvr.PaintMS)
+	end
+	var9_upvw = Instance.new("SelectionBox", workspace)
+	var9_upvw.Color3 = Color3.fromRGB(172, 0, 0)
+	var4_upvw = LocalPlayer_upvr.Character.Humanoid.Died:Connect(died)
+	var5_upvw = UserInputService_upvr.InputChanged:Connect(inputChanged)
+	var6_upvw = UserInputService_upvr.InputBegan:Connect(inputBegan)
+	var7_upvw = UserInputService_upvr.InputEnded:Connect(inputEnded)
+	var8_upvw = UserInputService_upvr.TouchTapInWorld:Connect(function(arg1, arg2) -- Line 101
+		if not arg2 then
+			mouseMove()
+			active()
+		end
+	end)
+	LocalPlayer_upvr.PlayerGui.PaintGui.Frame.Visible = true
+end
+function inputBegan(arg1, arg2) -- Line 111
+	--[[ Upvalues[1]:
+		[1]: var10_upvw (read and write)
+	]]
+	if not arg2 then
+		if arg1.UserInputType == Enum.UserInputType.MouseButton1 then
+			var10_upvw = true
+			active()
+			return
+		end
+		if arg1.UserInputType == Enum.UserInputType.Touch then
+			mouseMove()
+			return
+		end
+		if arg1.UserInputType == Enum.UserInputType.Gamepad1 and arg1.KeyCode == Enum.KeyCode.ButtonR2 then
+			var10_upvw = true
+			active()
+		end
+	end
+end
+function inputChanged(arg1, arg2) -- Line 127
+	if arg1.UserInputType == Enum.UserInputType.MouseMovement then
+		mouseMove()
+	elseif arg1.KeyCode == Enum.KeyCode.Thumbstick1 or arg1.KeyCode == Enum.KeyCode.Thumbstick2 then
+		mouseMove()
+	end
+end
+function inputEnded(arg1, arg2) -- Line 135
+	--[[ Upvalues[1]:
+		[1]: var10_upvw (read and write)
+	]]
+	if arg1.UserInputType == Enum.UserInputType.MouseButton1 then
+		var10_upvw = false
+	elseif arg1.UserInputType == Enum.UserInputType.Gamepad1 and arg1.KeyCode == Enum.KeyCode.ButtonR2 then
+		var10_upvw = false
+	end
+end
+function died() -- Line 147
+	--[[ Upvalues[1]:
+		[1]: Parent_upvr (readonly)
+	]]
+	uneq()
+	Parent_upvr:Destroy()
+end
+Parent_upvr.Equipped:connect(eq)
+Parent_upvr.Unequipped:connect(uneq)

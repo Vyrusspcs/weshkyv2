@@ -1,0 +1,2645 @@
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-02-04 13:57:51
+-- Luau version 6, Types version 3
+-- Time taken: 0.366466 seconds
+
+local RunService_upvr_2 = game:GetService("RunService")
+local TweenService_upvr = game:GetService("TweenService")
+local CollectionService_upvr = game:GetService("CollectionService")
+local GetBlockInfo_upvr = require(game.ReplicatedStorage.Scripts.GetBlockInfo)
+local Heartbeat_upvr = RunService_upvr_2.Heartbeat
+local module_upvr_2 = {}
+local LocalPlayer_upvr_4 = game.Players.LocalPlayer
+local CurrentCamera_upvr_2 = workspace.CurrentCamera
+local any_IsServer_result1_upvr_2 = RunService_upvr_2:IsServer()
+local var530_upvr
+if any_IsServer_result1_upvr_2 then
+	var530_upvr = "-Server"
+else
+	var530_upvr = ""
+end
+local tbl_30_upvw = {}
+local tbl_27_upvw = {}
+module_upvr_2.ServerStr = "-Server"
+module_upvr_2.Motor = {}
+module_upvr_2.Motor.getState = function(arg1) -- Line 28
+	--[[ Upvalues[1]:
+		[1]: var530_upvr (readonly)
+	]]
+	return arg1:GetAttribute("Forward"..var530_upvr) or false, arg1:GetAttribute("Backward"..var530_upvr) or false
+end
+module_upvr_2.Motor.calState = function(arg1, arg2, arg3, arg4, arg5) -- Line 33
+	--[[ Upvalues[2]:
+		[1]: CollectionService_upvr (readonly)
+		[2]: var530_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 56 start (CF ANALYSIS FAILED)
+	if arg5.BindUp.Value ~= -1 then
+	else
+	end
+	if arg5.BindDown.Value ~= -1 then
+	else
+	end
+	local _ = 1
+	-- KONSTANTERROR: [0] 1. Error Block 56 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [204] 156. Error Block 40 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [204] 156. Error Block 40 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [25] 19. Error Block 10 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [204.14]
+	-- KONSTANTERROR: [25] 19. Error Block 10 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.Motor.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) -- Line 98
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local any_getState_result1_7, any_getState_result2_19 = module_upvr_2[arg2.Name].getState(arg2)
+	local var540
+	if any_getState_result1_7 ~= arg7 then
+		arg2:SetAttribute("Forward"..var530_upvr, arg7)
+		var540 = true
+	end
+	if any_getState_result2_19 ~= arg8 then
+		arg2:SetAttribute("Backward"..var530_upvr, arg8)
+		var540 = true
+	end
+	local var541
+	if not var541 then
+		if var540 then
+			var541 = findSpinFactor(arg2.PrimaryPart, arg5.PrimaryPart)
+			if not arg2:FindFirstChild("SpinFactor") then
+				local IntValue_3 = Instance.new("IntValue")
+				IntValue_3.Name = "SpinFactor"
+				IntValue_3.Value = var541
+				IntValue_3.Parent = arg2
+			else
+				var541 = arg2.SpinFactor.Value
+			end
+			if arg2.ReverseSpin.Value then
+				var541 = -var541
+			end
+			local var543
+			if arg7 and not arg8 then
+				var543 = arg2.MaxSpeed.Value * var541
+			elseif not arg7 and arg8 then
+				var543 = -(arg2.MaxSpeed.Value * var541)
+			end
+			arg2.PrimaryPart.HingeConstraint.AngularVelocity = var543
+		end
+	end
+	return var540
+end
+module_upvr_2.HugeMotor = module_upvr_2.Motor
+module_upvr_2.Servo = {}
+module_upvr_2.Servo.getState = function(arg1) -- Line 148
+	--[[ Upvalues[1]:
+		[1]: var530_upvr (readonly)
+	]]
+	return arg1:GetAttribute("Left"..var530_upvr) or false, arg1:GetAttribute("Right"..var530_upvr) or false
+end
+module_upvr_2.Servo.calState = function(arg1, arg2, arg3, arg4, arg5) -- Line 153
+	--[[ Upvalues[2]:
+		[1]: CollectionService_upvr (readonly)
+		[2]: var530_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 54 start (CF ANALYSIS FAILED)
+	if arg5.BindLeft.Value ~= -1 then
+	else
+	end
+	if arg5.BindRight.Value ~= -1 then
+	else
+	end
+	local _ = 1
+	-- KONSTANTERROR: [0] 1. Error Block 54 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [172] 132. Error Block 38 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [172] 132. Error Block 38 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [25] 19. Error Block 10 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [172.14]
+	-- KONSTANTERROR: [25] 19. Error Block 10 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.Servo.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) -- Line 213
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	local any_getState_result1_11, any_getState_result2_6 = module_upvr_2[arg2.Name].getState(arg2)
+	local var551
+	if any_getState_result1_11 ~= arg7 then
+		arg2:SetAttribute("Left"..var530_upvr, arg7)
+		var551 = true
+	end
+	if any_getState_result2_6 ~= arg8 then
+		arg2:SetAttribute("Right"..var530_upvr, arg8)
+		var551 = true
+	end
+	local var552
+	if not any_IsServer_result1_upvr_2 then
+		if var551 then
+			local var553 = 1
+			var552 = arg2.ReverseRotation
+			if var552.Value then
+				var553 = -1
+			end
+			var552 = arg2.TargetAngle.Value
+			local var554 = var552 * var553
+			var552 = 0
+			if arg7 then
+				var552 += var554
+			end
+			if arg8 then
+				var552 -= var554
+			end
+			arg2.PrimaryPart.HingeConstraint.TargetAngle = var552
+		end
+	end
+	return var551
+end
+module_upvr_2.Piston = {}
+module_upvr_2.Piston.getState = function(arg1) -- Line 251
+	--[[ Upvalues[1]:
+		[1]: var530_upvr (readonly)
+	]]
+	return arg1:GetAttribute("Forward"..var530_upvr) or false, arg1:GetAttribute("Backward"..var530_upvr) or false
+end
+module_upvr_2.Piston.calState = function(arg1, arg2, arg3, arg4, arg5) -- Line 256
+	--[[ Upvalues[2]:
+		[1]: CollectionService_upvr (readonly)
+		[2]: var530_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 64 start (CF ANALYSIS FAILED)
+	if arg5.BindUp.Value ~= -1 then
+	else
+	end
+	if arg5.BindDown.Value ~= -1 then
+	else
+	end
+	local _ = 1
+	-- KONSTANTERROR: [0] 1. Error Block 64 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [207] 159. Error Block 43 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [207] 159. Error Block 43 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [25] 19. Error Block 10 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [207.14]
+	-- KONSTANTERROR: [25] 19. Error Block 10 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.Piston.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) -- Line 326
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	local any_getState_result1_9, any_getState_result2_17 = module_upvr_2[arg2.Name].getState(arg2)
+	local var562
+	if any_getState_result1_9 ~= arg7 then
+		arg2:SetAttribute("Forward"..var530_upvr, arg7)
+		var562 = true
+	end
+	if any_getState_result2_17 ~= arg8 then
+		arg2:SetAttribute("Backward"..var530_upvr, arg8)
+		var562 = true
+	end
+	if var562 and any_IsServer_result1_upvr_2 then
+		local Base_upvr = arg2.Base
+		local var564_upvw
+		if arg7 and not arg8 then
+			var564_upvw = arg2.ExtendLength.Value
+		elseif not arg7 and arg8 then
+			var564_upvw = 0
+		end
+		task.spawn(function() -- Line 354
+			--[[ Upvalues[3]:
+				[1]: Base_upvr (readonly)
+				[2]: var564_upvw (read and write)
+				[3]: arg2 (readonly)
+			]]
+			local tbl_11 = {
+				C1 = Base_upvr.CFrame * CFrame.new(-(var564_upvw + 0.4), 0, 0):toObjectSpace(Base_upvr.CFrame);
+			}
+			local var567 = (Base_upvr.WeldToTop.C1.p - tbl_11.C1.p).magnitude / arg2.Speed.Value
+			local tick_result1_4 = tick()
+			arg2.LastGlobalTick.Value = tick_result1_4
+			while arg2.Parent and tick_result1_4 == arg2.LastGlobalTick.Value and 0 < var567 do
+				local WeldToTop = Base_upvr.WeldToTop
+				WeldToTop.C1 = WeldToTop.C1:Lerp(tbl_11.C1, math.min(0, var567) / var567)
+			end
+		end)
+	end
+	return var562
+end
+module_upvr_2.BoatMotor = {}
+module_upvr_2.BoatMotor.getState = function(arg1) -- Line 394
+	--[[ Upvalues[1]:
+		[1]: var530_upvr (readonly)
+	]]
+	return arg1:GetAttribute("Forward"..var530_upvr) or false, arg1:GetAttribute("Backward"..var530_upvr) or false, arg1:GetAttribute("Left"..var530_upvr) or false, arg1:GetAttribute("Right"..var530_upvr) or false
+end
+module_upvr_2.BoatMotor.calState = function(arg1, arg2, arg3, arg4, arg5) -- Line 401
+	--[[ Upvalues[2]:
+		[1]: CollectionService_upvr (readonly)
+		[2]: var530_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 98 start (CF ANALYSIS FAILED)
+	local BindLeft_2 = arg5:FindFirstChild("BindLeft")
+	if BindLeft_2 then
+		if arg5.BindLeft.Value ~= -1 then
+		else
+		end
+	end
+	if BindLeft_2 then
+		if arg5.BindRight.Value ~= -1 then
+		else
+		end
+	end
+	if arg5.BindUp.Value ~= -1 then
+		-- KONSTANTWARNING: GOTO [36] #27
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 98 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [35] 26. Error Block 95 start (CF ANALYSIS FAILED)
+	if arg5.BindDown.Value ~= -1 then
+	else
+	end
+	-- KONSTANTERROR: [35] 26. Error Block 95 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.BoatMotor.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- Line 492
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local any_getState_result1_3, any_getState_result2_14, any_getState_result3_5, any_getState_result4_5 = module_upvr_2[arg2.Name].getState(arg2)
+	local var579
+	if any_getState_result1_3 ~= arg7 then
+		arg2:SetAttribute("Forward"..var530_upvr, arg7)
+		var579 = true
+	end
+	if any_getState_result2_14 ~= arg8 then
+		arg2:SetAttribute("Backward"..var530_upvr, arg8)
+		var579 = true
+	end
+	if any_getState_result3_5 ~= arg9 then
+		arg2:SetAttribute("Left"..var530_upvr, arg9)
+		var579 = true
+	end
+	if any_getState_result4_5 ~= arg10 then
+		arg2:SetAttribute("Right"..var530_upvr, arg10)
+		var579 = true
+	end
+	if var579 then
+		local var580
+		if not var580 then
+			var580 = 0
+			if arg10 then
+				var580 = 1
+			end
+			if arg9 then
+				var580 -= 1
+			end
+			if arg7 then
+			end
+			if arg8 then
+				local var581 = 1 - 1
+			end
+			local var582
+			local function INLINED_15() -- Internal function, doesn't exist in bytecode
+				var582 = arg2.DirectionThrust.Value
+				return var582 ~= var581
+			end
+			if var582 ~= var580 or INLINED_15() then
+				var582 = arg2.Direction
+				var582.Value = var580
+				var582 = arg2.DirectionThrust
+				var582.Value = var581
+				var582 = arg5
+				if var582 then
+					var582 = arg5:FindFirstChildOfClass("VehicleSeat")
+					local var583_upvr = var582
+				end
+				local var584
+				if not arg2:FindFirstChild("TurnPart") and var583_upvr and var583_upvr.Parent then
+					local BodyAngularVelocity_3 = Instance.new("BodyAngularVelocity")
+					BodyAngularVelocity_3.Name = "BAV"
+					BodyAngularVelocity_3.AngularVelocity = Vector3.new(0, 0, 0)
+					BodyAngularVelocity_3.MaxTorque = Vector3.new(0, 0, 0)
+					local Part_3_upvr = Instance.new("Part")
+					Part_3_upvr.Name = "TurnPart"
+					Part_3_upvr.Size = Vector3.new(0.10000, 0.10000, 0.10000)
+					Part_3_upvr.Material = Enum.Material.SmoothPlastic
+					Part_3_upvr.CanCollide = false
+					Part_3_upvr.Anchored = false
+					Part_3_upvr.TopSurface = Enum.SurfaceType.Smooth
+					Part_3_upvr.BottomSurface = Enum.SurfaceType.Smooth
+					Part_3_upvr.CFrame = var583_upvr.CFrame
+					Part_3_upvr.Massless = true
+					Part_3_upvr.Parent = arg2
+					WeldTogether(var583_upvr, Part_3_upvr)
+					local BoolValue_2 = Instance.new("BoolValue")
+					BoolValue_2.Name = "NoWelds"
+					BoolValue_2.Parent = Part_3_upvr
+					BodyAngularVelocity_3.Parent = Part_3_upvr
+					task.spawn(function() -- Line 564
+						--[[ Upvalues[2]:
+							[1]: var583_upvr (readonly)
+							[2]: Part_3_upvr (readonly)
+						]]
+						var583_upvr:GetPropertyChangedSignal("Occupant"):Wait()
+						Part_3_upvr:Destroy()
+					end)
+				end
+				Part_3_upvr = arg2.PrimaryPart
+				Part_3_upvr = Part_3_upvr.CFrame:toObjectSpace(arg2.Motor.PrimaryPart.CFrame):GetComponents()
+				local _, _, _, _, _, any_GetComponents_result6, _, _, _, _, _, _ = Part_3_upvr.CFrame:toObjectSpace(arg2.Motor.PrimaryPart.CFrame):GetComponents()
+				var584 = 0
+				if any_GetComponents_result6 < -0.5 then
+					var584 = -1
+				elseif 0.5 < any_GetComponents_result6 then
+					var584 = 1
+				end
+				if var580 == 0 then
+					arg2.PrimaryPart.WeldMotor.C1 = arg2.PrimaryPart.WeldMotor.C1 * CFrame.Angles(0, math.rad(var584 * 45), 0)
+					if arg2:FindFirstChild("TurnPart") then
+						arg2.TurnPart.BAV.AngularVelocity = Vector3.new(0, 0, 0)
+						arg2.TurnPart.BAV.MaxTorque = Vector3.new(0, 0, 0)
+						-- KONSTANTWARNING: GOTO [366] #251
+					end
+					-- KONSTANTWARNING: GOTO [366] #251
+				end
+				if var580 == 1 then
+					arg2.PrimaryPart.WeldMotor.C1 = arg2.PrimaryPart.WeldMotor.C1 * CFrame.Angles(0, math.rad(var584 * 45 + -45), 0)
+					if arg2:FindFirstChild("TurnPart") then
+						arg2.TurnPart.BAV.AngularVelocity = Vector3.new(0, -arg2.TurningSpeed.Value, 0)
+						arg2.TurnPart.BAV.MaxTorque = Vector3.new(0, arg2.MaxTurningForce.Value, 0)
+						-- KONSTANTWARNING: GOTO [366] #251
+					end
+				else
+					arg2.PrimaryPart.WeldMotor.C1 = arg2.PrimaryPart.WeldMotor.C1 * CFrame.Angles(0, math.rad(var584 * 45 + 45), 0)
+					if arg2:FindFirstChild("TurnPart") then
+						arg2.TurnPart.BAV.AngularVelocity = Vector3.new(0, arg2.TurningSpeed.Value, 0)
+						arg2.TurnPart.BAV.MaxTorque = Vector3.new(0, arg2.MaxTurningForce.Value, 0)
+					end
+				end
+				if var581 ~= 0 and not arg2.PrimaryPart.Start.IsPlaying and not arg2.PrimaryPart.Loop.IsPlaying then
+					arg2.PrimaryPart.End:Stop()
+					arg2.PrimaryPart.Start:Play()
+					task.delay(arg2.PrimaryPart.Start.TimeLength, function() -- Line 609
+						--[[ Upvalues[1]:
+							[1]: arg2 (readonly)
+						]]
+						if arg2.Parent and arg2.DirectionThrust.Value ~= 0 then
+							arg2.PrimaryPart.Loop:Play()
+						end
+					end)
+				elseif var581 == 0 and (arg2.PrimaryPart.Start.IsPlaying or arg2.PrimaryPart.Loop.IsPlaying) then
+					arg2.PrimaryPart.Start:Stop()
+					arg2.PrimaryPart.Loop:Stop()
+					if not arg2.PrimaryPart.End.IsPlaying then
+						arg2.PrimaryPart.End:Play()
+					end
+				end
+				task.spawn(function() -- Line 622
+					--[[ Upvalues[1]:
+						[1]: arg2 (readonly)
+					]]
+					updateForceLoop(arg2)
+				end)
+			end
+		end
+	end
+	return var579
+end
+module_upvr_2.BoatMotorWinter = module_upvr_2.BoatMotor
+module_upvr_2.BoatMotorUltra = module_upvr_2.BoatMotor
+function updateForceLoop(arg1) -- Line 637
+	local tick_result1 = tick()
+	arg1.ForceLoopTick.Value = tick_result1
+	while arg1.Parent and arg1.ForceLoopTick.Value == tick_result1 and arg1.DirectionThrust.Value ~= 0 do
+		local LookVector = arg1.PrimaryPart.CFrame.LookVector
+		arg1.PrimaryPart.BV.Velocity = Vector3.new(LookVector.X, 0, LookVector.Z).Unit * arg1.MaxSpeed.Value * arg1.DirectionThrust.Value
+		arg1.PrimaryPart.BV.MaxForce = Vector3.new(arg1.MaxThrustForce.Value, 0, arg1.MaxThrustForce.Value)
+		local children_7 = arg1.Motor.Bottom:GetChildren()
+		for i = 1, #children_7 do
+			if children_7[i].Name == "WeldBlade" then
+				local var607 = children_7[i]
+				var607.C1 = var607.Part1.CFrame * CFrame.Angles(0, 0, math.rad(-30 * arg1.DirectionThrust.Value)):toObjectSpace(var607.Part0.CFrame)
+			end
+		end
+		task.wait()
+	end
+	if not arg1.Parent then
+	else
+		arg1.PrimaryPart.BV.MaxForce = Vector3.new(0, 0, 0)
+	end
+end
+module_upvr_2.FrontWheel = {}
+module_upvr_2.FrontWheel.getState = module_upvr_2.BoatMotor.getState
+module_upvr_2.FrontWheel.calState = module_upvr_2.BoatMotor.calState
+module_upvr_2.FrontWheel.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) -- Line 671
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local any_getState_result1_10, any_getState_result2_5, any_getState_result3_2, any_getState_result4_3 = module_upvr_2[arg2.Name].getState(arg2)
+	local var613
+	if any_getState_result1_10 ~= arg7 then
+		arg2:SetAttribute("Forward"..var530_upvr, arg7)
+		var613 = true
+	end
+	if any_getState_result2_5 ~= arg8 then
+		arg2:SetAttribute("Backward"..var530_upvr, arg8)
+		var613 = true
+	end
+	if any_getState_result3_2 ~= arg9 then
+		arg2:SetAttribute("Left"..var530_upvr, arg9)
+		var613 = true
+	end
+	if any_getState_result4_3 ~= arg10 then
+		arg2:SetAttribute("Right"..var530_upvr, arg10)
+		var613 = true
+	end
+	local var614
+	if not var614 and var613 then
+		var614 = findSpinFactor
+		local var615 = arg5
+		if var615 then
+			var615 = arg5.PrimaryPart
+		end
+		var614 = var614(arg2.PrimaryPart, var615)
+		if not arg2:FindFirstChild("SpinFactor") then
+			local IntValue_2 = Instance.new("IntValue")
+			IntValue_2.Name = "SpinFactor"
+			IntValue_2.Value = var614
+			IntValue_2.Parent = arg2
+		else
+			var614 = arg2.SpinFactor.Value
+		end
+		if arg2.ReverseSpin.Value then
+			var614 = -var614
+		end
+		local var617 = arg2.MaxSpeed.Value * var614
+		if arg7 then
+		end
+		if arg8 then
+		end
+		local var618 = false
+		if arg2.PrimaryPart.Att.Orientation.Y <= -59 then
+			if -61 > arg2.PrimaryPart.Att.Orientation.Y then
+				var618 = false
+			else
+				var618 = true
+			end
+		end
+		if arg2.PrimaryPart.Att.Orientation.Y <= -119 then
+			if -121 > arg2.PrimaryPart.Att.Orientation.Y then
+				local _ = false
+				-- KONSTANTWARNING: Skipped task `defvar` above
+			else
+			end
+		end
+		if arg9 then
+		end
+		if arg10 then
+		end
+		arg2.PrimaryPart.HingeConstraint.AngularVelocity = var617 - var617
+		if not var618 and not arg10 then
+			arg2.PrimaryPart.Att.Orientation = Vector3.new(0, -60, 0)
+			return var613
+		end
+		if not true and not arg9 then
+			arg2.PrimaryPart.Att.Orientation = Vector3.new(0, -120, 0)
+			return var613
+		end
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x3)
+		if not not arg10 and not not arg9 and (var618 or true) then
+			arg2.PrimaryPart.Att.Orientation = Vector3.new(0, -90, 0)
+		end
+	end
+	return var613
+end
+module_upvr_2.BackWheel = module_upvr_2.FrontWheel
+module_upvr_2.BackWheelCookie = module_upvr_2.FrontWheel
+module_upvr_2.BackWheelMint = module_upvr_2.FrontWheel
+module_upvr_2.HugeBackWheel = module_upvr_2.FrontWheel
+module_upvr_2.FrontWheelCookie = module_upvr_2.FrontWheel
+module_upvr_2.FrontWheelMint = module_upvr_2.FrontWheel
+module_upvr_2.HugeFrontWheel = module_upvr_2.FrontWheel
+module_upvr_2.CarSeat = {}
+module_upvr_2.CarSeat.getState = function(arg1) -- Line 751
+	--[[ Upvalues[1]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	local var628
+	for i_2, v in arg1:GetAttributes() do
+		if v then
+			local function INLINED_16() -- Internal function, doesn't exist in bytecode
+				var628 = string.find(i_2, "-Server")
+				return var628
+			end
+			local function INLINED_17() -- Internal function, doesn't exist in bytecode
+				var628 = not any_IsServer_result1_upvr_2
+				return var628
+			end
+			if not any_IsServer_result1_upvr_2 or not INLINED_16() or INLINED_17() then
+				var628 = not string.find(i_2, "-Server")
+			end
+			if var628 then
+				local var629
+				if any_IsServer_result1_upvr_2 then
+					var629 = i_2:gsub("%-Server$", "")
+				else
+					var629 = i_2:gsub('$', "")
+				end
+				;({})[var629] = v
+			end
+		end
+	end
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	return {}
+end
+module_upvr_2.CarSeat.calState = module_upvr_2.CarSeat.getState
+module_upvr_2.CarSeat.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 774
+	--[[ Upvalues[1]:
+		[1]: var530_upvr (readonly)
+	]]
+	local var638
+	for i_3, v_2 in pairs(arg7) do
+		local var639 = "Input"..i_3..var530_upvr
+		if arg2:GetAttribute(var639) ~= v_2 then
+			var638 = true
+			v_2 = v_2 or nil
+			arg2:SetAttribute(var639, v_2)
+		end
+	end
+	if arg6 and var638 then
+		i_3 = arg1
+		v_2 = arg3
+		addConnectionsToQueue(arg2:GetChildren(), i_3, v_2, arg4, arg2)
+	end
+	return var638
+end
+module_upvr_2.PilotSeat = {}
+module_upvr_2.PilotSeat.getState = module_upvr_2.CarSeat.getState
+module_upvr_2.PilotSeat.calState = module_upvr_2.CarSeat.calState
+local var641_upvw
+module_upvr_2.PilotSeat.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 798
+	--[[ Upvalues[4]:
+		[1]: var530_upvr (readonly)
+		[2]: any_IsServer_result1_upvr_2 (readonly)
+		[3]: var641_upvw (read and write)
+		[4]: RunService_upvr_2 (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 91 start (CF ANALYSIS FAILED)
+	local var649
+	for i_4, v_3 in pairs(arg7) do
+		local var650 = "Input"..i_4..var530_upvr
+		if arg2:GetAttribute(var650) ~= v_3 then
+			v_3 = v_3 or nil
+			arg2:SetAttribute(var650, v_3)
+		end
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 91 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [26] 22. Error Block 6 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [26] 22. Error Block 6 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [27] 23. Error Block 7 start (CF ANALYSIS FAILED)
+	addConnectionsToQueue(arg2:GetChildren(), arg1, arg3, arg4, arg2)
+	-- KONSTANTERROR: [27] 23. Error Block 7 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [38] 32. Error Block 8 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [38] 32. Error Block 8 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.RemoteController = module_upvr_2.CarSeat
+module_upvr_2.Lever = {}
+module_upvr_2.Lever.getState = function(arg1) -- Line 902
+	--[[ Upvalues[1]:
+		[1]: var530_upvr (readonly)
+	]]
+	return arg1:GetAttribute("On"..var530_upvr) or false
+end
+module_upvr_2.Lever.calState = module_upvr_2.Lever.getState
+module_upvr_2.Lever.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 907
+	--[[ Upvalues[4]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: CollectionService_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [11] 9. Error Block 2 start (CF ANALYSIS FAILED)
+	arg2:SetAttribute("On"..var530_upvr, arg7)
+	local var653 = true
+	-- KONSTANTERROR: [11] 9. Error Block 2 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [77] 60. Error Block 13 start (CF ANALYSIS FAILED)
+	arg2.PrimaryPart.Sound:Play()
+	-- KONSTANTERROR: [77] 60. Error Block 13 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [84] 64. Error Block 28 start (CF ANALYSIS FAILED)
+	if var653 and arg6 then
+		if not CollectionService_upvr:HasTag(arg2, "Legacy") then
+			addConnectionsToQueue(arg2:GetChildren(), arg1, arg7, false, arg2)
+			return var653
+		end
+		runLegacyBlock(arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	end
+	do
+		return var653
+	end
+	-- KONSTANTERROR: [84] 64. Error Block 28 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.Switch = {}
+module_upvr_2.Switch.getState = module_upvr_2.Lever.getState
+module_upvr_2.Switch.calState = module_upvr_2.Lever.calState
+module_upvr_2.Switch.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 961
+	--[[ Upvalues[4]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: CollectionService_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local _, any_getState_result2_4 = module_upvr_2[arg2.Name].getState(arg2)
+	local var661
+	if any_getState_result2_4 ~= arg7 then
+		arg2:SetAttribute("On"..var530_upvr, arg7)
+		var661 = true
+		if not any_IsServer_result1_upvr_2 then
+			local Switch_3 = arg2.Switch
+			local Animator_5 = Switch_3.AnimationController.Animator
+			local any_GetPlayingAnimationTracks_result1_4 = Animator_5:GetPlayingAnimationTracks()
+			local Part = arg2:FindFirstChild("Part")
+			if not arg7 then
+				for i_5 = 1, #any_GetPlayingAnimationTracks_result1_4 do
+					any_GetPlayingAnimationTracks_result1_4[i_5]:Stop()
+					local _
+				end
+				arg2.PrimaryPart.SoundOff:Play()
+				if Part then
+					i_5 = 0
+					Part.Color = Color3.fromRGB(255, i_5, 0)
+					-- KONSTANTWARNING: GOTO [85] #63
+				end
+			else
+				i_5 = Switch_3.Down
+				Animator_5:LoadAnimation(i_5):Play()
+				i_5 = arg2.PrimaryPart
+				i_5.SoundOn:Play()
+				if Part then
+					i_5 = 0
+					Part.Color = Color3.fromRGB(i_5, 255, 0)
+				end
+			end
+		end
+	end
+	if var661 and arg6 then
+		if not CollectionService_upvr:HasTag(arg2, "Legacy") then
+			addConnectionsToQueue(arg2:GetChildren(), arg1, arg7, false, arg2)
+			return var661
+		end
+		runLegacyBlock(arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	end
+	return var661
+end
+module_upvr_2.SwitchBig = {}
+module_upvr_2.SwitchBig.getState = module_upvr_2.Lever.getState
+module_upvr_2.SwitchBig.calState = module_upvr_2.Lever.calState
+module_upvr_2.SwitchBig.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 1015
+	--[[ Upvalues[4]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: CollectionService_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local _, any_getState_result2_10 = module_upvr_2[arg2.Name].getState(arg2)
+	local var674
+	if any_getState_result2_10 ~= arg7 then
+		arg2:SetAttribute("On"..var530_upvr, arg7)
+		var674 = true
+		local var675
+		if not any_IsServer_result1_upvr_2 then
+			local Switch_5 = arg2.Switch
+			local Animator = Switch_5.AnimationController.Animator
+			local any_GetPlayingAnimationTracks_result1_5 = Animator:GetPlayingAnimationTracks()
+			local Switch = arg2:FindFirstChild("Switch")
+			var675 = Switch
+			if var675 then
+				var675 = Switch:FindFirstChild("Part3")
+			end
+			if Switch then
+				local Part4_2 = Switch:FindFirstChild("Part4")
+			end
+			if Switch then
+				local Part5 = Switch:FindFirstChild("Part5")
+			end
+			if not arg7 then
+				for i_6 = 1, #any_GetPlayingAnimationTracks_result1_5 do
+					any_GetPlayingAnimationTracks_result1_5[i_6]:Stop()
+					local _
+				end
+				arg2.PrimaryPart.SoundOff:Play()
+				if var675 then
+					i_6 = 0
+					var675.Color = Color3.fromRGB(255, i_6, 0)
+				end
+				if Part4_2 then
+					i_6 = 0
+					Part4_2.Color = Color3.fromRGB(255, i_6, 0)
+				end
+				if Part5 then
+					i_6 = 0
+					Part5.Color = Color3.fromRGB(255, i_6, 0)
+					-- KONSTANTWARNING: GOTO [139] #106
+				end
+			else
+				i_6 = Switch_5.Down
+				Animator:LoadAnimation(i_6):Play()
+				i_6 = arg2.PrimaryPart
+				i_6.SoundOn:Play()
+				if var675 then
+					i_6 = 0
+					var675.Color = Color3.fromRGB(i_6, 255, 0)
+				end
+				if Part4_2 then
+					i_6 = 0
+					Part4_2.Color = Color3.fromRGB(i_6, 255, 0)
+				end
+				if Part5 then
+					i_6 = 0
+					Part5.Color = Color3.fromRGB(i_6, 255, 0)
+				end
+			end
+		end
+	end
+	if var674 and arg6 then
+		if not CollectionService_upvr:HasTag(arg2, "Legacy") then
+			var675 = arg7
+			addConnectionsToQueue(arg2:GetChildren(), arg1, var675, false, arg2)
+			return var674
+		end
+		var675 = arg4
+		runLegacyBlock(arg1, arg2, arg3, var675, arg5, arg6, arg7)
+	end
+	return var674
+end
+module_upvr_2.Button = {}
+module_upvr_2.Button.getState = module_upvr_2.Lever.getState
+module_upvr_2.Button.calState = module_upvr_2.Lever.calState
+module_upvr_2.Button.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 1084
+	--[[ Upvalues[4]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: CollectionService_upvr (readonly)
+	]]
+	local _, any_getState_result2_12 = module_upvr_2[arg2.Name].getState(arg2)
+	local var686
+	if any_getState_result2_12 ~= arg7 then
+		arg2:SetAttribute("On"..var530_upvr, arg7)
+		var686 = true
+		if not any_IsServer_result1_upvr_2 then
+			local Button = arg2:FindFirstChild("Button")
+			if arg7 then
+				arg2.PrimaryPart.Sound:Play()
+				goButtonDown(arg2.Button)
+				if Button then
+					Button.Color = Color3.fromRGB(0, 255, 0)
+					-- KONSTANTWARNING: GOTO [62] #47
+				end
+			else
+				goButtonUp(arg2.Button)
+				if Button then
+					Button.Color = Color3.fromRGB(255, 0, 0)
+				end
+			end
+		end
+	end
+	if var686 and arg6 then
+		if not CollectionService_upvr:HasTag(arg2, "Legacy") then
+			addConnectionsToQueue(arg2:GetChildren(), arg1, arg7, false, arg2)
+			return var686
+		end
+		runLegacyBlock(arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	end
+	return var686
+end
+function goButtonDown(arg1) -- Line 1125
+	arg1.CanCollide = false
+	arg1:BreakJoints()
+	arg1.Size = game.ReplicatedStorage.BuildingParts[arg1.Parent.Name].Button.Size - Vector3.new(0.20000, 0, 0)
+	WeldTogether(arg1.Parent.PrimaryPart, arg1)
+end
+function goButtonUp(arg1) -- Line 1134
+	arg1:BreakJoints()
+	arg1.Size = game.ReplicatedStorage.BuildingParts[arg1.Parent.Name].Button.Size
+	WeldTogether(arg1.Parent.PrimaryPart, arg1)
+end
+module_upvr_2.Delay = {}
+module_upvr_2.Delay.getState = function(arg1) -- Line 1142
+	--[[ Upvalues[2]:
+		[1]: var530_upvr (readonly)
+		[2]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	local var689
+	if any_IsServer_result1_upvr_2 then
+		if arg1.RunningWaitTimeOnServer.Value == 0 then
+			var689 = false
+		else
+			var689 = true
+		end
+	elseif arg1.RunningWaitTime.Value == 0 then
+		var689 = false
+	else
+		var689 = true
+	end
+	return arg1:GetAttribute("On"..var530_upvr) or false, var689, arg1.RunningWaitTimeOnServer.Value
+end
+module_upvr_2.Delay.calState = function(arg1, arg2, arg3, arg4, arg5) -- Line 1156
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: CollectionService_upvr (readonly)
+		[3]: var530_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	-- KONSTANTERROR: [0] 1. Error Block 41 start (CF ANALYSIS FAILED)
+	local _, any_getState_result2_2 = module_upvr_2[arg5.Name].getState(arg5)
+	local var693
+	if arg5.BindActivate.Value ~= -1 then
+	else
+	end
+	if any_getState_result2_2 then
+		return false, any_getState_result2_2
+	end
+	local _ = 1
+	-- KONSTANTERROR: [0] 1. Error Block 41 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [124] 98. Error Block 28 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [124] 98. Error Block 28 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [28] 23. Error Block 49 start (CF ANALYSIS FAILED)
+	if var693 then
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [124.15]
+		if nil == "ControllerRef" then
+		end
+	end
+	if var693 then
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		if nil then
+			-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [124.16]
+			if nil then
+			end
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			if not nil then
+				if true then
+					-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [124.17]
+					if not nil then
+						-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+						if not nil then
+						end
+					end
+				else
+				end
+			else
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+				if nil then
+				end
+			end
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			if false then
+				-- KONSTANTWARNING: GOTO [124] #98
+			end
+		else
+		end
+	end
+	-- KONSTANTERROR: [28] 23. Error Block 49 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.Delay.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) -- Line 1205
+	--[[ Upvalues[7]:
+		[1]: module_upvr_2 (readonly)
+		[2]: CollectionService_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: var530_upvr (readonly)
+		[5]: TweenService_upvr (readonly)
+		[6]: LocalPlayer_upvr_4 (readonly)
+		[7]: tbl_27_upvw (read and write)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	-- KONSTANTERROR: [0] 1. Error Block 77 start (CF ANALYSIS FAILED)
+	local var697 = false
+	local var698
+	if not arg9 then
+		var698 = arg2.WaitDuration
+		local Value_2 = var698.Value
+	end
+	if arg9 == nil then
+		var698 = false
+	else
+		var698 = true
+	end
+	if arg2.Parent then
+		local var700
+		if not CollectionService_upvr:HasTag(arg2, "Legacy") then
+			if not arg8 and var700 ~= arg7 or var698 then
+				if any_IsServer_result1_upvr_2 then
+					local RunningWaitTimeOnServer_2 = arg2.RunningWaitTimeOnServer
+				end
+				if var698 then
+					arg2:SetAttribute("On"..var530_upvr, arg7)
+					if not any_IsServer_result1_upvr_2 then
+						if arg7 then
+							arg2.Glass.Color = Color3.fromRGB(0, 255, 0)
+							arg2.Part.Color = Color3.fromRGB(0, 255, 0)
+						else
+							arg2.Glass.Color = game.ReplicatedStorage.BuildingParts[arg2.Name].Glass.Color
+							arg2.Part.Color = game.ReplicatedStorage.BuildingParts[arg2.Name].Part.Color
+						end
+					end
+					var700 = arg7
+					if 0 < arg9 then
+						local var702_upvw = not arg7
+					end
+					var697 = true
+					local var703
+				end
+				if var700 ~= var702_upvw or var698 and 0 < arg9 then
+					local var704_upvw
+					var703 = nil
+					if not any_IsServer_result1_upvr_2 then
+						var704_upvw = arg2.PPart.Gui
+						var703 = var704_upvw.Frame.Bar
+					end
+					RunningWaitTimeOnServer_2.Value = Value_2
+					local any_Create_result1_2 = TweenService_upvr:Create(RunningWaitTimeOnServer_2, TweenInfo.new(Value_2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+						Value = 0;
+					})
+					any_Create_result1_2:Play()
+					any_Create_result1_2.Completed:Connect(function(arg1_11) -- Line 1268
+						--[[ Upvalues[11]:
+							[1]: arg2 (readonly)
+							[2]: var530_upvr (copied, readonly)
+							[3]: var702_upvw (read and write)
+							[4]: any_IsServer_result1_upvr_2 (copied, readonly)
+							[5]: var704_upvw (read and write)
+							[6]: arg6 (readonly)
+							[7]: arg9 (readonly)
+							[8]: LocalPlayer_upvr_4 (copied, readonly)
+							[9]: arg1 (readonly)
+							[10]: module_upvr_2 (copied, readonly)
+							[11]: tbl_27_upvw (copied, read and write)
+						]]
+						if arg1_11 ~= Enum.PlaybackState.Completed or not arg2.Parent then
+						else
+							arg2:SetAttribute("On"..var530_upvr, var702_upvw)
+							if not any_IsServer_result1_upvr_2 then
+								if var702_upvw then
+									arg2.Glass.Color = Color3.fromRGB(0, 255, 0)
+									arg2.Part.Color = Color3.fromRGB(0, 255, 0)
+								else
+									arg2.Glass.Color = game.ReplicatedStorage.BuildingParts[arg2.Name].Glass.Color
+									arg2.Part.Color = game.ReplicatedStorage.BuildingParts[arg2.Name].Part.Color
+								end
+								var704_upvw.Enabled = false
+							end
+							if not any_IsServer_result1_upvr_2 then
+								if arg6 or arg9 and 0 < arg9 and LocalPlayer_upvr_4.UserId == arg1 then
+									if var702_upvw ~= module_upvr_2[arg2.Name].calState(arg1, false, false, false, arg2) then
+										local tbl_6 = {}
+										local tbl_18 = {}
+										tbl_18[1] = arg2
+										tbl_18[2] = var702_upvw
+										tbl_18[3] = false
+										tbl_18[4] = false
+										tbl_18[5] = true
+										tbl_18[6] = false
+										tbl_6[1] = tbl_18
+										tbl_6[2] = true
+										if not tbl_27_upvw[arg1] then
+											tbl_27_upvw[arg1] = {}
+										end
+										table.insert(tbl_27_upvw[arg1], tbl_6)
+									end
+									addConnectionsToQueue(arg2:GetChildren(), arg1, var702_upvw, false, arg2)
+									checkToRunQueue(arg1)
+								end
+							end
+						end
+					end)
+					if not any_IsServer_result1_upvr_2 then
+						if var702_upvw then
+							var703.Size = UDim2.new(0, 0, 1, 0)
+							var703.Position = UDim2.new(0, 0, 0, 0)
+							var703.AnchorPoint = Vector2.new(0, 0)
+							var703.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+							TweenService_upvr:Create(var703, TweenInfo.new(Value_2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+								Size = UDim2.new(1, 0, 1, 0);
+							}):Play()
+						else
+							var703.Size = UDim2.new(1, 0, 1, 0)
+							var703.Position = UDim2.new(1, 0, 0, 0)
+							var703.AnchorPoint = Vector2.new(1, 0)
+							var703.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+							TweenService_upvr:Create(var703, TweenInfo.new(Value_2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+								Size = UDim2.new(0, 0, 1, 0);
+							}):Play()
+						end
+						var704_upvw.Enabled = true
+					end
+					var697 = true
+					-- KONSTANTWARNING: GOTO [351] #256
+				end
+				-- KONSTANTWARNING: GOTO [351] #256
+			end
+		elseif arg2.Glass.BrickColor ~= BrickColor.Red() and (not arg4 or arg3) then
+			var697 = true
+			if not any_IsServer_result1_upvr_2 then
+				var703 = BrickColor.Red()
+				arg2.Glass.BrickColor = var703
+				var703 = BrickColor.Red()
+				arg2.Part.BrickColor = var703
+			end
+			var703 = arg2.WaitDuration.Value
+			task.delay(var703, function() -- Line 1359
+				--[[ Upvalues[10]:
+					[1]: arg2 (readonly)
+					[2]: any_IsServer_result1_upvr_2 (copied, readonly)
+					[3]: arg6 (readonly)
+					[4]: arg9 (readonly)
+					[5]: LocalPlayer_upvr_4 (copied, readonly)
+					[6]: arg1 (readonly)
+					[7]: arg3 (readonly)
+					[8]: arg4 (readonly)
+					[9]: arg5 (readonly)
+					[10]: var702_upvw (read and write)
+				]]
+				if not arg2.Parent then
+				else
+					arg2.Glass.Color = game.ReplicatedStorage.BuildingParts[arg2.Name].Glass.Color
+					arg2.Part.Color = game.ReplicatedStorage.BuildingParts[arg2.Name].Part.Color
+					if not any_IsServer_result1_upvr_2 then
+						if arg6 or arg9 and 0 < arg9 and LocalPlayer_upvr_4.UserId == arg1 then
+							runLegacyBlock(arg1, arg2, arg3, arg4, arg5, arg6, var702_upvw)
+						end
+					end
+				end
+			end)
+		end
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 77 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [351] 256. Error Block 45 start (CF ANALYSIS FAILED)
+	do
+		return var697
+	end
+	-- KONSTANTERROR: [351] 256. Error Block 45 end (CF ANALYSIS FAILED)
+end
+function runLegacyBlock(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 1383
+	--[[ Upvalues[1]:
+		[1]: module_upvr_2 (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	local _ = 1
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [396] 270. Error Block 88 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [396] 270. Error Block 88 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [9] 8. Error Block 2 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [396.13]
+	-- KONSTANTERROR: [9] 8. Error Block 2 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.Gate = {}
+module_upvr_2.Gate.getState = module_upvr_2.Lever.getState
+module_upvr_2.Gate.calState = function(arg1, arg2, arg3, arg4, arg5) -- Line 1531
+	--[[ Upvalues[2]:
+		[1]: CollectionService_upvr (readonly)
+		[2]: var530_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 55 start (CF ANALYSIS FAILED)
+	if arg5.BindActivate.Value ~= -1 then
+	else
+	end
+	local _ = 1
+	-- KONSTANTERROR: [0] 1. Error Block 55 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [140] 106. Error Block 33 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [140] 106. Error Block 33 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [36] 23. Error Block 6 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [140.17]
+	-- KONSTANTERROR: [36] 23. Error Block 6 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.Gate.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 1607
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	local var719 = false
+	if module_upvr_2[arg2.Name].getState(arg2) ~= arg7 then
+		arg2:SetAttribute("On"..var530_upvr, arg7)
+		var719 = true
+		if not any_IsServer_result1_upvr_2 and arg2.Parent and arg2.PrimaryPart then
+			if arg7 then
+				arg2.Part.Color = Color3.fromRGB(0, 255, 0)
+			else
+				arg2.Part.Color = arg2.PrimaryPart.Color
+			end
+		end
+	end
+	if var719 and arg6 then
+		addConnectionsToQueue(arg2:GetChildren(), arg1, arg7, false, arg2)
+	end
+	return var719
+end
+module_upvr_2.LightBulb = {}
+module_upvr_2.LightBulb.getState = module_upvr_2.Lever.getState
+module_upvr_2.LightBulb.calState = function(arg1, arg2, arg3, arg4, arg5) -- Line 1645
+	--[[ Upvalues[2]:
+		[1]: CollectionService_upvr (readonly)
+		[2]: var530_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 38 start (CF ANALYSIS FAILED)
+	if arg5.BindFire.Value ~= -1 then
+	else
+	end
+	local _ = 1
+	-- KONSTANTERROR: [0] 1. Error Block 38 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [111] 86. Error Block 27 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [111] 86. Error Block 27 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [16] 13. Error Block 6 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [111.12]
+	-- KONSTANTERROR: [16] 13. Error Block 6 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.LightBulb.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 1691
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	local var724 = false
+	if module_upvr_2[arg2.Name].getState(arg2) ~= arg7 then
+		arg2:SetAttribute("On"..var530_upvr, arg7)
+		var724 = true
+		if not any_IsServer_result1_upvr_2 and arg2.Parent and arg2.PrimaryPart and arg2:FindFirstChild("BulbEnd") then
+			if arg2:FindFirstChild("BulbMid") and arg2:FindFirstChild("BulbStart") then
+				if arg7 then
+					arg2.BulbEnd.Material = Enum.Material.Neon
+					arg2.BulbMid.Material = Enum.Material.Neon
+					arg2.BulbStart.Material = Enum.Material.Neon
+					arg2.BulbEnd.PointLight.Color = arg2.BulbEnd.Color
+					arg2.BulbEnd.PointLight.Enabled = true
+					return var724
+				end
+				arg2.BulbEnd.Material = Enum.Material.Glass
+				arg2.BulbMid.Material = Enum.Material.Glass
+				arg2.BulbStart.Material = Enum.Material.Glass
+				arg2.BulbEnd.PointLight.Enabled = false
+			end
+		end
+	end
+	return var724
+end
+module_upvr_2.Note = {}
+module_upvr_2.Note.stateless = true
+module_upvr_2.Note.willActivate = function(arg1, arg2, arg3, arg4) -- Line 1726
+	-- KONSTANTERROR: [0] 1. Error Block 22 start (CF ANALYSIS FAILED)
+	if not arg3 or not arg2 then
+		return arg2
+	end
+	if arg1.BindFire.Value ~= -1 then
+		-- KONSTANTWARNING: GOTO [11] #9
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 22 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [10] 8. Error Block 25 start (CF ANALYSIS FAILED)
+	if true then
+		if arg3 == Enum.KeyCode.F or arg3 == Enum.KeyCode.ButtonR2 then
+			do
+				return true
+			end
+			-- KONSTANTWARNING: GOTO [33] #23
+		end
+	elseif arg3.Value == arg1.BindFire.Value then
+		return true
+	end
+	-- KONSTANTERROR: [10] 8. Error Block 25 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.Note.setState = function(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 1746
+	--[[ Upvalues[3]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+		[2]: LocalPlayer_upvr_4 (readonly)
+		[3]: CurrentCamera_upvr_2 (readonly)
+	]]
+	local any_GetPlayerByUserId_result1_3 = game.Players:GetPlayerByUserId(arg1)
+	if not any_IsServer_result1_upvr_2 and any_GetPlayerByUserId_result1_3 then
+		if any_GetPlayerByUserId_result1_3.Team == LocalPlayer_upvr_4.Team then
+			local PrimaryPart_2 = arg2.PrimaryPart
+			local var729
+			if CurrentCamera_upvr_2 and PrimaryPart_2 then
+				local var730 = PrimaryPart_2.Position - CurrentCamera_upvr_2.CFrame.Position
+				local vector3 = Vector3.new(math.abs(var730.X), math.abs(var730.Y), math.abs(var730.Z))
+				local RollOffMaxDistance_3 = arg2.PrimaryPart.Sound.RollOffMaxDistance
+				local var733 = false
+				if vector3.X < RollOffMaxDistance_3 then
+					var733 = false
+					if vector3.Y < RollOffMaxDistance_3 then
+						if vector3.Z >= RollOffMaxDistance_3 then
+							var733 = false
+						else
+							var733 = true
+						end
+					end
+				end
+				var729 = var733
+			end
+			if var729 then
+				playNoteFunction(arg2)
+			end
+		end
+	end
+	return true
+end
+local var734_upvw = 0
+local tbl_14_upvr = {}
+function playNoteFunction(arg1) -- Line 1778
+	--[[ Upvalues[3]:
+		[1]: var734_upvw (read and write)
+		[2]: tbl_14_upvr (readonly)
+		[3]: TweenService_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 9 start (CF ANALYSIS FAILED)
+	if 7 < var734_upvw then
+		local popped = table.remove(tbl_14_upvr, 8)
+		if popped.Parent then
+			popped:Stop()
+			popped:Destroy()
+			-- KONSTANTWARNING: GOTO [22] #18
+		end
+	else
+		var734_upvw += 1
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 9 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [22] 18. Error Block 6 start (CF ANALYSIS FAILED)
+	local clone = arg1.PrimaryPart.Sound:Clone()
+	game.Debris:AddItem(clone, 2)
+	clone.Parent = arg1.PrimaryPart
+	clone:Play()
+	table.insert(tbl_14_upvr, 1, clone)
+	local BaseWeld_2 = arg1.PrimaryPart.BaseWeld
+	BaseWeld_2.C0 = CFrame.new(0, 0, 0)
+	TweenService_upvr:Create(BaseWeld_2, TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.InOut, 0, true), {
+		C0 = CFrame.new(0, 1, 0);
+	}):Play()
+	-- KONSTANTERROR: [22] 18. Error Block 6 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.DisplayBlock = {}
+module_upvr_2.DisplayBlock.stateless = true
+module_upvr_2.DisplayBlock.willActivate = function(arg1, arg2, arg3, arg4) -- Line 1807
+	--[[ Upvalues[1]:
+		[1]: var530_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [7] 7. Error Block 2 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [7] 7. Error Block 2 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [25] 17. Error Block 29 start (CF ANALYSIS FAILED)
+	do
+		return false
+	end
+	-- KONSTANTERROR: [25] 17. Error Block 29 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.DisplayBlock.preQueue = function(arg1, arg2, arg3, arg4) -- Line 1831
+	--[[ Upvalues[1]:
+		[1]: var530_upvr (readonly)
+	]]
+	arg1:SetAttribute("NextColor"..var530_upvr, arg4.PrimaryPart.Color)
+end
+module_upvr_2.DisplayBlock.setState = function(arg1, arg2, arg3, arg4, arg5) -- Line 1839
+	--[[ Upvalues[3]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+		[2]: LocalPlayer_upvr_4 (readonly)
+		[3]: var530_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 22 start (CF ANALYSIS FAILED)
+	if not arg2.Parent then return end
+	if not any_IsServer_result1_upvr_2 then
+		if not LocalPlayer_upvr_4:FindFirstChild("OtherData") or not LocalPlayer_upvr_4.OtherData:FindFirstChild("CanFlash") then
+			if not arg2:GetAttribute("Waiting") then
+				arg2:SetAttribute("Waiting", true)
+				local var743 = 0.33
+				local Size_2 = arg2.PrimaryPart.Size
+				local maximum_2 = math.max(Size_2.X * Size_2.Y, math.max(Size_2.X * Size_2.Z, Size_2.Y * Size_2.Z))
+				if 64 < maximum_2 then
+					var743 += (1 - var743) * math.min(1, maximum_2 / 2500)
+				end
+				task.delay(var743, function() -- Line 1866
+					--[[ Upvalues[2]:
+						[1]: arg2 (readonly)
+						[2]: var530_upvr (copied, readonly)
+					]]
+					if arg2.Parent then
+						arg2:SetAttribute("Waiting", nil)
+						arg2.PrimaryPart.Color = arg2:GetAttribute("NextColor"..var530_upvr)
+					end
+				end)
+				-- KONSTANTWARNING: GOTO [91] #67
+			end
+		else
+			arg2.PrimaryPart.Color = arg2:GetAttribute("NextColor"..var530_upvr)
+		end
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 22 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [91] 67. Error Block 13 start (CF ANALYSIS FAILED)
+	do
+		return true
+	end
+	-- KONSTANTERROR: [91] 67. Error Block 13 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.BoxingGlove = {}
+module_upvr_2.BoxingGlove.stateless = true
+module_upvr_2.BoxingGlove.willActivate = module_upvr_2.Note.willActivate
+module_upvr_2.BoxingGlove.setState = function(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 1895
+	--[[ Upvalues[3]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+		[2]: GetBlockInfo_upvr (readonly)
+		[3]: Heartbeat_upvr (readonly)
+	]]
+	local var748
+	if not var748 then
+		var748 = arg2.PunchTrackRef.Value
+		if not var748 then
+			var748 = arg2.AnimationController.Animator:LoadAnimation(arg2.PunchAnimation)
+		end
+		if not arg2.PunchTrackRef.Value then
+			arg2.PunchTrackRef.Value = var748
+			arg2.Glove.Touched:Connect(function(arg1_12) -- Line 1904
+				--[[ Upvalues[4]:
+					[1]: arg2 (readonly)
+					[2]: arg1 (readonly)
+					[3]: GetBlockInfo_upvr (copied, readonly)
+					[4]: Heartbeat_upvr (copied, readonly)
+				]]
+				-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+				if arg1_12:IsGrounded() then
+				else
+					local var750
+					if var750 then
+						var750 = arg1_12.Parent
+						while var750 and var750.Parent ~= workspace.Blocks and not game.Players:GetPlayerFromCharacter(var750) do
+							var750 = var750.Parent
+						end
+						local var751
+						local any_GetPlayerFromCharacter_result1_2 = game.Players:GetPlayerFromCharacter(var750)
+						local any_GetPlayerByUserId_result1 = game.Players:GetPlayerByUserId(arg1)
+						if var750 then
+							if any_GetPlayerFromCharacter_result1_2 and (any_GetPlayerFromCharacter_result1_2.Team == any_GetPlayerByUserId_result1.Team or any_GetPlayerFromCharacter_result1_2.Settings.PVP.Value and any_GetPlayerByUserId_result1.Settings.PVP.Value) or any_GetPlayerFromCharacter_result1_2.Character:FindFirstChildOfClass("Humanoid").PlatformStand then
+								local var754
+							end
+							if var754 then
+								var754.PlatformStand = true
+							end
+							local function INLINED_18() -- Internal function, doesn't exist in bytecode
+								local _, var524_result2 = GetBlockInfo_upvr(arg1_12)
+								return any_GetPlayerFromCharacter_result1_2
+							end
+							if not any_GetPlayerFromCharacter_result1_2 or var754 or INLINED_18() or var524_result2 and (var524_result2.Team == any_GetPlayerByUserId_result1.Team or var524_result2.Settings.PVP.Value and any_GetPlayerByUserId_result1.Settings.PVP.Value) then
+								-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+								arg1_12.AssemblyLinearVelocity = (Vector3.new(arg1_12.Position.X + math.random(-4, 4), arg2.Glove.Position.Y + 10, arg1_12.Position.Z + math.random(-4, 4)) - arg2.Glove.Position).Unit * 200
+								arg1_12.AssemblyAngularVelocity = Vector3.new(math.random(-20, 20), math.random(-20, 20), math.random(-20, 20))
+							end
+							if var754 then
+								(function(arg1_13, arg2_3) -- Line 1960, Named "stunEffect"
+									--[[ Upvalues[1]:
+										[1]: Heartbeat_upvr (copied, readonly)
+									]]
+									-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+									if not arg1_13 then
+									else
+										local Sound_2 = Instance.new("Sound")
+										Sound_2.SoundId = "rbxassetid://133218697256077"
+										Sound_2.RollOffMaxDistance = 800
+										Sound_2.RollOffMinDistance = 250
+										Sound_2.Volume = 0.4
+										game.Debris:AddItem(Sound_2, 10)
+										Sound_2.Parent = arg1_13
+										Sound_2:Play()
+										local tbl_9 = {}
+										local var767 = 0
+										for i_18 = 1, 5 do
+											local Part_4 = Instance.new("Part")
+											local SpecialMesh_2 = Instance.new("SpecialMesh")
+											SpecialMesh_2.MeshId = "http://www.roblox.com/asset/?id=45428961"
+											SpecialMesh_2.TextureId = "http://www.roblox.com/asset/?id=45021124"
+											SpecialMesh_2.Scale = Vector3.new(4, 4, 4)
+											SpecialMesh_2.Parent = Part_4
+											Part_4.Size = Vector3.new(1, 1, 1)
+											Part_4.Anchored = true
+											Part_4.CanCollide = false
+											Part_4.CanQuery = false
+											Part_4.CanTouch = false
+											Part_4.CFrame = (Part_4.CFrame - Part_4.Position + arg1_13.Position + arg1_13.CFrame:vectorToWorldSpace(Vector3.new(math.cos(var767), 3, math.sin(var767)))) * CFrame.Angles(-0.7853981633974483, 0, 0)
+											tbl_9[i_18] = Part_4
+											game.Debris:AddItem(Part_4, arg2_3)
+											Part_4.Parent = workspace.TempStuff
+											var767 += 1.2566370614359172
+											local var770
+										end
+										local var771 = arg2_3
+										while true do
+											i_18 = 0
+											if i_18 >= var771 then break end
+											i_18 = Heartbeat_upvr:Wait()
+											local var773 = var771 - i_18
+											for i_19 = 1, 5 do
+												local var774 = tbl_9[i_19]
+												local var775 = 0 / 10 + 1.2566370614359172
+												var774.CFrame = var774.CFrame:Lerp((var774.CFrame - var774.Position + arg1_13.Position + arg1_13.CFrame:vectorToWorldSpace(Vector3.new(math.cos(var775), 3, math.sin(var775)))) * CFrame.Angles(0 * i_18, 20 * i_18, 0 * i_18), 0.5)
+												local var776
+											end
+											if var773 < 0.25 then
+												i_19 = var773 / 0.25
+												var776[1].Transparency = 1 - i_19
+												i_19 = var773 / 0.25
+												var776[2].Transparency = 1 - i_19
+												i_19 = var773 / 0.25
+												var776[3].Transparency = 1 - i_19
+												i_19 = var773 / 0.25
+												var776[4].Transparency = 1 - i_19
+												i_19 = var773 / 0.25
+												var776[5].Transparency = 1 - i_19
+											end
+										end
+									end
+								end)(var754.Parent:FindFirstChild("Head"), 5)
+								var754.PlatformStand = false
+							end
+						end
+					end
+				end
+			end)
+		end
+		var748:Play()
+		arg2.Glove.Sound:Play()
+	end
+	return true
+end
+module_upvr_2.Firework = {}
+module_upvr_2.Firework.stateless = true
+module_upvr_2.Firework.willActivate = module_upvr_2.Note.willActivate
+module_upvr_2.Firework.setState = function(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 2053
+	--[[ Upvalues[1]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	if any_IsServer_result1_upvr_2 then
+		arg2.PrimaryPart.Activate:Fire()
+	end
+	return true
+end
+module_upvr_2.FireworkA = module_upvr_2.Firework
+module_upvr_2.FireworkB = module_upvr_2.Firework
+module_upvr_2.FireworkC = module_upvr_2.Firework
+module_upvr_2.FireworkD = module_upvr_2.Firework
+module_upvr_2.Glue = {}
+module_upvr_2.Glue.stateless = true
+module_upvr_2.Glue.willActivate = module_upvr_2.Note.willActivate
+module_upvr_2.Glue.setState = function(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 2074
+	--[[ Upvalues[1]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	local PrimaryPart_11 = arg2.PrimaryPart
+	local var780 = PrimaryPart_11
+	if var780 then
+		var780 = PrimaryPart_11:FindFirstChild("Sound")
+	end
+	if var780 then
+		var780.PlayOnRemove = true
+		var780:Destroy()
+	end
+	if any_IsServer_result1_upvr_2 then
+		arg2:Destroy()
+	else
+		local Part_8 = arg2:FindFirstChild("Part")
+		local ClickDetector = arg2:FindFirstChild("ClickDetector")
+		if PrimaryPart_11 then
+			PrimaryPart_11.Transparency = 1
+		end
+		if Part_8 then
+			Part_8.Transparency = 1
+		end
+		if ClickDetector then
+			ClickDetector:Destroy()
+		end
+	end
+	return true
+end
+module_upvr_2.SticksOfTNT = module_upvr_2.Firework
+module_upvr_2.Cannon = {}
+module_upvr_2.Cannon.stateless = true
+module_upvr_2.Cannon.willActivate = module_upvr_2.Note.willActivate
+module_upvr_2.Cannon.setState = function(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 2117
+	--[[ Upvalues[1]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	if any_IsServer_result1_upvr_2 then
+		arg2.PrimaryPart.Activate:Fire(game.Players:GetPlayerByUserId(arg1))
+	end
+	return true
+end
+module_upvr_2.MiniGun = module_upvr_2.Cannon
+module_upvr_2.Harpoon = module_upvr_2.Cannon
+module_upvr_2.HarpoonGold = module_upvr_2.Cannon
+module_upvr_2.DualCaneHarpoon = module_upvr_2.Cannon
+module_upvr_2.HarpoonDragon = module_upvr_2.Cannon
+local var784_upvw
+module_upvr_2.Camera = {}
+module_upvr_2.Camera.targetCharacter = nil
+module_upvr_2.Camera.stateless = true
+module_upvr_2.Camera.willActivate = function(arg1, arg2, arg3, arg4) -- Line 2142
+	-- KONSTANTERROR: [0] 1. Error Block 22 start (CF ANALYSIS FAILED)
+	if not arg3 then
+		return true
+	end
+	if arg1.BindFire.Value ~= -1 then
+	else
+	end
+	if true then
+		if arg3 == Enum.KeyCode.F or arg3 == Enum.KeyCode.ButtonR2 then
+			do
+				return true
+			end
+			-- KONSTANTWARNING: GOTO [33] #23
+		end
+	elseif arg3.Value == arg1.BindFire.Value then
+		return true
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 22 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [33] 23. Error Block 14 start (CF ANALYSIS FAILED)
+	do
+		return false
+	end
+	-- KONSTANTERROR: [33] 23. Error Block 14 end (CF ANALYSIS FAILED)
+end
+local var787_upvw = 0
+module_upvr_2.Camera.setState = function(arg1, arg2, arg3, arg4, arg5, arg6) -- Line 2161
+	--[[ Upvalues[5]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+		[2]: LocalPlayer_upvr_4 (readonly)
+		[3]: module_upvr_2 (readonly)
+		[4]: var787_upvw (read and write)
+		[5]: var784_upvw (read and write)
+	]]
+	if not any_IsServer_result1_upvr_2 and game.Players:GetPlayerByUserId(arg1) == LocalPlayer_upvr_4 then
+		local tick_result1_2 = tick()
+		local var789 = (1/60)
+		local OtherData_2 = LocalPlayer_upvr_4:FindFirstChild("OtherData")
+		if not OtherData_2 or not OtherData_2:FindFirstChild("CanFlash") then
+			var789 = 0.39
+		end
+		local targetCharacter = module_upvr_2.Camera.targetCharacter
+		if var789 < tick_result1_2 - var787_upvw then
+			if targetCharacter and targetCharacter.Parent then
+				if var784_upvw == arg2 and not arg3 then
+					deactivateCam()
+					var787_upvw = tick_result1_2
+				elseif not var784_upvw then
+					if arg3 then
+						activateCam(arg2)
+						var787_upvw = tick_result1_2
+					end
+				end
+			end
+		end
+	end
+	return false
+end
+module_upvr_2.CameraDome = module_upvr_2.Camera
+local var792_upvw
+local var793_upvw
+local var794_upvw
+local Custom_upvw = Enum.CameraType.Custom
+local var796_upvw = LocalPlayer_upvr_4
+if var796_upvw then
+	var796_upvw = LocalPlayer_upvr_4.Character
+	if var796_upvw then
+		var796_upvw = LocalPlayer_upvr_4.Character:FindFirstChild("Humanoid")
+	end
+end
+function activateCam(arg1) -- Line 2197
+	--[[ Upvalues[8]:
+		[1]: var784_upvw (read and write)
+		[2]: Custom_upvw (read and write)
+		[3]: CurrentCamera_upvr_2 (readonly)
+		[4]: var796_upvw (read and write)
+		[5]: RunService_upvr_2 (readonly)
+		[6]: var792_upvw (read and write)
+		[7]: var793_upvw (read and write)
+		[8]: var794_upvw (read and write)
+	]]
+	var784_upvw = arg1
+	local Players_upvr = game.Players
+	local LocalPlayer_upvr_3 = Players_upvr.LocalPlayer
+	if arg1.Name ~= "CameraDome" then
+		Players_upvr = false
+	else
+		Players_upvr = true
+	end
+	local PrimaryPart_10_upvr = arg1.PrimaryPart
+	local clone_3_upvr = arg1.CameraScreenGui:Clone()
+	clone_3_upvr.Parent = LocalPlayer_upvr_3.PlayerGui
+	clone_3_upvr.Sound:Play()
+	Custom_upvw = CurrentCamera_upvr_2.CameraType
+	var796_upvw = CurrentCamera_upvr_2.CameraSubject
+	if not Players_upvr then
+		CurrentCamera_upvr_2.CameraType = Enum.CameraType.Scriptable
+	else
+		CurrentCamera_upvr_2.CameraSubject = PrimaryPart_10_upvr
+	end
+	RunService_upvr_2:BindToRenderStep("CameraBlock", 1, function() -- Line 2216
+		--[[ Upvalues[4]:
+			[1]: Players_upvr (readonly)
+			[2]: CurrentCamera_upvr_2 (copied, readonly)
+			[3]: PrimaryPart_10_upvr (readonly)
+			[4]: clone_3_upvr (readonly)
+		]]
+		if not Players_upvr then
+			CurrentCamera_upvr_2.CFrame = PrimaryPart_10_upvr.CFrame * CFrame.new(0, 0, 1.1) * CFrame.Angles(0, math.pi, 0)
+		end
+		if os.time() % 2 == 1 then
+			clone_3_upvr.Frame.Crosshairs.RecCircle.Visible = false
+		else
+			clone_3_upvr.Frame.Crosshairs.RecCircle.Visible = true
+		end
+	end)
+	var792_upvw = PrimaryPart_10_upvr.AncestryChanged:Connect(function() -- Line 2227
+		--[[ Upvalues[1]:
+			[1]: PrimaryPart_10_upvr (readonly)
+		]]
+		if not PrimaryPart_10_upvr:IsDescendantOf(game) then
+			deactivateCam()
+		end
+	end)
+	var793_upvw = clone_3_upvr:WaitForChild("Frame"):WaitForChild("ExitLabel"):WaitForChild("ExitButton").MouseButton1Click:Connect(function() -- Line 2233
+		--[[ Upvalues[1]:
+			[1]: var793_upvw (copied, read and write)
+		]]
+		var793_upvw:Disconnect()
+		var793_upvw = nil
+		deactivateCam()
+	end)
+	var794_upvw = LocalPlayer_upvr_3.Character.Humanoid:GetPropertyChangedSignal("SeatPart"):Connect(function() -- Line 2239
+		--[[ Upvalues[1]:
+			[1]: LocalPlayer_upvr_3 (readonly)
+		]]
+		local SeatPart_2 = LocalPlayer_upvr_3.Character.Humanoid.SeatPart
+		if not SeatPart_2 or SeatPart_2:IsA("VehicleSeat") then
+			deactivateCam()
+		end
+	end)
+end
+function deactivateCam() -- Line 2247
+	--[[ Upvalues[8]:
+		[1]: var784_upvw (read and write)
+		[2]: var792_upvw (read and write)
+		[3]: var793_upvw (read and write)
+		[4]: var794_upvw (read and write)
+		[5]: RunService_upvr_2 (readonly)
+		[6]: CurrentCamera_upvr_2 (readonly)
+		[7]: Custom_upvw (read and write)
+		[8]: var796_upvw (read and write)
+	]]
+	var784_upvw = nil
+	if var792_upvw then
+		var792_upvw:Disconnect()
+		var792_upvw = nil
+	end
+	if var793_upvw then
+		var793_upvw:Disconnect()
+		var793_upvw = nil
+	end
+	if var794_upvw then
+		var794_upvw:Disconnect()
+		var794_upvw = nil
+	end
+	pcall(function() -- Line 2262
+		--[[ Upvalues[1]:
+			[1]: RunService_upvr_2 (copied, readonly)
+		]]
+		RunService_upvr_2:UnbindFromRenderStep("CameraBlock")
+	end)
+	CurrentCamera_upvr_2.CameraType = Custom_upvw
+	CurrentCamera_upvr_2.CameraSubject = var796_upvw
+	local CameraScreenGui = game.Players.LocalPlayer.PlayerGui:FindFirstChild("CameraScreenGui")
+	if CameraScreenGui then
+		CameraScreenGui:Destroy()
+	end
+end
+if not any_IsServer_result1_upvr_2 then
+	LocalPlayer_upvr_4.CharacterAdded:Connect(function() -- Line 2272
+		--[[ Upvalues[1]:
+			[1]: LocalPlayer_upvr_4 (readonly)
+		]]
+		if LocalPlayer_upvr_4.PlayerGui:FindFirstChild("CameraScreenGui") then
+			deactivateCam()
+		end
+	end)
+end
+module_upvr_2.Thruster = {}
+module_upvr_2.Thruster.getState = module_upvr_2.LightBulb.getState
+module_upvr_2.Thruster.calState = function(arg1, arg2, arg3, arg4, arg5) -- Line 2282
+	--[[ Upvalues[3]:
+		[1]: CollectionService_upvr (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: module_upvr_2 (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 39 start (CF ANALYSIS FAILED)
+	if arg5.BindFire.Value ~= -1 then
+	else
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 39 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [60] 47. Error Block 21 start (CF ANALYSIS FAILED)
+	do
+		return false
+	end
+	-- KONSTANTERROR: [60] 47. Error Block 21 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [61] 48. Error Block 22 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [61] 48. Error Block 22 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.Thruster.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 2343
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	local var811 = false
+	local PrimaryPart_15_upvr = arg2.PrimaryPart
+	if module_upvr_2[arg2.Name].getState(arg2) ~= arg7 then
+		local function INLINED_19() -- Internal function, doesn't exist in bytecode
+			arg2:SetAttribute("On"..var530_upvr, arg7)
+			var811 = true
+			return any_IsServer_result1_upvr_2
+		end
+		if not arg7 or not PrimaryPart_15_upvr:IsGrounded() and 0 < arg2.Fuel.Value or not INLINED_19() then
+			local function stopThrust(arg1_14) -- Line 2355
+				arg1_14.ThrusterSound:Stop()
+				arg1_14.BodyThrust.Force = Vector3.new(0, 0, 0)
+				arg1_14.ParticleEmitter.Enabled = false
+				local ParticleEmitter2 = arg1_14:FindFirstChild("ParticleEmitter2")
+				if ParticleEmitter2 then
+					ParticleEmitter2.Enabled = false
+				end
+			end
+			if arg7 then
+				PrimaryPart_15_upvr.BodyThrust.Force = (Vector3.new(0, 0, -1)) * ((function(arg1_15) -- Line 2367, Named "getTotalMass"
+					local any_GetConnectedParts_result1_2 = arg1_15:GetConnectedParts(true)
+					local var817
+					for i_7 = 1, #any_GetConnectedParts_result1_2 do
+						var817 += any_GetConnectedParts_result1_2[i_7]:GetMass()
+						if 850 <= i_7 then
+							return var817
+						end
+					end
+					return var817
+				end)(PrimaryPart_15_upvr) * workspace.Gravity) * arg2.MassMuiltiplier.Value + Vector3.new(0, 0, 10)
+				PrimaryPart_15_upvr.ParticleEmitter.Enabled = true
+				local ParticleEmitter2_8 = PrimaryPart_15_upvr:FindFirstChild("ParticleEmitter2")
+				if ParticleEmitter2_8 then
+					ParticleEmitter2_8.Enabled = true
+				end
+				PrimaryPart_15_upvr.ThrusterSound:Play()
+				task.spawn(function() -- Line 2389
+					--[[ Upvalues[2]:
+						[1]: arg2 (readonly)
+						[2]: PrimaryPart_15_upvr (readonly)
+					]]
+					local tick_result1_6 = tick()
+					arg2.LastGlobalTick.Value = tick_result1_6
+					while PrimaryPart_15_upvr.Parent and arg2.LastGlobalTick.Value == tick_result1_6 and 0 < arg2.Fuel.Value do
+						local Fuel = arg2.Fuel
+						Fuel.Value -= 0
+					end
+					if PrimaryPart_15_upvr.Parent then
+						if arg2.Parent and arg2.Fuel.Value <= 0 then
+							local var822 = PrimaryPart_15_upvr
+							var822.ThrusterSound:Stop()
+							var822.BodyThrust.Force = Vector3.new(0, 0, 0)
+							var822.ParticleEmitter.Enabled = false
+							local ParticleEmitter2_2 = var822:FindFirstChild("ParticleEmitter2")
+							if ParticleEmitter2_2 then
+								ParticleEmitter2_2.Enabled = false
+							end
+							arg2.ClickDetector:Destroy()
+							PrimaryPart_15_upvr.BrickColor = BrickColor.Red()
+						end
+					end
+				end)
+				return var811
+			end
+			arg2.LastGlobalTick.Value = 0
+			PrimaryPart_15_upvr.ThrusterSound:Stop()
+			PrimaryPart_15_upvr.BodyThrust.Force = Vector3.new(0, 0, 0)
+			PrimaryPart_15_upvr.ParticleEmitter.Enabled = false
+			local ParticleEmitter2_5 = PrimaryPart_15_upvr:FindFirstChild("ParticleEmitter2")
+			if ParticleEmitter2_5 then
+				ParticleEmitter2_5.Enabled = false
+			end
+		end
+	end
+	return var811
+end
+module_upvr_2.MegaThruster = module_upvr_2.Thruster
+module_upvr_2.UltraThruster = module_upvr_2.Thruster
+module_upvr_2.WinterThruster = module_upvr_2.Thruster
+module_upvr_2.HalloweenThruster = module_upvr_2.Thruster
+module_upvr_2.LockedDoor = {}
+module_upvr_2.LockedDoor.getState = module_upvr_2.LightBulb.getState
+module_upvr_2.LockedDoor.calState = module_upvr_2.Thruster.calState
+module_upvr_2.LockedDoor.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 2427
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local var830 = false
+	if module_upvr_2[arg2.Name].getState(arg2) ~= arg7 then
+		local var831 = "On"..var530_upvr
+		arg2:SetAttribute(var831, arg7)
+		var830 = true
+		local var832
+		if any_IsServer_result1_upvr_2 then
+			local Door = arg2.Door
+			local PPart_2 = arg2.PPart
+			var832 = arg2.Name
+			if var832 ~= "WoodDoor" then
+				var831 = false
+			else
+				var831 = true
+			end
+			if arg2.Name ~= "WoodTrapDoor" then
+				var832 = false
+			else
+				var832 = true
+			end
+			if var831 then
+				local const_number_2 = 0
+			end
+			Door:BreakJoints()
+			if not var832 then
+				if arg7 then
+					Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.new(-PPart_2.Size.X / 2 + const_number_2, 0, 0))
+					Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.Angles(0, (-math.pi/2), 0))
+					Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.new(PPart_2.Size.X / 2 - const_number_2, 0, 0))
+				else
+					Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.new(-PPart_2.Size.X / 2 + const_number_2, 0, 0))
+					Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.Angles(0, (math.pi/2), 0))
+					Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.new(PPart_2.Size.X / 2 - const_number_2, 0, 0))
+				end
+			elseif arg7 then
+				Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.new(-PPart_2.Size.X / 2, 0, 0))
+				Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.Angles(0, 0, (-math.pi/2)))
+				Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.new(PPart_2.Size.X / 2, 0, 0))
+			else
+				Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.new(-PPart_2.Size.X / 2, 0, 0))
+				Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.Angles(0, 0, (math.pi/2)))
+				Door:SetPrimaryPartCFrame(Door.PrimaryPart.CFrame * CFrame.new(PPart_2.Size.X / 2, 0, 0))
+			end
+			local children_6 = Door:GetChildren()
+			for i_8 = 1, #children_6 do
+				local var837 = children_6[i_8]
+				if var837:IsA("BasePart") then
+					WeldTogether(var837, PPart_2)
+				end
+			end
+			if PPart_2.Sound.Playing then
+				PPart_2.Sound:Stop()
+			end
+			PPart_2.Sound:Play()
+		end
+	end
+	return var830
+end
+module_upvr_2.WoodDoor = module_upvr_2.LockedDoor
+module_upvr_2.WoodTrapDoor = module_upvr_2.LockedDoor
+module_upvr_2.JetTurbine = {}
+module_upvr_2.JetTurbine.getState = module_upvr_2.LightBulb.getState
+module_upvr_2.JetTurbine.calState = module_upvr_2.Thruster.calState
+module_upvr_2.JetTurbine.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 2501
+	--[[ Upvalues[4]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: Heartbeat_upvr (readonly)
+	]]
+	local var839 = false
+	local PrimaryPart_5_upvr = arg2.PrimaryPart
+	if module_upvr_2[arg2.Name].getState(arg2) ~= arg7 then
+		local function INLINED_20() -- Internal function, doesn't exist in bytecode
+			arg2:SetAttribute("On"..var530_upvr, arg7)
+			var839 = true
+			return any_IsServer_result1_upvr_2
+		end
+		if not arg7 or not PrimaryPart_5_upvr:IsGrounded() and 0 < arg2.Fuel.Value or not INLINED_20() then
+			local function stopThrust_upvr(arg1_16) -- Line 2513, Named "stopThrust"
+				local Parent_2 = arg1_16.Parent
+				arg1_16.BodyVelocity.MaxForce = Vector3.new(0, 0, 0)
+				Parent_2.Nose.Reflectance = 0
+				arg1_16.Sound:Stop()
+				Parent_2.Nose.Trail.Enabled = false
+				local Trail2_2 = Parent_2.Nose:FindFirstChild("Trail2")
+				if Trail2_2 then
+					Trail2_2.Enabled = false
+				end
+				local Trail3_2 = Parent_2.Nose:FindFirstChild("Trail3")
+				if Trail3_2 then
+					Trail3_2.Enabled = false
+				end
+			end
+			if arg7 then
+				local Value_3 = arg2.MaxForce.Value
+				if Value_3 == 10000000000 then
+					Value_3 = math.huge
+				end
+				PrimaryPart_5_upvr.BodyVelocity.MaxForce = Vector3.new(Value_3, Value_3, Value_3)
+				arg2.Nose.Reflectance = 0.5
+				PrimaryPart_5_upvr.Sound:Play()
+				arg2.Nose.Trail.Enabled = true
+				local Trail2_4 = arg2.Nose:FindFirstChild("Trail2")
+				if Trail2_4 then
+					Trail2_4.Enabled = false
+				end
+				local Trail3_3 = arg2.Nose:FindFirstChild("Trail3")
+				if Trail3_3 then
+					Trail3_3.Enabled = false
+				end
+				task.spawn(function() -- Line 2548
+					--[[ Upvalues[4]:
+						[1]: PrimaryPart_5_upvr (readonly)
+						[2]: arg2 (readonly)
+						[3]: Heartbeat_upvr (copied, readonly)
+						[4]: stopThrust_upvr (readonly)
+					]]
+					-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+					local function _() -- Line 2550, Named "inStages"
+						--[[ Upvalues[1]:
+							[1]: PrimaryPart_5_upvr (copied, readonly)
+						]]
+						local Position_4 = PrimaryPart_5_upvr.Position
+						if 1359 < Position_4.Z and Position_4.Z < 8358 then
+							return true
+						end
+						return false
+					end
+					local function _() -- Line 2558, Named "outOfBounds"
+						--[[ Upvalues[1]:
+							[1]: PrimaryPart_5_upvr (copied, readonly)
+						]]
+						local Position_6 = PrimaryPart_5_upvr.Position
+						local Position_5 = PrimaryPart_5_upvr.Position
+						local var851
+						if 1359 < Position_5.Z and Position_5.Z < 8358 then
+							var851 = true
+						else
+							var851 = false
+						end
+						local function INLINED_21() -- Internal function, doesn't exist in bytecode
+							var851 = Position_6.Y
+							return var851 < 150
+						end
+						local function INLINED_22() -- Internal function, doesn't exist in bytecode
+							var851 = Position_6.Y
+							return -18 < var851
+						end
+						local function INLINED_23() -- Internal function, doesn't exist in bytecode
+							var851 = Position_6.X
+							return var851 < 525
+						end
+						local function INLINED_24() -- Internal function, doesn't exist in bytecode
+							var851 = Position_6.X
+							return -530 < var851
+						end
+						if not var851 or INLINED_21() and INLINED_22() and INLINED_23() and INLINED_24() then
+							var851 = false
+							return var851
+						end
+						var851 = true
+						return var851
+					end
+					arg2.LastGlobalTick.Value = tick()
+					-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+					-- KONSTANTERROR: [18] 14. Error Block 2 start (CF ANALYSIS FAILED)
+					-- KONSTANTERROR: [18] 14. Error Block 2 end (CF ANALYSIS FAILED)
+				end)
+				return var839
+			end
+			arg2.LastGlobalTick.Value = 0
+			stopThrust_upvr(PrimaryPart_5_upvr)
+		end
+	end
+	return var839
+end
+module_upvr_2.SonicJetTurbine = module_upvr_2.JetTurbine
+module_upvr_2.JetTurbineWinter = module_upvr_2.JetTurbine
+function findSpinFactor(arg1, arg2) -- Line 2606
+	if not arg2 or not arg2.Orientation.Y then
+		local const_number_3 = 0
+	end
+	if const_number_3 < 0 then
+	end
+	local Y = arg1.Orientation.Y
+	if Y < 0 then
+	end
+	local var854 = ((360 + Y) - (360 + const_number_3)) % 360
+	if 45 < var854 and var854 < 225 then
+		return -1
+	end
+	return 1
+end
+module_upvr_2.BalloonBlock = {}
+module_upvr_2.BalloonBlock.getState = module_upvr_2.LightBulb.getState
+module_upvr_2.BalloonBlock.calState = module_upvr_2.Thruster.calState
+module_upvr_2.BalloonBlock.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 2630
+	--[[ Upvalues[4]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: GetBlockInfo_upvr (readonly)
+	]]
+	local var856 = false
+	if module_upvr_2[arg2.Name].getState(arg2) ~= arg7 then
+		var856 = true
+		local var857 = arg7
+		arg2:SetAttribute("On"..var530_upvr, var857)
+		if any_IsServer_result1_upvr_2 then
+			local PrimaryPart_3_upvr = arg2.PrimaryPart
+			local var859_upvw
+			if arg7 then
+				local _, var524_result2_2 = GetBlockInfo_upvr(arg2)
+				var859_upvw = arg2.Name
+				if var859_upvw ~= "BalloonStarBlock" then
+					var857 = false
+				else
+					var857 = true
+				end
+				var859_upvw = nil
+				local var862_upvr = PrimaryPart_3_upvr.Size.X * PrimaryPart_3_upvr.Size.Y * PrimaryPart_3_upvr.Size.Z
+				if not var857 then
+					var859_upvw = Instance.new("Part")
+				else
+					var859_upvw = game.ReplicatedStorage.BuildingParts.Star.PrimaryPart:Clone()
+				end
+				var859_upvw.Size = Vector3.new(math.min(3.5 + (var862_upvr - 1) / 2.2, 250), math.min(3.5 + (var862_upvr - 1) / 2.2, 250), math.min(3.5 + (var862_upvr - 1) / 2.2, 250))
+				if PrimaryPart_3_upvr.Color == game.ReplicatedStorage.BuildingParts[arg2.Name].PrimaryPart.Color then
+					if not var857 then
+						var859_upvw.BrickColor = BrickColor.Random()
+					else
+						local tbl_29 = {Color3.fromRGB(27, 42, 53), Color3.fromRGB(255, 255, 0), Color3.fromRGB(255, 176, 0)}
+						var859_upvw.Color = tbl_29[math.random(1, #tbl_29)]
+					end
+				else
+					var859_upvw.Color = PrimaryPart_3_upvr.Color
+				end
+				var859_upvw.Name = "BalloonPart"
+				var859_upvw.Anchored = false
+				var859_upvw.CanCollide = false
+				var859_upvw.Material = Enum.Material.SmoothPlastic
+				var859_upvw.Transparency = 0.1
+				var859_upvw.CastShadow = false
+				var859_upvw.CollisionGroup = tostring(var524_result2_2.TeamColor).."CG"
+				PrimaryPart_3_upvr.RopeConstraint.Thickness = math.clamp(var862_upvr / 100, 0.1, 1)
+				local Attachment = Instance.new("Attachment")
+				Attachment.Name = "Att1"
+				Attachment.Parent = var859_upvw
+				if not var857 then
+					var859_upvw.CFrame = PrimaryPart_3_upvr.CFrame
+					var859_upvw.Shape = "Ball"
+				else
+					var859_upvw.CFrame = PrimaryPart_3_upvr.CFrame * CFrame.Angles((math.pi/2), 0, 0)
+				end
+				var859_upvw.Parent = PrimaryPart_3_upvr.Parent
+				PrimaryPart_3_upvr.RopeConstraint.Attachment1 = Attachment
+				PrimaryPart_3_upvr.RopeConstraint.Enabled = true
+				PrimaryPart_3_upvr.InflateSound:Play()
+				local WeldTogether_result1_upvr_2 = WeldTogether(PrimaryPart_3_upvr, var859_upvw)
+				task.delay(2, function() -- Line 2692
+					--[[ Upvalues[4]:
+						[1]: var859_upvw (read and write)
+						[2]: WeldTogether_result1_upvr_2 (readonly)
+						[3]: PrimaryPart_3_upvr (readonly)
+						[4]: var862_upvr (readonly)
+					]]
+					if var859_upvw.Parent then
+						WeldTogether_result1_upvr_2:Destroy()
+						PrimaryPart_3_upvr.RopeConstraint.Length = 4.5 + var859_upvw.Size.Y
+						local BodyVelocity_3 = Instance.new("BodyVelocity")
+						BodyVelocity_3.MaxForce = Vector3.new(500, math.pow(10000, var862_upvr) + var859_upvw:GetMass() * workspace.Gravity, 500)
+						BodyVelocity_3.Velocity = Vector3.new(0, 6, 0)
+						BodyVelocity_3.Parent = var859_upvw
+					end
+				end)
+				return var856
+			end
+			var857 = "BalloonPart"
+			local SOME_2 = arg2:FindFirstChild(var857)
+			while SOME_2 do
+				SOME_2:Destroy()
+			end
+			PrimaryPart_3_upvr.InflateSound:Stop()
+			PrimaryPart_3_upvr.PopSound:Play()
+		end
+	end
+	return var856
+end
+module_upvr_2.BalloonStarBlock = module_upvr_2.BalloonBlock
+module_upvr_2.ParachuteBlock = {}
+module_upvr_2.ParachuteBlock.getState = module_upvr_2.LightBulb.getState
+module_upvr_2.ParachuteBlock.calState = module_upvr_2.Thruster.calState
+module_upvr_2.ParachuteBlock.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 2729
+	--[[ Upvalues[4]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: GetBlockInfo_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [109] 78. Error Block 29 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [109.10]
+	if nil.Color ~= game.ReplicatedStorage.BuildingParts[arg2.Name].PrimaryPart.Color then
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [126.15]
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		nil.PrimaryPart.Color = nil.Color
+	end
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [134.12]
+	nil.PrimaryPart.CollisionGroup = tostring(nil.TeamColor).."CG"
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [145.14]
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x2)
+	nil.PrimaryPart.CFrame = nil.CFrame
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	nil.Parent = arg2
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	nil.OpenSound:Play()
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x2)
+	nil.AnimationController:LoadAnimation(nil.Open):Play()
+	local children = nil:GetChildren()
+	for i_9 = 1, #children do
+		local var873 = children[i_9]
+		if var873:IsA("RopeConstraint") then
+			var873.Thickness = math.clamp(nil / 100, 0.1, 1)
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			var873.Attachment1 = nil.Att
+		end
+	end
+	local BodyVelocity = Instance.new("BodyVelocity")
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [206.13]
+	BodyVelocity.MaxForce = Vector3.new(500, 10000 * nil + nil.PrimaryPart:GetMass() * workspace.Gravity, 500)
+	BodyVelocity.Velocity = Vector3.new(0, -6, 0)
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	BodyVelocity.Parent = nil.PrimaryPart
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [227.7]
+	do
+		return nil
+	end
+	local Parachute = arg2:FindFirstChild("Parachute")
+	while Parachute do
+		Parachute:Destroy()
+	end
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	nil.CloseSound:Play()
+	-- KONSTANTERROR: [109] 78. Error Block 29 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [0] 1. Error Block 48 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [246.9]
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [246.132994]
+	if nil ~= arg7 then
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		if nil then
+			if arg7 then
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+				if not nil.PrimaryPart:GetMass() then
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					if nil.PrimaryPart:GetMass() then
+					else
+						-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+						if nil.PrimaryPart:GetMass() then
+						end
+					end
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					-- KONSTANTWARNING: GOTO [81] #57
+				end
+				-- KONSTANTWARNING: GOTO [92] #66
+			end
+			-- KONSTANTWARNING: GOTO [228] #156
+		end
+		-- KONSTANTWARNING: GOTO [247] #170
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 48 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [247] 170. Error Block 25 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	do
+		return nil
+	end
+	-- KONSTANTERROR: [247] 170. Error Block 25 end (CF ANALYSIS FAILED)
+end
+module_upvr_2.ShieldGenerator = {}
+module_upvr_2.ShieldGenerator.getState = module_upvr_2.LightBulb.getState
+module_upvr_2.ShieldGenerator.calState = module_upvr_2.Thruster.calState
+module_upvr_2.ShieldGenerator.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 2811
+	--[[ Upvalues[4]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: TweenService_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local var877 = false
+	local var878
+	if module_upvr_2[arg2.Name].getState(arg2) ~= var878 then
+		var877 = true
+		local var881 = (function(arg1_17) -- Line 2821, Named "findOnFriend"
+			--[[ Upvalues[1]:
+				[1]: var530_upvr (copied, readonly)
+			]]
+			-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+			local _ = 1
+			-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+			-- KONSTANTERROR: [35] 28. Error Block 10 start (CF ANALYSIS FAILED)
+			-- KONSTANTERROR: [35] 28. Error Block 10 end (CF ANALYSIS FAILED)
+			-- KONSTANTERROR: [7] 7. Error Block 18 start (CF ANALYSIS FAILED)
+			-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [35.6]
+			if nil then
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+				if nil == "Friend" then
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					if nil then
+						-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [35.7]
+						if nil then
+							-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+							if nil then
+								-- KONSTANTWARNING: GOTO [35] #28
+							end
+							-- KONSTANTWARNING: GOTO [35] #28
+						end
+					end
+				end
+			end
+			-- KONSTANTERROR: [7] 7. Error Block 18 end (CF ANALYSIS FAILED)
+		end)(arg2) or arg2
+		if var881 ~= arg2 then
+			var878 = false
+			local var882 = var881
+		end
+		var882:SetAttribute("On"..var530_upvr, var878)
+		local PrimaryPart = var882.PrimaryPart
+		if any_IsServer_result1_upvr_2 then
+			PrimaryPart.Activate:Invoke(var878)
+			return var877
+		end
+		if var878 then
+			local minimum = math.min(math.sqrt(var882.NumOfFriends.Value + 1) * 60, 360)
+			var882.ForceFieldServer.Transparency = 1
+			TweenService_upvr:Create(var882.ForceField1, TweenInfo.new(5, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out, 0, false), {
+				Size = Vector3.new(minimum, minimum, minimum);
+			}):Play()
+			TweenService_upvr:Create(var882.ForceField2, TweenInfo.new(5, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out, 0, false), {
+				Size = Vector3.new(minimum, minimum, minimum) + Vector3.new(5, 5, 5);
+			}):Play()
+			PrimaryPart.Sound2:Stop()
+			PrimaryPart.Sound:Play()
+			return var877
+		end
+		local tbl_8 = {
+			Size = Vector3.new();
+		}
+		local TweenInfo_new_result1_2 = TweenInfo.new(1.75, Enum.EasingStyle.Quart, Enum.EasingDirection.In, 0, false)
+		TweenService_upvr:Create(var882.ForceField1, TweenInfo_new_result1_2, tbl_8):Play()
+		TweenService_upvr:Create(var882.ForceField2, TweenInfo_new_result1_2, tbl_8):Play()
+		PrimaryPart.Sound2:Play()
+	end
+	return var877
+end
+module_upvr_2.Magnet = {}
+module_upvr_2.Magnet.getState = module_upvr_2.LightBulb.getState
+module_upvr_2.Magnet.calState = module_upvr_2.Thruster.calState
+module_upvr_2.Magnet.setState = function(arg1, arg2, arg3, arg4, arg5, arg6, arg7) -- Line 2902
+	--[[ Upvalues[3]:
+		[1]: module_upvr_2 (readonly)
+		[2]: var530_upvr (readonly)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+	]]
+	local var890 = false
+	if module_upvr_2[arg2.Name].getState(arg2) ~= arg7 then
+		var890 = true
+		arg2:SetAttribute("On"..var530_upvr, arg7)
+		if any_IsServer_result1_upvr_2 then
+			arg2.PrimaryPart.Activate:Invoke(game.Players:GetPlayerByUserId(arg1), arg7)
+		end
+	end
+	return var890
+end
+function WeldTogether(arg1, arg2) -- Line 2927
+	if arg1:FindFirstChild("NoWelds") or arg2:FindFirstChild("NoWelds") then return end
+	local Weld = Instance.new("Weld")
+	Weld.Part0 = arg1
+	Weld.Part1 = arg2
+	Weld.C0 = CFrame.new()
+	Weld.C1 = arg2.CFrame:toObjectSpace(arg1.CFrame)
+	Weld.Parent = arg1
+	return Weld
+end
+function displayError(arg1) -- Line 2941
+	warn("An error occurred!\nError:", arg1, "\nTraceback:", debug.traceback())
+end
+function module_upvr_2.addBulkToRunQueue(arg1, arg2, arg3) -- Line 2945
+	--[[ Upvalues[4]:
+		[1]: CollectionService_upvr (readonly)
+		[2]: module_upvr_2 (readonly)
+		[3]: var530_upvr (readonly)
+		[4]: tbl_30_upvw (read and write)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	-- KONSTANTERROR: [0] 1. Error Block 35 start (CF ANALYSIS FAILED)
+	if not arg2[1] then return end
+	local _ = #arg2
+	-- KONSTANTERROR: [0] 1. Error Block 35 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [114] 98. Error Block 26 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [114] 98. Error Block 26 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [8] 9. Error Block 53 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [114.8]
+	if not nil then
+	else
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [114.12]
+		if nil then
+		end
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [114.13]
+		if nil then
+		end
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		local function INLINED_25() -- Internal function, doesn't exist in bytecode
+			-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [114.14]
+			return nil
+		end
+		if not nil or INLINED_25() then
+			local function INLINED_26() -- Internal function, doesn't exist in bytecode
+				-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [114.15]
+				return nil
+			end
+			if arg3 or INLINED_26() then
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+				if not nil then
+				else
+					-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [114.16]
+					-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [114.17]
+					for _, _ in nil do
+						-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					end
+				end
+				-- KONSTANTERROR: Expression was reused, decompilation is incorrect (x2)
+				if nil and nil then
+					-- KONSTANTWARNING: GOTO [114] #98
+				end
+				-- KONSTANTWARNING: GOTO [114] #98
+			end
+		end
+	end
+	-- KONSTANTERROR: [8] 9. Error Block 53 end (CF ANALYSIS FAILED)
+end
+function canQueue(arg1, arg2) -- Line 3008
+	--[[ Upvalues[1]:
+		[1]: var530_upvr (readonly)
+	]]
+	if not arg2 then
+		return not arg1:GetAttribute("Queued"..var530_upvr)
+	end
+	for i_11, _ in pairs(arg2) do
+		if not arg1:GetAttribute("Queued"..tostring(i_11)..var530_upvr) then
+		else
+			arg2[i_11] = nil
+		end
+	end
+	return true
+end
+function addConnectionsToQueue(arg1, arg2, arg3, arg4, arg5) -- Line 3025
+	--[[ Upvalues[2]:
+		[1]: var530_upvr (readonly)
+		[2]: tbl_27_upvw (read and write)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 26 start (CF ANALYSIS FAILED)
+	if not arg1[1] then return end
+	local _ = 1
+	-- KONSTANTERROR: [0] 1. Error Block 26 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [103] 69. Error Block 18 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [103] 69. Error Block 18 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [10] 10. Error Block 4 start (CF ANALYSIS FAILED)
+	-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [103.11]
+	-- KONSTANTERROR: [10] 10. Error Block 4 end (CF ANALYSIS FAILED)
+end
+local tbl_2_upvr = {}
+local tbl_21_upvr = {}
+local SetNetworkOwner_upvr_2 = require(game.ReplicatedStorage.Scripts.SetNetworkOwner)
+function checkToRunQueue(arg1) -- Line 3078
+	--[[ Upvalues[9]:
+		[1]: tbl_2_upvr (readonly)
+		[2]: tbl_21_upvr (readonly)
+		[3]: tbl_30_upvw (read and write)
+		[4]: tbl_27_upvw (read and write)
+		[5]: module_upvr_2 (readonly)
+		[6]: var530_upvr (readonly)
+		[7]: any_IsServer_result1_upvr_2 (readonly)
+		[8]: SetNetworkOwner_upvr_2 (readonly)
+		[9]: CollectionService_upvr (readonly)
+	]]
+	if not tbl_2_upvr[arg1] then
+		tbl_2_upvr[arg1] = true
+		task.spawn(function() -- Line 3084
+			--[[ Upvalues[10]:
+				[1]: tbl_21_upvr (copied, readonly)
+				[2]: tbl_30_upvw (copied, read and write)
+				[3]: arg1 (readonly)
+				[4]: tbl_27_upvw (copied, read and write)
+				[5]: module_upvr_2 (copied, readonly)
+				[6]: var530_upvr (copied, readonly)
+				[7]: any_IsServer_result1_upvr_2 (copied, readonly)
+				[8]: SetNetworkOwner_upvr_2 (copied, readonly)
+				[9]: CollectionService_upvr (copied, readonly)
+				[10]: tbl_2_upvr (copied, readonly)
+			]]
+			local var914_upvw = 0
+			local function spendBudget_upvr(arg1_18, arg2) -- Line 3088, Named "spendBudget"
+				--[[ Upvalues[2]:
+					[1]: tbl_21_upvr (copied, readonly)
+					[2]: var914_upvw (read and write)
+				]]
+				if not tbl_21_upvr[arg1_18] then
+					tbl_21_upvr[arg1_18] = 10
+				end
+				while tbl_21_upvr[arg1_18] < arg2 do
+					task.wait()
+					tbl_21_upvr[arg1_18] += var914_upvw
+					var914_upvw = 0
+				end
+				tbl_21_upvr[arg1_18] -= arg2
+				var914_upvw += arg2
+			end
+			xpcall(function() -- Line 3105
+				--[[ Upvalues[9]:
+					[1]: tbl_30_upvw (copied, read and write)
+					[2]: arg1 (copied, readonly)
+					[3]: tbl_27_upvw (copied, read and write)
+					[4]: module_upvr_2 (copied, readonly)
+					[5]: var530_upvr (copied, readonly)
+					[6]: spendBudget_upvr (readonly)
+					[7]: any_IsServer_result1_upvr_2 (copied, readonly)
+					[8]: SetNetworkOwner_upvr_2 (copied, readonly)
+					[9]: CollectionService_upvr (copied, readonly)
+				]]
+				-- KONSTANTERROR: Failed to generate AST for unnamed function:
+assertion failed!
+Traceback:
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+K
+
+			end, displayError)
+			tbl_2_upvr[arg1] = nil
+			if tbl_30_upvw[arg1] then
+				tbl_30_upvw[arg1] = nil
+			end
+			if 0 < var914_upvw then
+				task.wait()
+				tbl_21_upvr[arg1] += var914_upvw
+				if tbl_21_upvr[arg1] == 10 then
+					if not tbl_2_upvr[arg1] then
+						tbl_21_upvr[arg1] = nil
+					end
+				end
+			end
+		end)
+	end
+end
+local tbl_3_upvw = {}
+local var917_upvw = false
+local QueueBlocksRequest_upvr_2 = game.ReplicatedStorage:WaitForChild("InputLocalScript"):WaitForChild("QueueBlocksRequest")
+function sendRequestToOtherClients(arg1) -- Line 3305
+	--[[ Upvalues[4]:
+		[1]: tbl_3_upvw (read and write)
+		[2]: var917_upvw (read and write)
+		[3]: any_IsServer_result1_upvr_2 (readonly)
+		[4]: QueueBlocksRequest_upvr_2 (readonly)
+	]]
+	if #tbl_3_upvw < 50 then
+		table.insert(tbl_3_upvw, arg1)
+	end
+	if var917_upvw then
+	else
+		var917_upvw = true
+		task.spawn(function() -- Line 3315
+			--[[ Upvalues[4]:
+				[1]: tbl_3_upvw (copied, read and write)
+				[2]: any_IsServer_result1_upvr_2 (copied, readonly)
+				[3]: QueueBlocksRequest_upvr_2 (copied, readonly)
+				[4]: var917_upvw (copied, read and write)
+			]]
+			while tbl_3_upvw[1] do
+				if not any_IsServer_result1_upvr_2 then
+					QueueBlocksRequest_upvr_2:FireServer(tbl_3_upvw)
+					tbl_3_upvw = {}
+				else
+				end
+				task.wait()
+			end
+			var917_upvw = false
+		end)
+	end
+end
+function module_upvr_2.getSynchronizeInfo() -- Line 3334
+	--[[ Upvalues[4]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+		[2]: module_upvr_2 (readonly)
+		[3]: tbl_30_upvw (read and write)
+		[4]: tbl_27_upvw (read and write)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	if not any_IsServer_result1_upvr_2 then return end
+	local tbl_23 = {}
+	local children_2 = workspace.Blocks:GetChildren()
+	for i_12 = 1, #children_2 do
+		local var947 = children_2[i_12]
+		local SOME_3 = game.Players:FindFirstChild(var947.Name)
+		if SOME_3 then
+			local UserId_2 = SOME_3.UserId
+			local children_5 = var947:GetChildren()
+			for i_13 = 1, #children_5 do
+				local var951 = children_5[i_13]
+				local var952 = module_upvr_2[var951.Name]
+				if var952 and not var952.stateless then
+					if not tbl_23[UserId_2] then
+						tbl_23[UserId_2] = {}
+					end
+					table.insert(tbl_23[UserId_2], {{var951, false, false, false, false, true, var952.getState(var951)}})
+				end
+			end
+		end
+	end
+	for i_14, v_6 in pairs(tbl_30_upvw) do
+		if not tbl_23[i_14] then
+			tbl_23[i_14] = {}
+		end
+		for _, v_7 in ipairs(v_6) do
+			table.insert(tbl_23[i_14], v_7)
+			local var961
+		end
+	end
+	return var961, tbl_27_upvw
+end
+function module_upvr_2.synchronizeClient() -- Line 3387
+	--[[ Upvalues[3]:
+		[1]: any_IsServer_result1_upvr_2 (readonly)
+		[2]: tbl_30_upvw (read and write)
+		[3]: tbl_27_upvw (read and write)
+	]]
+	if any_IsServer_result1_upvr_2 then
+	else
+		local any_InvokeServer_result1, any_InvokeServer_result2 = game.ReplicatedStorage.InputLocalScript:WaitForChild("getSynchronizeInfo"):InvokeServer()
+		tbl_30_upvw = any_InvokeServer_result1
+		tbl_27_upvw = any_InvokeServer_result2
+		for i_16, _ in pairs(tbl_30_upvw) do
+			checkToRunQueue(i_16)
+		end
+		for i_17, _ in pairs(tbl_27_upvw) do
+			checkToRunQueue(i_17)
+		end
+	end
+end
+return module_upvr_2

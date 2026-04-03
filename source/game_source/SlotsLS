@@ -1,0 +1,951 @@
+local v_u_1 = game:GetService("UserInputService")
+local v_u_2 = script.Parent
+local v_u_3 = v_u_2:WaitForChild("BoatSlot999+")
+local v_u_4 = v_u_2:WaitForChild("BoatSlotTemplate")
+local v_u_5 = v_u_2.Parent
+local v_u_6 = v_u_5:WaitForChild("SelectedFrame")
+local v7 = v_u_5:WaitForChild("SearchFrame")
+local v_u_8 = v7:WaitForChild("Search")
+local v_u_9 = v7:WaitForChild("SearchBox")
+local v_u_10 = v_u_9.Size
+local v_u_11 = v_u_8.ImageColor3
+local v_u_12 = false
+local v_u_13 = game.Players.LocalPlayer
+local v_u_14 = nil
+local v_u_15 = false
+function getSlotExtention(p16)
+	local v17 = p16.Name
+	local v18 = string.gsub(v17, "BoatSlot", "", 1)
+	return v18 == "1" and "" or (v17 == "BoatSlot2147483645" and "Star" or (v17 == "BoatSlot2147483646" and "AutoSave" or v18))
+end
+function setLockState(p19)
+	-- upvalues: (copy) v_u_13, (copy) v_u_6
+	if v_u_13.OtherData:FindFirstChild("Save" .. p19 .. "Lock") or p19 == "AutoSave" then
+		v_u_6.LockButton.Image = "rbxassetid://3987499572"
+		v_u_6.SaveButton.Roundify1.ImageColor3 = Color3.fromRGB(110, 108, 140)
+		v_u_6.SaveButton.Roundify2.ImageColor3 = Color3.fromRGB(51, 50, 65)
+	else
+		v_u_6.LockButton.Image = "rbxassetid://3987496917"
+		v_u_6.SaveButton.Roundify1.ImageColor3 = Color3.fromRGB(227, 88, 204)
+		v_u_6.SaveButton.Roundify2.ImageColor3 = Color3.fromRGB(112, 43, 103)
+	end
+end
+function sendNewName(p20, p21)
+	-- upvalues: (ref) v_u_15
+	if not v_u_15 then
+		v_u_15 = true
+		wait(0.25)
+		workspace.UpdateSlotNameRE:FireServer(p20, p21)
+		v_u_15 = false
+	end
+end
+function updateSelectedFrameDesc(p22, p23)
+	-- upvalues: (copy) v_u_6
+	if p23 == "AutoSave" then
+		v_u_6.TextBox.Text = "This is your auto save slot. Make sure to check what\'s saved to this slot when you leave forgetting to save your build."
+		return
+	elseif p22 == "" then
+		v_u_6.TextBox.Text = "What would you like to do with your build in this slot?"
+	else
+		v_u_6.TextBox.Text = "What would you like to do with your build, \'" .. p22 .. "\', in this slot?"
+	end
+end
+function createSlot(p24)
+	-- upvalues: (copy) v_u_4, (copy) v_u_13, (copy) v_u_2, (copy) v_u_6, (ref) v_u_14, (copy) v_u_1, (ref) v_u_12, (copy) v_u_9
+	local v_u_25 = v_u_4:Clone()
+	v_u_25.Name = "BoatSlot" .. tostring(p24)
+	local v_u_26 = getSlotExtention(v_u_25)
+	if v_u_26 == "Star" then
+		v_u_25.StarImage.Visible = true
+	elseif v_u_26 == "AutoSave" then
+		v_u_25.SlotName.Visible = false
+		v_u_25.SlotNameAutoSave.Visible = true
+		v_u_25.AutoSaveImage.Visible = true
+		if not v_u_13.OtherData:FindFirstChild("Save" .. v_u_26 .. "Lock") then
+			workspace.LockFuction:InvokeServer(v_u_26)
+		end
+	end
+	v_u_25.Visible = true
+	local v_u_27 = v_u_26 == "AutoSave"
+	local v28 = v_u_13.OtherData:FindFirstChild("NameOfSlot" .. v_u_26)
+	local v_u_29 = not v28 and "" or v28.Value
+	local v_u_30 = v_u_25.SlotName
+	v_u_30.Text = v_u_29
+	local v31 = v_u_13.OtherData:FindFirstChild("CurCol" .. v_u_26)
+	if v31 then
+		local v32 = v31.Value
+		local v33 = Color3.fromRGB(62, 93, 156)
+		if v32 == 0 then
+			v33 = Color3.fromRGB(62, 93, 156)
+		elseif v32 == 1 then
+			v33 = Color3.fromRGB(133, 79, 181)
+		elseif v32 == 2 then
+			v33 = Color3.fromRGB(139, 73, 90)
+		elseif v32 == 3 then
+			v33 = Color3.fromRGB(57, 136, 69)
+		elseif v32 == 4 then
+			v33 = Color3.fromRGB(57, 63, 91)
+		end
+		v_u_25.SlotImage.ImageColor3 = v33
+	end
+	local v34 = v_u_13:FindFirstChild("OtherData") and v_u_13.OtherData:FindFirstChild("Slot" .. v_u_26 .. "Order")
+	if v34 then
+		v34 = v_u_13.OtherData["Slot" .. v_u_26 .. "Order"].Value
+	end
+	v_u_25.LayoutOrder = v34 or p24
+	v_u_25.MouseButton1Click:Connect(function()
+		-- upvalues: (copy) v_u_27, (ref) v_u_2, (copy) v_u_25, (ref) v_u_6, (copy) v_u_26, (ref) v_u_14, (ref) v_u_29, (ref) v_u_13
+		if not v_u_27 then
+			local v35 = v_u_2:GetChildren()
+			local v36 = nil
+			local v37 = false
+			for v38 = 1, #v35 do
+				local v39 = v35[v38]
+				if v39:IsA("ImageButton") and (v39:FindFirstChild("SelectionBox") and v39.SelectionBox.Visible) then
+					v36 = v39
+					break
+				end
+			end
+			if v36 and v36 ~= v_u_25 then
+				v36.SelectionBox.Visible = false
+				local v40 = v_u_25:Clone()
+				game.Debris:AddItem(v40, 0.4)
+				local v41 = v36:Clone()
+				game.Debris:AddItem(v41, 0.4)
+				v40.Active = false
+				v40.Selectable = false
+				v40.ZIndex = 0
+				local v42 = v40:GetDescendants()
+				v37 = true
+				for v43 = 1, #v42 do
+					local v44 = v42[v43]
+					if v44:IsA("GuiObject") then
+						v44.ZIndex = v44.ZIndex + 4
+					end
+				end
+				v40.SlotName.TextEditable = false
+				v40.SlotName.Active = false
+				v40.SlotName.Selectable = false
+				v40.Position = UDim2.new(0, v_u_25.AbsolutePosition.X - v_u_6.AbsolutePosition.X, 0, v_u_25.AbsolutePosition.Y - v_u_6.AbsolutePosition.Y)
+				v40.Size = v_u_2.UIGridLayout.CellSize
+				v40.Parent = v_u_6
+				v41.Active = false
+				v41.Selectable = false
+				v41.ZIndex = 0
+				local v45 = v41:GetDescendants()
+				for v46 = 1, #v45 do
+					local v47 = v45[v46]
+					if v47:IsA("GuiObject") then
+						v47.ZIndex = v47.ZIndex + 8
+					end
+				end
+				v41.SlotName.TextEditable = false
+				v41.SlotName.Active = false
+				v41.SlotName.Selectable = false
+				v41.Position = UDim2.new(0, v36.AbsolutePosition.X - v_u_6.AbsolutePosition.X, 0, v36.AbsolutePosition.Y - v_u_6.AbsolutePosition.Y)
+				v41.Size = v_u_2.UIGridLayout.CellSize
+				v41.Parent = v_u_6
+				local v48 = v_u_25.StarImage.Visible
+				v_u_25.SlotImage.Visible = false
+				v_u_25.SlotName.Visible = false
+				v_u_25.StarImage.Visible = false
+				local v49 = v36.StarImage.Visible
+				v36.SlotImage.Visible = false
+				v36.SlotName.Visible = false
+				v36.StarImage.Visible = false
+				v40:TweenPosition(v41.Position, Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.2, true)
+				v41:TweenPosition(v40.Position, Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.2, true)
+				local v50 = v36.LayoutOrder
+				v36.LayoutOrder = v_u_25.LayoutOrder
+				v_u_25.LayoutOrder = v50
+				workspace.UpdateSlotOrderRE:FireServer(v_u_25.LayoutOrder, v_u_26, v36.LayoutOrder, getSlotExtention(v36))
+				wait(0.2)
+				v_u_25.SlotImage.Visible = true
+				v_u_25.SlotName.Visible = true
+				v_u_25.StarImage.Visible = v48
+				v36.SlotImage.Visible = true
+				v36.SlotName.Visible = true
+				v36.StarImage.Visible = v49
+				v40:Destroy()
+				v41:Destroy()
+			end
+			if v37 then
+				return
+			end
+		end
+		v_u_14 = v_u_25
+		local v51 = v_u_6.FocusImage:FindFirstChildOfClass("ImageButton")
+		if v51 then
+			v51:Destroy()
+		end
+		local v_u_52 = v_u_25:Clone()
+		v_u_52:FindFirstChildOfClass("UIAspectRatioConstraint"):Destroy()
+		v_u_52.Size = UDim2.new(1, 0, 1, 0)
+		v_u_52.SelectionBox.Visible = false
+		v_u_52.Parent = v_u_6.FocusImage
+		local v_u_53 = v_u_52.SlotName
+		v_u_53.FocusLost:Connect(function()
+			-- upvalues: (copy) v_u_53, (ref) v_u_2, (copy) v_u_52, (ref) v_u_26
+			local v54 = v_u_53.Text
+			if string.len(v54) > 22 then
+				local v55 = v_u_53
+				local v56 = v_u_53.Text
+				v55.Text = string.sub(v56, 1, 22)
+			end
+			local v57 = v_u_2:FindFirstChild(v_u_52.Name)
+			if v57 then
+				v57.SlotName.Text = v_u_53.Text
+			end
+			updateSelectedFrameDesc(v_u_53.Text)
+			sendNewName(v_u_53.Text, v_u_26)
+		end)
+		updateSelectedFrameDesc(v_u_29, v_u_26)
+		setLockState(v_u_26)
+		if v_u_13.Team.CanLoadBuilds.Value then
+			v_u_6.LoadButton.Roundify1.ImageColor3 = Color3.fromRGB(122, 227, 65)
+			v_u_6.LoadButton.Roundify2.ImageColor3 = Color3.fromRGB(43, 94, 19)
+		else
+			v_u_6.LoadButton.Roundify1.ImageColor3 = Color3.fromRGB(110, 108, 140)
+			v_u_6.LoadButton.Roundify2.ImageColor3 = Color3.fromRGB(51, 50, 65)
+		end
+	end)
+	if not v_u_27 then
+		v_u_30.FocusLost:Connect(function()
+			-- upvalues: (copy) v_u_30, (ref) v_u_6, (copy) v_u_26
+			local v58 = v_u_30.Text
+			if string.len(v58) > 22 then
+				local v59 = v_u_30
+				local v60 = v_u_30.Text
+				v59.Text = string.sub(v60, 1, 22)
+			end
+			local v61 = v_u_6.FocusImage:FindFirstChildOfClass("ImageButton")
+			if v61 and v_u_26 == getSlotExtention(v61) then
+				v61.SlotName.Text = v_u_30.Text
+				updateSelectedFrameDesc(v_u_30.Text)
+			end
+			sendNewName(v_u_30.Text, v_u_26)
+		end)
+		v_u_25.MouseButton1Down:Connect(function()
+			-- upvalues: (copy) v_u_25, (ref) v_u_1, (ref) v_u_2
+			local v_u_62 = nil
+			local v_u_63 = true
+			v_u_62 = v_u_25.MouseButton1Up:Connect(function()
+				-- upvalues: (ref) v_u_62, (ref) v_u_63
+				v_u_62:Disconnect()
+				v_u_62 = nil
+				v_u_63 = false
+			end)
+			wait()
+			local v64 = v_u_1:GetMouseLocation()
+			local v65 = v_u_63
+			local v66 = 1
+			while v66 > 0 and v65 do
+				v66 = v66 - wait()
+				if (v_u_1:GetMouseLocation() - v64).Magnitude > 12 then
+					v_u_63 = false
+					v65 = v_u_63
+				end
+			end
+			if v65 then
+				v_u_62:Disconnect()
+				v_u_62 = nil
+				local v67 = v_u_25.SelectionBox.Visible
+				local v68 = v_u_2:GetChildren()
+				for v69 = 1, #v68 do
+					local v70 = v68[v69]
+					if v70:IsA("ImageButton") and v70:FindFirstChild("SelectionBox") then
+						v70.SelectionBox.Visible = false
+					end
+				end
+				v_u_25.SelectionBox.Visible = not v67
+			end
+			if v_u_62 then
+				v_u_62:Disconnect()
+				v_u_62 = nil
+			end
+		end)
+	end
+	if v_u_12 then
+		if v_u_27 then
+			v_u_29 = v_u_25.SlotNameAutoSave.Text
+		end
+		if not string.find(string.lower(v_u_29), string.lower(v_u_9.Text)) then
+			v_u_25.Visible = false
+		end
+	end
+	v_u_25.Parent = v_u_2
+end
+function updateSlots(p71)
+	-- upvalues: (copy) v_u_5, (ref) v_u_12, (copy) v_u_2, (copy) v_u_3, (copy) v_u_4, (copy) v_u_13, (copy) v_u_9
+	if v_u_5.Visible and not (p71 and string.find(p71.Name, "Order")) then
+		if v_u_12 and (p71 and string.gsub(p71.Name, "%d", "") == "Slot") then
+			toggleSearchBox()
+		else
+			local v72 = v_u_2:GetChildren()
+			for v73 = 1, #v72 do
+				if v72[v73]:IsA("ImageButton") and (v72[v73] ~= v_u_3 and v72[v73] ~= v_u_4) then
+					v72[v73]:Destroy()
+				end
+			end
+			local v74 = v_u_13.OtherData
+			local v75 = 1
+			while v75 == 1 or (v75 == 2 or (v75 == 3 or v74:FindFirstChild("Slot" .. tostring(v75)))) do
+				createSlot(v75)
+				v75 = v75 + 1
+			end
+			if v74:FindFirstChild("SlotStar") then
+				createSlot(2147483645)
+			end
+			createSlot(2147483646)
+			if v_u_12 then
+				v_u_2.CanvasPosition = Vector2.new(0, 0)
+				if string.find(string.lower(v_u_3.SlotName.Text), string.lower(v_u_9.Text)) then
+					v_u_3.Visible = true
+				else
+					v_u_3.Visible = false
+				end
+			else
+				v_u_3.Visible = true
+			end
+			local v76 = v_u_2:GetChildren()
+			local v77 = (-1 / 0)
+			local v78 = (1 / 0)
+			for v79 = 1, #v76 do
+				local v80 = v76[v79]
+				if v80:IsA("ImageButton") and v80.Visible then
+					local v81 = v80.AbsolutePosition.Y + v80.AbsoluteSize.Y * (1 - v80.AnchorPoint.Y)
+					v77 = math.max(v77, v81)
+					local v82 = v80.AbsolutePosition.Y - v80.AbsoluteSize.Y * v80.AnchorPoint.Y
+					v78 = math.min(v78, v82)
+				end
+			end
+			local v83 = v_u_2
+			local v84 = UDim2.new
+			local v85 = v77 - v78
+			v83.CanvasSize = v84(0, 0, 0, (math.abs(v85)))
+		end
+	else
+		return
+	end
+end
+function loadButton()
+	-- upvalues: (ref) v_u_14, (copy) v_u_13, (copy) v_u_6, (copy) v_u_5
+	if v_u_14 then
+		if v_u_13.Team.CanLoadBuilds.Value then
+			v_u_6.LoadButton.Roundify1.ImageColor3 = Color3.fromRGB(122, 227, 65)
+			v_u_6.LoadButton.Roundify2.ImageColor3 = Color3.fromRGB(43, 94, 19)
+			local v86 = v_u_5.Parent.Parent.Parent.PromptBoatLoad
+			v86.TextLabel.Text = "Are you sure you want to clear your existing build and load this one?"
+			local v87 = getSlotExtention(v_u_14)
+			v86.Slot.Value = v87
+			v86.BackVer.Value = 0
+			v86.Visible = true
+		else
+			v_u_6.LoadButton.Roundify1.ImageColor3 = Color3.fromRGB(110, 108, 140)
+			v_u_6.LoadButton.Roundify2.ImageColor3 = Color3.fromRGB(51, 50, 65)
+		end
+	else
+		return
+	end
+end
+function saveButton()
+	-- upvalues: (ref) v_u_14, (copy) v_u_5, (copy) v_u_13
+	if v_u_14 then
+		local v88 = v_u_5.Parent.Parent.Parent.PromptBoatSave
+		local v89 = getSlotExtention(v_u_14)
+		if not v_u_13.OtherData:FindFirstChild("Save" .. v89 .. "Lock") then
+			v88.Slot.Value = v89
+			v88.Visible = true
+		end
+	else
+		return
+	end
+end
+function revertButton()
+	-- upvalues: (ref) v_u_14, (copy) v_u_5
+	if v_u_14 then
+		local v90 = getSlotExtention(v_u_14)
+		local v91 = v_u_5.PromptRevert
+		v91.Slot.Value = v90
+		v91.Visible = true
+	end
+end
+function lockButton()
+	-- upvalues: (ref) v_u_14, (ref) v_u_15
+	if v_u_14 and not v_u_15 then
+		v_u_15 = true
+		local v92 = getSlotExtention(v_u_14)
+		if v92 ~= "AutoSave" then
+			workspace.LockFuction:InvokeServer(v92)
+			setLockState(v92)
+			wait(0.25)
+		end
+		v_u_15 = false
+	end
+end
+function changeColor(p93)
+	-- upvalues: (copy) v_u_6, (ref) v_u_14, (ref) v_u_15, (copy) v_u_3
+	local v94 = v_u_6.FocusImage:FindFirstChildOfClass("ImageButton")
+	if not v_u_14 or (not v94 or v_u_15) then
+		return
+	end
+	v_u_15 = true
+	local v95 = getSlotExtention(v_u_14)
+	local v96 = p93.ImageColor3
+	local v97 = p93.Name == "ColorBlue" and 0 or (p93.Name == "ColorPink" and 1 or (p93.Name == "ColorRed" and 2 or (p93.Name == "ColorGreen" and 3 or (p93.Name == "ColorBlack" and 4 or 0))))
+	v94.SlotImage.ImageColor3 = v96
+	local v98 = v_u_6.Parent.ScrollingFrameSlots:GetChildren()
+	for v99 = 1, #v98 do
+		if v98[v99]:IsA("ImageButton") and (v98[v99] ~= v_u_3 and v95 == getSlotExtention(v98[v99])) then
+			v98[v99].SlotImage.ImageColor3 = v96
+			break
+		end
+	end
+	workspace.UpdateSlotColorRE:FireServer(v95, v97)
+	wait(0.25)
+	v_u_15 = false
+end
+local v_u_100 = false
+function toggleSearchBox()
+	-- upvalues: (ref) v_u_100, (copy) v_u_9, (ref) v_u_12, (copy) v_u_8, (copy) v_u_11, (copy) v_u_2, (copy) v_u_10
+	if not v_u_100 then
+		v_u_100 = true
+		if v_u_9.Visible then
+			v_u_12 = false
+			v_u_8.ImageColor3 = v_u_11
+			v_u_9:ReleaseFocus()
+			updateSlots()
+			v_u_2.CanvasPosition = Vector2.new(0, 0)
+			v_u_9:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+			wait(0.2)
+			v_u_9.Visible = false
+		else
+			v_u_12 = true
+			v_u_8.ImageColor3 = Color3.fromRGB(239, 239, 239)
+			updateSlots()
+			v_u_9.Size = UDim2.new(0, 0, 0, 0)
+			v_u_9.Visible = true
+			v_u_9:TweenSize(v_u_10, Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+			wait(0.2)
+			v_u_9:CaptureFocus()
+		end
+		v_u_100 = false
+	end
+end
+repeat
+	wait(1)
+until v_u_13:WaitForChild("Save").Value
+v_u_13.OtherData.ChildAdded:Connect(updateSlots)
+v_u_5:GetPropertyChangedSignal("Visible"):Connect(updateSlots)
+updateSlots()
+local v_u_101 = v_u_6.LoadButton
+v_u_101.MouseButton1Click:Connect(loadButton)
+v_u_101.MouseButton1Down:Connect(function()
+	-- upvalues: (copy) v_u_101
+	v_u_101.Roundify1.Position = UDim2.new(0, -3, 0, -3)
+end)
+v_u_101.MouseButton1Up:Connect(function()
+	-- upvalues: (copy) v_u_101
+	v_u_101.Roundify1.Position = UDim2.new(0, 0, 0, 0)
+end)
+local v_u_102 = v_u_6.SaveButton
+v_u_102.MouseButton1Click:Connect(saveButton)
+v_u_102.MouseButton1Down:Connect(function()
+	-- upvalues: (copy) v_u_102
+	v_u_102.Roundify1.Position = UDim2.new(0, -3, 0, -3)
+end)
+v_u_102.MouseButton1Up:Connect(function()
+	-- upvalues: (copy) v_u_102
+	v_u_102.Roundify1.Position = UDim2.new(0, 0, 0, 0)
+end)
+v_u_6.RevertButton.MouseButton1Click:Connect(revertButton)
+v_u_6.LockButton.MouseButton1Click:Connect(lockButton)
+local v_u_103 = v_u_6.ColorBlue
+v_u_103.MouseButton1Click:Connect(function()
+	-- upvalues: (copy) v_u_103
+	changeColor(v_u_103)
+end)
+local v_u_104 = v_u_6.ColorPink
+v_u_104.MouseButton1Click:Connect(function()
+	-- upvalues: (copy) v_u_104
+	changeColor(v_u_104)
+end)
+local v_u_105 = v_u_6.ColorRed
+v_u_105.MouseButton1Click:Connect(function()
+	-- upvalues: (copy) v_u_105
+	changeColor(v_u_105)
+end)
+local v_u_106 = v_u_6.ColorGreen
+v_u_106.MouseButton1Click:Connect(function()
+	-- upvalues: (copy) v_u_106
+	changeColor(v_u_106)
+end)
+local v_u_107 = v_u_6.ColorBlack
+v_u_107.MouseButton1Click:Connect(function()
+	-- upvalues: (copy) v_u_107
+	changeColor(v_u_107)
+end)
+v_u_8.MouseButton1Click:Connect(toggleSearchBox)
+v_u_9.FocusLost:Connect(function()
+	updateSlots()
+end)
+
+-- // Function Dumper made by King.Kevin
+-- // Script Path: Players.julia_NakamuraMY.PlayerGui.ShopGui.MainFrame.TabFrame.SlotsFrame.ScrollingFrameSlots.SlotsLS
+
+--[[
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+
+Function Constants: Unknown Name
+    1 [string] = updateSlots
+
+====================================================================================================
+
+Function Dump: getSlotExtention
+
+Function Upvalues: getSlotExtention
+
+Function Constants: getSlotExtention
+    1 [string] = Name
+    2 [string] = string
+    3 [string] = gsub
+    5 [string] = BoatSlot
+    6 [string] = 
+    7 [string] = 1
+    8 [string] = BoatSlot2147483645
+    9 [string] = Star
+    10 [string] = BoatSlot2147483646
+    11 [string] = AutoSave
+
+====================================================================================================
+
+Function Dump: sendNewName
+
+Function Upvalues: sendNewName
+    1 [boolean] = false
+
+Function Constants: sendNewName
+    1 [string] = wait
+    3 [number] = 0.25
+    4 [string] = workspace
+    5 [Instance] = Workspace
+    6 [string] = UpdateSlotNameRE
+    7 [string] = FireServer
+
+====================================================================================================
+
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+    1 [Instance] = ColorBlack
+
+Function Constants: Unknown Name
+    1 [string] = changeColor
+
+====================================================================================================
+
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+    1 [Instance] = ColorGreen
+
+Function Constants: Unknown Name
+    1 [string] = changeColor
+
+====================================================================================================
+
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+    1 [Instance] = ColorRed
+
+Function Constants: Unknown Name
+    1 [string] = changeColor
+
+====================================================================================================
+
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+    1 [Instance] = ColorPink
+
+Function Constants: Unknown Name
+    1 [string] = changeColor
+
+====================================================================================================
+
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+    1 [Instance] = ColorBlue
+
+Function Constants: Unknown Name
+    1 [string] = changeColor
+
+====================================================================================================
+
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+    1 [Instance] = SaveButton
+
+Function Constants: Unknown Name
+    1 [string] = Roundify1
+    2 [string] = UDim2
+    3 [string] = new
+    5 [string] = Position
+
+====================================================================================================
+
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+    1 [Instance] = SaveButton
+
+Function Constants: Unknown Name
+    1 [string] = Roundify1
+    2 [string] = UDim2
+    3 [string] = new
+    5 [string] = Position
+
+====================================================================================================
+
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+    1 [Instance] = LoadButton
+
+Function Constants: Unknown Name
+    1 [string] = Roundify1
+    2 [string] = UDim2
+    3 [string] = new
+    5 [string] = Position
+
+====================================================================================================
+
+Function Dump: Unknown Name
+
+Function Upvalues: Unknown Name
+    1 [Instance] = LoadButton
+
+Function Constants: Unknown Name
+    1 [string] = Roundify1
+    2 [string] = UDim2
+    3 [string] = new
+    5 [string] = Position
+
+====================================================================================================
+
+Function Dump: updateSelectedFrameDesc
+
+Function Upvalues: updateSelectedFrameDesc
+    1 [Instance] = SelectedFrame
+
+Function Constants: updateSelectedFrameDesc
+    1 [string] = AutoSave
+    2 [string] = 
+    3 [string] = TextBox
+    4 [string] = What would you like to do with your build, '
+    5 [string] = ', in this slot?
+    6 [string] = Text
+    7 [string] = What would you like to do with your build in this slot?
+    8 [string] = This is your auto save slot. Make sure to check what's saved to this slot when you leave forgetting to save your build.
+
+====================================================================================================
+
+Function Dump: lockButton
+
+Function Upvalues: lockButton
+    2 [boolean] = false
+
+Function Constants: lockButton
+    1 [string] = getSlotExtention
+    2 [string] = AutoSave
+    3 [string] = workspace
+    4 [Instance] = Workspace
+    5 [string] = LockFuction
+    6 [string] = InvokeServer
+    7 [string] = setLockState
+    8 [string] = wait
+    10 [number] = 0.25
+
+====================================================================================================
+
+Function Dump: revertButton
+
+Function Upvalues: revertButton
+    2 [Instance] = SlotsFrame
+
+Function Constants: revertButton
+    1 [string] = getSlotExtention
+    2 [string] = PromptRevert
+    3 [string] = Slot
+    4 [string] = Value
+    5 [string] = Visible
+
+====================================================================================================
+
+Function Dump: setLockState
+
+Function Upvalues: setLockState
+    1 [Instance] = julia_NakamuraMY
+    2 [Instance] = SelectedFrame
+
+Function Constants: setLockState
+    1 [string] = OtherData
+    2 [string] = Save
+    3 [string] = Lock
+    4 [string] = FindFirstChild
+    5 [string] = AutoSave
+    6 [string] = LockButton
+    7 [string] = rbxassetid://3987499572
+    8 [string] = Image
+    9 [string] = SaveButton
+    10 [string] = Roundify1
+    11 [string] = Color3
+    12 [string] = fromRGB
+    14 [string] = ImageColor3
+    15 [string] = Roundify2
+    16 [string] = rbxassetid://3987496917
+
+====================================================================================================
+
+Function Dump: toggleSearchBox
+
+Function Upvalues: toggleSearchBox
+    1 [boolean] = false
+    2 [Instance] = SearchBox
+    3 [boolean] = false
+    4 [Instance] = Search
+    5 [Color3] = 0.647059, 0.647059, 0.647059
+    6 [Instance] = ScrollingFrameSlots
+    7 [UDim2] = {0.801388919, 0}, {1, 0}
+
+Function Constants: toggleSearchBox
+    1 [string] = Visible
+    2 [string] = ImageColor3
+    3 [string] = ReleaseFocus
+    4 [string] = updateSlots
+    5 [string] = Vector2
+    6 [string] = new
+    8 [string] = CanvasPosition
+    9 [string] = UDim2
+    11 [string] = Enum
+    12 [string] = EasingDirection
+    13 [string] = In
+    14 [EnumItem] = Enum.EasingDirection.In
+    15 [string] = EasingStyle
+    16 [string] = Linear
+    17 [EnumItem] = Enum.EasingStyle.Linear
+    18 [number] = 0.1
+    19 [string] = TweenSize
+    20 [string] = wait
+    22 [number] = 0.2
+    23 [string] = Color3
+    24 [string] = fromRGB
+    26 [string] = Size
+    27 [string] = CaptureFocus
+
+====================================================================================================
+
+Function Dump: updateSlots
+
+Function Upvalues: updateSlots
+    1 [Instance] = SlotsFrame
+    2 [boolean] = false
+    3 [Instance] = ScrollingFrameSlots
+    4 [Instance] = BoatSlot999+
+    5 [Instance] = BoatSlotTemplate
+    6 [Instance] = julia_NakamuraMY
+    7 [Instance] = SearchBox
+
+Function Constants: updateSlots
+    1 [string] = Visible
+    2 [string] = string
+    3 [string] = find
+    5 [string] = Name
+    6 [string] = Order
+    7 [string] = gsub
+    9 [string] = %d
+    10 [string] = 
+    11 [string] = Slot
+    12 [string] = toggleSearchBox
+    13 [string] = GetChildren
+    14 [string] = ImageButton
+    15 [string] = IsA
+    16 [string] = Destroy
+    17 [string] = OtherData
+    18 [number] = 1
+    19 [number] = 2
+    20 [number] = 3
+    21 [string] = tostring
+    23 [string] = FindFirstChild
+    24 [string] = createSlot
+    25 [string] = SlotStar
+    26 [number] = 2147483645
+    27 [number] = 2147483646
+    28 [string] = Vector2
+    29 [string] = new
+    31 [string] = CanvasPosition
+    32 [string] = lower
+    34 [string] = SlotName
+    35 [string] = Text
+    36 [number] = -inf
+    37 [number] = inf
+    38 [string] = AbsolutePosition
+    39 [string] = Y
+    40 [string] = AbsoluteSize
+    41 [string] = AnchorPoint
+    42 [string] = math
+    43 [string] = max
+    45 [string] = min
+    47 [string] = UDim2
+    49 [string] = abs
+    51 [string] = CanvasSize
+
+====================================================================================================
+
+Function Dump: createSlot
+
+Function Upvalues: createSlot
+    1 [Instance] = BoatSlotTemplate
+    2 [Instance] = julia_NakamuraMY
+    3 [Instance] = ScrollingFrameSlots
+    4 [Instance] = SelectedFrame
+    6 [Instance] = UserInputService
+    7 [boolean] = false
+    8 [Instance] = SearchBox
+
+Function Constants: createSlot
+    1 [string] = Clone
+    2 [string] = BoatSlot
+    3 [string] = tostring
+    5 [string] = Name
+    6 [string] = getSlotExtention
+    7 [string] = Star
+    8 [string] = StarImage
+    9 [string] = Visible
+    10 [string] = AutoSave
+    11 [string] = SlotName
+    12 [string] = SlotNameAutoSave
+    13 [string] = AutoSaveImage
+    14 [string] = OtherData
+    15 [string] = Save
+    16 [string] = Lock
+    17 [string] = FindFirstChild
+    18 [string] = workspace
+    19 [Instance] = Workspace
+    20 [string] = LockFuction
+    21 [string] = InvokeServer
+    22 [string] = 
+    23 [string] = NameOfSlot
+    24 [string] = Value
+    25 [string] = Text
+    26 [string] = CurCol
+    27 [string] = Color3
+    28 [string] = fromRGB
+    30 [number] = 0
+    31 [number] = 1
+    32 [number] = 2
+    33 [number] = 3
+    34 [number] = 4
+    35 [string] = SlotImage
+    36 [string] = ImageColor3
+    37 [string] = Slot
+    38 [string] = Order
+    39 [string] = LayoutOrder
+    40 [string] = MouseButton1Click
+    41 [string] = Connect
+    42 [string] = FocusLost
+    43 [string] = MouseButton1Down
+    44 [string] = string
+    45 [string] = find
+    47 [string] = lower
+    49 [string] = Parent
+
+====================================================================================================
+
+Function Dump: saveButton
+
+Function Upvalues: saveButton
+    2 [Instance] = SlotsFrame
+    3 [Instance] = julia_NakamuraMY
+
+Function Constants: saveButton
+    1 [string] = Parent
+    2 [string] = PromptBoatSave
+    3 [string] = getSlotExtention
+    4 [string] = OtherData
+    5 [string] = Save
+    6 [string] = Lock
+    7 [string] = FindFirstChild
+    8 [string] = Slot
+    9 [string] = Value
+    10 [string] = Visible
+
+====================================================================================================
+
+Function Dump: changeColor
+
+Function Upvalues: changeColor
+    1 [Instance] = SelectedFrame
+    3 [boolean] = false
+    4 [Instance] = BoatSlot999+
+
+Function Constants: changeColor
+    1 [string] = FocusImage
+    2 [string] = ImageButton
+    3 [string] = FindFirstChildOfClass
+    4 [string] = getSlotExtention
+    5 [string] = ImageColor3
+    6 [string] = Name
+    7 [string] = ColorBlue
+    8 [string] = ColorPink
+    9 [string] = ColorRed
+    10 [string] = ColorGreen
+    11 [string] = ColorBlack
+    12 [string] = SlotImage
+    13 [string] = Parent
+    14 [string] = ScrollingFrameSlots
+    15 [string] = GetChildren
+    16 [string] = IsA
+    17 [string] = workspace
+    18 [Instance] = Workspace
+    19 [string] = UpdateSlotColorRE
+    20 [string] = FireServer
+    21 [string] = wait
+    23 [number] = 0.25
+
+====================================================================================================
+
+Function Dump: loadButton
+
+Function Upvalues: loadButton
+    2 [Instance] = julia_NakamuraMY
+    3 [Instance] = SelectedFrame
+    4 [Instance] = SlotsFrame
+
+Function Constants: loadButton
+    1 [string] = Team
+    2 [string] = CanLoadBuilds
+    3 [string] = Value
+    4 [string] = LoadButton
+    5 [string] = Roundify1
+    6 [string] = Color3
+    7 [string] = fromRGB
+    9 [string] = ImageColor3
+    10 [string] = Roundify2
+    11 [string] = Parent
+    12 [string] = PromptBoatLoad
+    13 [string] = TextLabel
+    14 [string] = Are you sure you want to clear your existing build and load this one?
+    15 [string] = Text
+    16 [string] = getSlotExtention
+    17 [string] = Slot
+    18 [string] = BackVer
+    19 [string] = Visible
+
+====================================================================================================
+]]

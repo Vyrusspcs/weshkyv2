@@ -1,0 +1,20 @@
+-- Decompiled with Velocity Script Decompiler
+local v_u_1 = game.Players.LocalPlayer
+function active()
+    -- upvalues: (copy) v_u_1
+    script.Parent.Parent.Visible = false
+    local v2 = v_u_1.PlayerGui.BuildGui.InventoryFrame.ScrollingFrame:GetChildren()
+    for v3 = 1, #v2 do
+        if v2[v3]:FindFirstChild("AmountText") then
+            local v4 = v2[v3].AmountText.Text
+            if tonumber(v4) < 0 then
+                v_u_1.PlayerGui.UnableToSaveBoat.SaveBoatEvent:Fire("You cannot save a boat while you have negative parts.", 10)
+                return
+            end
+        end
+    end
+    v_u_1.PlayerGui.SavingBoatGui.Frame.Visible = true
+    workspace.SaveBoatData:InvokeServer(script.Parent.Parent.Slot.Value)
+    v_u_1.PlayerGui.SavingBoatGui.Frame.Visible = false
+end
+script.Parent.MouseButton1Click:Connect(active)

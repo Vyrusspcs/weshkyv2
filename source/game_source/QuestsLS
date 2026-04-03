@@ -1,0 +1,334 @@
+-- Decompiled with Velocity Script Decompiler
+local v1 = require(game.ReplicatedStorage.Scripts.SeasonMS)
+local v_u_2 = game.Players.LocalPlayer
+local v3 = workspace
+local v4 = v_u_2.TeamColor
+local v_u_5 = v3:FindFirstChild(tostring(v4) .. "Zone")
+local v_u_6 = script.Parent
+local v_u_7 = v_u_6.Parent.SelectedFrame
+local v_u_8 = v_u_6:GetDescendants()
+local v9 = v_u_6:GetChildren()
+local v10 = v_u_6.Parent.Parent.Parent:WaitForChild("TopBar"):WaitForChild("QuestsButton")
+function selectQuest(p11)
+    -- upvalues: (copy) v_u_5, (copy) v_u_7
+    local v12 = v_u_5.QuestNum.Value
+    local v13 = p11.QuestNum.Value
+    if v12 == 0 or p11.Name == "Quest" .. tostring(v12) then
+        v_u_7.FocusImage.Image = p11.QuestImage.Image
+        v_u_7.Title.Text = "- " .. p11.QuestImage.Title.Text .. " -"
+        v_u_7.Description.Text = p11.Desc.Value
+        v_u_7.Description.TextColor3 = Color3.fromRGB(255, 255, 255)
+        v_u_7.QuestNum.Value = v13
+        local v14 = v_u_7.RulesScrollingFrame
+        local v15 = v14:GetChildren()
+        for v16 = 1, #v15 do
+            local v17 = v15[v16]
+            if v17.Name == "Rule" then
+                v17:Destroy()
+            end
+        end
+        local v18 = p11.Rules:GetChildren()
+        local v19 = 0
+        for v20 = 1, #v18 do
+            local v21 = v18[v20]
+            local v22 = v14.RuleTemplate:Clone()
+            v22.Name = "Rule"
+            v22.Text = "-" .. v21.Value
+            v22.Visible = true
+            v22.Parent = v14
+            v19 = v19 + 1
+        end
+        v14.CanvasSize = UDim2.new(0, 0, 0, v19 * 22)
+        local v23 = v_u_7.RewardsScrollingFrame
+        local v24 = v23:GetChildren()
+        for v25 = 1, #v24 do
+            local v26 = v24[v25]
+            if v26.Name == "Reward" then
+                v26:Destroy()
+            end
+        end
+        local v27 = questCompleted(v13)
+        local v28 = p11.Rewards:GetChildren()
+        local v29 = 0
+        for v30 = 1, #v28 do
+            local v31 = v28[v30]
+            local v32 = v23.RewardTemplate:Clone()
+            v32.Name = "Reward"
+            local v33 = v31.Value
+            if v33 == "Gold" then
+                v32.Image = "rbxassetid://5445578732"
+                v32.LayoutOrder = 0
+            else
+                v32.Image = game.StarterGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame[v33].Image
+                v32.LayoutOrder = 1
+            end
+            v32.AmountText.Text = v31.Amount.Value
+            v32.Visible = true
+            v32.Parent = v23
+            v32.Checkmark.Visible = v27
+        end
+        local v34 = v23:GetChildren()
+        for v35 = 1, #v34 do
+            local v36 = v34[v35]
+            if v36.Name == "Reward" then
+                local v37 = v36.AbsolutePosition.Y - v23.AbsolutePosition.Y + v23.UIGridLayout.CellSize.Y.Offset + v23.UIGridLayout.CellPadding.Y.Offset
+                if v29 < v37 then
+                    v29 = v37 + v23.CanvasPosition.Y
+                end
+            end
+        end
+        v23.CanvasSize = UDim2.new(0, 0, 0, v29)
+        v_u_7.FocusImage.Visible = true
+        v_u_7.Description.Visible = true
+        v_u_7.RulesHeader.Visible = true
+        v_u_7.RewardsHeader.Visible = true
+        v_u_7.Title.Visible = true
+        v_u_7.RewardsScrollingFrame.Visible = true
+        v_u_7.RulesScrollingFrame.Visible = true
+    end
+end
+function questCompleted(p38)
+    -- upvalues: (copy) v_u_2
+    local v39 = "Q" .. tostring(p38)
+    if p38 == 101 then
+        local v40 = os.date("!*t").year
+        v39 = v39 .. tostring(v40)
+    end
+    return v_u_2.OtherData:FindFirstChild(v39) and true or false
+end
+function updateStats()
+    -- upvalues: (copy) v_u_6, (copy) v_u_5, (copy) v_u_8
+    local v41 = v_u_6
+    local v42 = v_u_5.QuestNum.Value
+    local v43 = v41:FindFirstChild("Quest" .. tostring(v42))
+    for v44 = 1, #v_u_8 do
+        local v45 = v_u_8[v44]
+        if v45:IsA("ImageButton") then
+            local v46 = v45.QuestNum.Value
+            if questCompleted(v46) then
+                v45.Checkmark.Visible = true
+            else
+                v45.Checkmark.Visible = false
+            end
+            if v43 and v43 ~= v45 then
+                v45.ImageColor3 = Color3.fromRGB(120, 120, 120)
+                v45.QuestImage.ImageColor3 = Color3.fromRGB(120, 120, 120)
+            else
+                v45.ImageColor3 = Color3.fromRGB(255, 255, 255)
+                v45.QuestImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
+            end
+        end
+    end
+    if v43 then
+        selectQuest(v43)
+    end
+end
+function fitGuiObjectsInScrollFrame()
+    -- upvalues: (copy) v_u_6
+    local v47 = v_u_6:GetChildren()
+    local v48 = (-1 / 0)
+    local v49 = (1 / 0)
+    for v50 = 1, #v47 do
+        local v51 = v47[v50]
+        if v51:IsA("GuiObject") and v51.Visible then
+            local v52 = v51.AbsolutePosition.Y + v51.AbsoluteSize.Y * (1 - v51.AnchorPoint.Y)
+            v48 = math.max(v48, v52)
+            local v53 = v51.AbsolutePosition.Y - v51.AbsoluteSize.Y * v51.AnchorPoint.Y
+            v49 = math.min(v49, v53)
+        end
+    end
+    local v54 = v_u_6
+    local v55 = UDim2.new
+    local v56 = v48 - v49
+    v54.CanvasSize = v55(0, 0, 0, (math.abs(v56)))
+end
+v10.MouseButton1Click:Connect(fitGuiObjectsInScrollFrame)
+v_u_2:WaitForChild("OtherData").ChildAdded:Connect(updateStats)
+v_u_5.QuestNum:GetPropertyChangedSignal("Value"):Connect(updateStats)
+updateStats()
+for v57 = 1, #v9 do
+    local v_u_58 = v9[v57]
+    if v_u_58:IsA("ImageButton") then
+        v_u_58.MouseButton1Click:Connect(function()
+            -- upvalues: (copy) v_u_58
+            selectQuest(v_u_58)
+        end)
+    end
+end
+if v1.getSeason() == "Christmas" then
+    v_u_6.Quest101.Visible = true
+end
+
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-02-04 14:07:49
+-- Luau version 6, Types version 3
+-- Time taken: 0.017052 seconds
+
+local LocalPlayer_upvr = game.Players.LocalPlayer
+local SOME_upvr = workspace:FindFirstChild(tostring(LocalPlayer_upvr.TeamColor).."Zone")
+local Parent_upvr = script.Parent
+local children_2 = Parent_upvr:GetChildren()
+local SelectedFrame_upvr = Parent_upvr.Parent.SelectedFrame
+function selectQuest(arg1) -- Line 12
+	--[[ Upvalues[2]:
+		[1]: SOME_upvr (readonly)
+		[2]: SelectedFrame_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local Value_4 = SOME_upvr.QuestNum.Value
+	local Value = arg1.QuestNum.Value
+	local var68
+	if Value_4 ~= 0 then
+		var68 = "Quest"
+		if arg1.Name ~= var68..tostring(Value_4) then return end
+	end
+	var68 = arg1.QuestImage
+	SelectedFrame_upvr.FocusImage.Image = var68.Image
+	var68 = "- "
+	SelectedFrame_upvr.Title.Text = var68..arg1.QuestImage.Title.Text.." -"
+	var68 = arg1.Desc
+	SelectedFrame_upvr.Description.Text = var68.Value
+	var68 = 255
+	SelectedFrame_upvr.Description.TextColor3 = Color3.fromRGB(var68, 255, 255)
+	SelectedFrame_upvr.QuestNum.Value = Value
+	local RulesScrollingFrame = SelectedFrame_upvr.RulesScrollingFrame
+	local children_4 = RulesScrollingFrame:GetChildren()
+	var68 = #children_4
+	for i = 1, var68 do
+		local var71 = children_4[i]
+		if var71.Name == "Rule" then
+			var71:Destroy()
+		end
+	end
+	var68 = 0
+	local children_5 = arg1.Rules:GetChildren()
+	for i_2 = 1, #children_5 do
+		local clone_2 = RulesScrollingFrame.RuleTemplate:Clone()
+		clone_2.Name = "Rule"
+		clone_2.Text = '-'..children_5[i_2].Value
+		clone_2.Visible = true
+		clone_2.Parent = RulesScrollingFrame
+		var68 += 1
+		local var74
+	end
+	RulesScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, var68 * 22)
+	local RewardsScrollingFrame_2 = SelectedFrame_upvr.RewardsScrollingFrame
+	local children_3 = RewardsScrollingFrame_2:GetChildren()
+	for i_3 = 1, #children_3 do
+		local var77 = children_3[i_3]
+		if var77.Name == "Reward" then
+			var77:Destroy()
+		end
+	end
+	local children_11 = arg1.Rewards:GetChildren()
+	for i_4 = 1, #children_11 do
+		local var79 = children_11[i_4]
+		local clone_3 = RewardsScrollingFrame_2.RewardTemplate:Clone()
+		clone_3.Name = "Reward"
+		local Value_3 = var79.Value
+		if Value_3 ~= "Gold" then
+			clone_3.Image = game.StarterGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame[Value_3].Image
+			clone_3.LayoutOrder = 1
+		else
+			clone_3.Image = "rbxassetid://5445578732"
+			clone_3.LayoutOrder = 0
+		end
+		clone_3.AmountText.Text = var79.Amount.Value
+		clone_3.Visible = true
+		clone_3.Parent = RewardsScrollingFrame_2
+		clone_3.Checkmark.Visible = questCompleted(Value)
+	end
+	local children_6 = RewardsScrollingFrame_2:GetChildren()
+	for i_5 = 1, #children_6 do
+		local var83 = children_6[i_5]
+		if var83.Name == "Reward" then
+			local var84 = var83.AbsolutePosition.Y - RewardsScrollingFrame_2.AbsolutePosition.Y + RewardsScrollingFrame_2.UIGridLayout.CellSize.Y.Offset + RewardsScrollingFrame_2.UIGridLayout.CellPadding.Y.Offset
+			if 0 < var84 then
+			end
+		end
+	end
+	RewardsScrollingFrame_2.CanvasSize = UDim2.new(0, 0, 0, var84 + RewardsScrollingFrame_2.CanvasPosition.Y)
+	SelectedFrame_upvr.FocusImage.Visible = true
+	SelectedFrame_upvr.Description.Visible = true
+	SelectedFrame_upvr.RulesHeader.Visible = true
+	SelectedFrame_upvr.RewardsHeader.Visible = true
+	SelectedFrame_upvr.Title.Visible = true
+	SelectedFrame_upvr.RewardsScrollingFrame.Visible = true
+	SelectedFrame_upvr.RulesScrollingFrame.Visible = true
+end
+function questCompleted(arg1) -- Line 103
+	--[[ Upvalues[1]:
+		[1]: LocalPlayer_upvr (readonly)
+	]]
+	local var85 = 'Q'..tostring(arg1)
+	if arg1 == 101 then
+		var85 = var85..tostring(os.date("!*t").year)
+	end
+	if LocalPlayer_upvr.OtherData:FindFirstChild(var85) then
+		return true
+	end
+	return false
+end
+local descendants_upvr = Parent_upvr:GetDescendants()
+function updateStats() -- Line 115
+	--[[ Upvalues[3]:
+		[1]: Parent_upvr (readonly)
+		[2]: SOME_upvr (readonly)
+		[3]: descendants_upvr (readonly)
+	]]
+	local SOME = Parent_upvr:FindFirstChild("Quest"..tostring(SOME_upvr.QuestNum.Value))
+	for i_6 = 1, #descendants_upvr do
+		local var89 = descendants_upvr[i_6]
+		if var89:IsA("ImageButton") then
+			if questCompleted(var89.QuestNum.Value) then
+				var89.Checkmark.Visible = true
+			else
+				var89.Checkmark.Visible = false
+			end
+			if SOME and SOME ~= var89 then
+				var89.ImageColor3 = Color3.fromRGB(120, 120, 120)
+				var89.QuestImage.ImageColor3 = Color3.fromRGB(120, 120, 120)
+			else
+				var89.ImageColor3 = Color3.fromRGB(255, 255, 255)
+				var89.QuestImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
+			end
+		end
+	end
+	if SOME then
+		selectQuest(SOME)
+	end
+end
+function fitGuiObjectsInScrollFrame() -- Line 148
+	--[[ Upvalues[1]:
+		[1]: Parent_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local children_7 = Parent_upvr:GetChildren()
+	local var95
+	for i_7 = 1, #children_7 do
+		local var96 = children_7[i_7]
+		if var96:IsA("GuiObject") and var96.Visible then
+			var95 = math.max(var95, var96.AbsolutePosition.Y + var96.AbsoluteSize.Y * (1 - var96.AnchorPoint.Y))
+		end
+	end
+	Parent_upvr.CanvasSize = UDim2.new(0, 0, 0, math.abs(var95 - math.min(math.huge, var96.AbsolutePosition.Y - var96.AbsoluteSize.Y * var96.AnchorPoint.Y)))
+end
+Parent_upvr.Parent.Parent.Parent:WaitForChild("TopBar"):WaitForChild("QuestsButton").MouseButton1Click:Connect(fitGuiObjectsInScrollFrame)
+LocalPlayer_upvr:WaitForChild("OtherData").ChildAdded:Connect(updateStats)
+SOME_upvr.QuestNum:GetPropertyChangedSignal("Value"):Connect(updateStats)
+updateStats()
+for i_8 = 1, #children_2 do
+	local var97_upvr = children_2[i_8]
+	if var97_upvr:IsA("ImageButton") then
+		var97_upvr.MouseButton1Click:Connect(function() -- Line 171
+			--[[ Upvalues[1]:
+				[1]: var97_upvr (readonly)
+			]]
+			selectQuest(var97_upvr)
+		end)
+	end
+end
+if require(game.ReplicatedStorage.Scripts.SeasonMS).getSeason() == "Christmas" then
+	Parent_upvr.Quest101.Visible = true
+end
+

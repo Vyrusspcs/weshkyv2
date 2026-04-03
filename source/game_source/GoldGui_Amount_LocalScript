@@ -1,0 +1,33 @@
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-02-04 14:04:24
+-- Luau version 6, Types version 3
+-- Time taken: 0.001807 seconds
+
+local LocalPlayer_upvr = game.Players.LocalPlayer
+local var2_upvw = 0
+function active() -- Line 6
+	--[[ Upvalues[2]:
+		[1]: var2_upvw (read and write)
+		[2]: LocalPlayer_upvr (readonly)
+	]]
+	local tick_result1 = tick()
+	var2_upvw = tick_result1
+	local tonumber_result1 = tonumber(script.Parent.Text)
+	local var5 = LocalPlayer_upvr.Data.Gold.Value - tonumber_result1
+	if 0 < var5 then
+		local maximum = math.max(math.min(var5 / 500, 30), 0.5)
+		local var7 = maximum
+		while 0 < var7 do
+			script.Parent.Text = tostring(math.ceil(tonumber_result1 + (var5) * ((maximum - var7) / maximum)))
+			if var2_upvw ~= tick_result1 then return end
+		end
+	end
+	script.Parent.Text = tostring(LocalPlayer_upvr.Data.Gold.Value)
+end
+LocalPlayer_upvr:WaitForChild("Data"):WaitForChild("Gold")
+LocalPlayer_upvr:WaitForChild("Save")
+while not LocalPlayer_upvr.Save.Value do
+	wait()
+end
+script.Parent.Text = tostring(LocalPlayer_upvr.Data.Gold.Value)
+LocalPlayer_upvr.Data.Gold.Changed:Connect(active)

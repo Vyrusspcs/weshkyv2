@@ -1,0 +1,1141 @@
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-02-27 07:48:46
+-- Luau version 6, Types version 3
+-- Time taken: 0.081319 seconds
+
+local UserInputService_upvr = game:GetService("UserInputService")
+local RunService_upvr = game:GetService("RunService")
+local GetBlockInfo_upvr = require(game.ReplicatedStorage.Scripts.GetBlockInfo)
+local LocalPlayer_upvr = game.Players.LocalPlayer
+local mouse_upvr = LocalPlayer_upvr:GetMouse()
+local Parent_2_upvr = script.Parent
+local CurrentCamera_upvr = workspace.CurrentCamera
+local var8_upvw
+local var9_upvw
+local var10_upvw
+local var11_upvw
+local var12_upvw
+local var13_upvw
+local var14_upvw
+local tbl_4_upvw = {}
+local var16_upvw
+local var17_upvw
+local var18_upvw
+local var19_upvw = false
+local var20_upvw = false
+local var21_upvw = false
+local var22_upvw
+local var23_upvw = false
+local var24_upvw
+local var25_upvw = false
+local var26_upvw
+local var27_upvw
+local var28_upvw = 0
+local var29_upvw = false
+function isMobilePlayer() -- Line 48
+	--[[ Upvalues[1]:
+		[1]: UserInputService_upvr (readonly)
+	]]
+	local var30
+	if UserInputService_upvr:GetLastInputType() ~= Enum.UserInputType.Touch then
+		var30 = false
+	else
+		var30 = true
+	end
+	return var30
+end
+function getSelectedModels() -- Line 53
+	--[[ Upvalues[1]:
+		[1]: tbl_4_upvw (read and write)
+	]]
+	for i = 1, #tbl_4_upvw do
+		local var32 = tbl_4_upvw[i]
+		local Adornee = var32.Adornee
+		if Adornee and var32.Parent and Adornee.Parent then
+			table.insert({}, Adornee)
+		end
+	end
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	return {}
+end
+function clearSelected() -- Line 66
+	--[[ Upvalues[4]:
+		[1]: tbl_4_upvw (read and write)
+		[2]: var28_upvw (read and write)
+		[3]: var14_upvw (read and write)
+		[4]: var26_upvw (read and write)
+	]]
+	for i_2 = 1, #tbl_4_upvw do
+		tbl_4_upvw[i_2]:Destroy()
+	end
+	tbl_4_upvw = {}
+	var28_upvw = 0
+	var14_upvw.ModeImage.AmountText.Text = '0'
+	var26_upvw = nil
+	var14_upvw.ModeImage.Image = ""
+end
+function addSelection(arg1) -- Line 81
+	--[[ Upvalues[4]:
+		[1]: var8_upvw (read and write)
+		[2]: tbl_4_upvw (read and write)
+		[3]: var28_upvw (read and write)
+		[4]: var14_upvw (read and write)
+	]]
+	local clone_2 = var8_upvw:Clone()
+	clone_2.Name = "TrowelSB"
+	clone_2.SurfaceTransparency = 0.5
+	clone_2.Color3 = Color3.fromRGB(0, 126, 158)
+	clone_2.LineThickness = 0.1
+	clone_2.Parent = arg1
+	clone_2.Adornee = arg1
+	table.insert(tbl_4_upvw, clone_2)
+	var28_upvw += getBlockValue(arg1)
+	var14_upvw.ModeImage.AmountText.Text = tostring(math.ceil(var28_upvw))
+	updateBlockDisplayImage(arg1.Name)
+end
+function removeSelection(arg1) -- Line 96
+	--[[ Upvalues[4]:
+		[1]: var14_upvw (read and write)
+		[2]: var26_upvw (read and write)
+		[3]: tbl_4_upvw (read and write)
+		[4]: var28_upvw (read and write)
+	]]
+	arg1:Destroy()
+	if not var14_upvw.ModeImage.MaxText.Visible then
+		var26_upvw = nil
+		var14_upvw.ModeImage.Image = ""
+	end
+	for i_3 = #tbl_4_upvw, 1, -1 do
+		local Parent = tbl_4_upvw[i_3].Parent
+		if tbl_4_upvw[i_3] == arg1 then
+			table.remove(tbl_4_upvw, i_3)
+		elseif Parent and not var14_upvw.ModeImage.MaxText.Visible then
+			updateBlockDisplayImage(Parent.Name)
+		end
+	end
+	var28_upvw -= getBlockValue(arg1.Parent)
+	var14_upvw.ModeImage.AmountText.Text = tostring(math.ceil(var28_upvw))
+end
+function updateBlockDisplayImage(arg1) -- Line 116
+	--[[ Upvalues[3]:
+		[1]: var14_upvw (read and write)
+		[2]: var26_upvw (read and write)
+		[3]: LocalPlayer_upvr (readonly)
+	]]
+	if var14_upvw.ModeImage.MaxText.Visible then
+	elseif var26_upvw ~= "Mixed" then
+		if not var26_upvw or var26_upvw == arg1 then
+			var26_upvw = arg1
+			var14_upvw.ModeImage.Image = LocalPlayer_upvr.PlayerGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame[arg1].Image
+			var14_upvw.ModeImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
+			return
+		end
+		var26_upvw = "Mixed"
+		var14_upvw.ModeImage.Image = LocalPlayer_upvr.PlayerGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame.WoodBlock.Image
+		var14_upvw.ModeImage.ImageColor3 = Color3.fromRGB(0, 0, 0)
+	end
+end
+function isPartInZone(arg1, arg2) -- Line 133
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local var38
+	if typeof(arg1) == "CFrame" then
+		var38 = arg1.Position
+	else
+		var38 = arg1.Position
+	end
+	local Position = arg2.Position
+	local Size_5 = arg2.Size
+	if 89 < arg2.Rotation.Y and arg2.Rotation.Y < 91 or arg2.Rotation.Y < -89 and -91 < arg2.Rotation.Y then
+		local Z = Size_5.Z
+		local X = Size_5.X
+	end
+	if Position.X - Z / 2 < var38.X and var38.X < Position.X + Z / 2 and Position.Z - X / 2 < var38.Z and var38.Z < Position.Z + X / 2 then
+		return true
+	end
+	return false
+end
+function active(arg1) -- Line 158
+	--[[ Upvalues[5]:
+		[1]: var8_upvw (read and write)
+		[2]: var21_upvw (read and write)
+		[3]: var19_upvw (read and write)
+		[4]: GetBlockInfo_upvr (readonly)
+		[5]: LocalPlayer_upvr (readonly)
+	]]
+	if not var8_upvw or var21_upvw or var19_upvw then
+	else
+		local Adornee_2 = var8_upvw.Adornee
+		if Adornee_2 == nil then
+			if not doingShiftSelect() then
+				clearSelected()
+				updateBoundingBox()
+			end
+			return
+		end
+		local var3_result1, _, GetBlockInfo_upvr_result3 = GetBlockInfo_upvr(Adornee_2, LocalPlayer_upvr)
+		if not GetBlockInfo_upvr_result3 then return end
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		if doingShiftSelect() then
+			local TrowelSB = var3_result1:FindFirstChild("TrowelSB")
+			if not TrowelSB then
+				addSelection(var3_result1)
+			else
+				removeSelection(TrowelSB)
+			end
+		else
+			clearSelected()
+			addSelection(var3_result1)
+		end
+		updateBoundingBox()
+	end
+end
+function GetBoundingBox(arg1, arg2) -- Line 195
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local abs = math.abs
+	local var53
+	for i_4 = 1, #arg1 do
+		local PrimaryPart = arg1[i_4].PrimaryPart
+		if PrimaryPart then
+			local Size_6 = PrimaryPart.Size
+			local X_2 = Size_6.X
+			local Y = Size_6.Y
+			local Z_2 = Size_6.Z
+			local any_components_result1, any_components_result2, any_components_result3, any_components_result4, any_components_result5, any_components_result6, any_components_result7, any_components_result8, any_components_result9, any_components_result10, any_components_result11, any_components_result12 = arg2:toObjectSpace(PrimaryPart.CFrame):components()
+			local var71 = 0.5 * (abs(any_components_result4) * X_2 + abs(any_components_result5) * Y + abs(any_components_result6) * Z_2)
+			local var72 = 0.5 * (abs(any_components_result7) * X_2 + abs(any_components_result8) * Y + abs(any_components_result9) * Z_2)
+			local var73 = 0.5 * (abs(any_components_result10) * X_2 + abs(any_components_result11) * Y + abs(any_components_result12) * Z_2)
+			if any_components_result1 - var71 < var53 then
+				var53 = any_components_result1 - var71
+			end
+			if any_components_result2 - var72 < math.huge then
+			end
+			if any_components_result3 - var73 < math.huge then
+			end
+			if (-math.huge) < any_components_result1 + var71 then
+			end
+			if (-math.huge) < any_components_result2 + var72 then
+			end
+			if (-math.huge) < any_components_result3 + var73 then
+			end
+		end
+	end
+	local vector3_2 = Vector3.new(var53, any_components_result2 - var72, any_components_result3 - var73)
+	local vector3 = Vector3.new(any_components_result1 + var71, any_components_result2 + var72, any_components_result3 + var73)
+	return arg2 - arg2.p + arg2:pointToWorldSpace((vector3 + vector3_2) / 2), vector3 - vector3_2
+end
+local ChallengeConditions_upvr = require(game.ReplicatedStorage.Scripts.ChallengeConditions)
+function performServerOperatoin(arg1, arg2) -- Line 247
+	--[[ Upvalues[9]:
+		[1]: var21_upvw (read and write)
+		[2]: var14_upvw (read and write)
+		[3]: LocalPlayer_upvr (readonly)
+		[4]: ChallengeConditions_upvr (readonly)
+		[5]: var26_upvw (read and write)
+		[6]: var17_upvw (read and write)
+		[7]: var18_upvw (read and write)
+		[8]: Parent_2_upvr (readonly)
+		[9]: GetBlockInfo_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	var21_upvw = true
+	local Value_4 = var14_upvw.Mode.Value
+	local getSelectedModels_result1_7 = getSelectedModels()
+	local var186
+	if Value_4 == "Clone" or Value_4 == "Mirror" then
+		local tbl_3 = {}
+		var186 = 0
+		for i_5 = 1, #getSelectedModels_result1_7 do
+			local var188 = getSelectedModels_result1_7[i_5]
+			local Name_3 = var188.Name
+			local getBlockValue_result1_3 = getBlockValue(var188)
+			if not tbl_3[Name_3] then
+				tbl_3[Name_3] = getBlockValue_result1_3
+			else
+				tbl_3[Name_3] += getBlockValue_result1_3
+			end
+			var186 += getBlockValue_result1_3
+		end
+		local SOME = game.Players:FindFirstChild(LocalPlayer_upvr.Team.TeamLeader.Value)
+		if SOME then
+			if LocalPlayer_upvr.Settings.ShareBlocks.Value then
+				local var192 = SOME
+			end
+		end
+		local any_blockLimitChallengeReached_result1_2 = ChallengeConditions_upvr.blockLimitChallengeReached(LocalPlayer_upvr, var186)
+		for i_6, v in pairs(tbl_3) do
+			local var197
+			local function INLINED_3() -- Internal function, doesn't exist in bytecode
+				var197 = var192.Data[i_6].Used
+				return var192.Data[i_6].Value < var197.Value + v
+			end
+			if var192.Data:FindFirstChild(i_6) and INLINED_3() or any_blockLimitChallengeReached_result1_2 then
+				var21_upvw = false
+				var197 = var14_upvw
+				local MaxText_2 = var197.ModeImage.MaxText
+				var197 = LocalPlayer_upvr.PlayerGui.BattleTimerGui
+				local RestrictionMetFrame_2 = var197.RestrictionMetFrame
+				var197 = true
+				if not any_blockLimitChallengeReached_result1_2 then
+					if not MaxText_2.Visible then
+						MaxText_2.Visible = true
+						var14_upvw.ModeImage.AmountText.Visible = false
+						var14_upvw.ModeImage.ImageColor3 = Color3.fromRGB(255, 255, 255)
+						var14_upvw.ModeImage.Image = LocalPlayer_upvr.PlayerGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame[i_6].Image
+					else
+						var197 = false
+					end
+				elseif not RestrictionMetFrame_2.Visible then
+					RestrictionMetFrame_2.Visible = true
+				else
+					var197 = false
+				end
+				local clone = script.ClickSound:Clone()
+				clone.Parent = script
+				game.Debris:AddItem(clone, 0.3)
+				clone.PlaybackSpeed = 5
+				clone:Play()
+				updateBoundingBox()
+				if var197 then
+					if not any_blockLimitChallengeReached_result1_2 then
+						wait(3)
+						MaxText_2.Visible = false
+						-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+						var14_upvw.ModeImage.AmountText.Visible = true
+						var26_upvw = nil
+						var14_upvw.ModeImage.Image = ""
+						local getSelectedModels_result1_2 = getSelectedModels()
+						for i_7 = 1, #getSelectedModels_result1_2 do
+							updateBlockDisplayImage(getSelectedModels_result1_2[i_7].Name)
+							local _
+						end
+						return
+					end
+					wait(3)
+					RestrictionMetFrame_2.Visible = false
+				end
+				return
+			end
+		end
+	end
+	var17_upvw:Destroy()
+	var18_upvw:Destroy()
+	if not Parent_2_upvr.OperationRF:InvokeServer(getSelectedModels_result1_7, arg1, arg2, var14_upvw.Mode.Value) then
+		local tbl_5 = {}
+	end
+	local Character = LocalPlayer_upvr.Character
+	if Character then
+		Character = Parent_2_upvr.Parent
+		if Character then
+			Character = false
+			if Parent_2_upvr.Parent == LocalPlayer_upvr.Character then
+				Character = LocalPlayer_upvr.Character:FindFirstChild("Humanoid")
+				if Character then
+					if 0 >= LocalPlayer_upvr.Character.Humanoid.Health then
+						Character = false
+					else
+						Character = true
+					end
+				end
+			end
+		end
+	end
+	if Value_4 == "Clone" then
+		var14_upvw.SetModeEvent:Fire("Move")
+		clearSelected()
+		if Character then
+			for i_8 = 1, #tbl_5 do
+				i_6 = LocalPlayer_upvr
+				local var3_result1_3, _, var3_result3 = GetBlockInfo_upvr(tbl_5[i_8], i_6)
+				if var3_result3 then
+					v = addSelection
+					v(var3_result1_3)
+				end
+			end
+		end
+	end
+	if not Character then
+		clearSelected()
+	end
+	removeBoundingBox()
+	if Character then
+		updateBoundingBox()
+	end
+	var21_upvw = false
+end
+local var208_upvw
+local var209_upvw
+local var210_upvw
+local var211_upvw
+local QuestConditions_upvr = require(game.ReplicatedStorage.Scripts.QuestConditions)
+local var213_upvw
+local var214_upvw
+local var215_upvw
+function updateBoundingBox() -- Line 366
+	--[[ Upvalues[15]:
+		[1]: var16_upvw (read and write)
+		[2]: mouse_upvr (readonly)
+		[3]: var14_upvw (read and write)
+		[4]: var17_upvw (read and write)
+		[5]: LocalPlayer_upvr (readonly)
+		[6]: var208_upvw (read and write)
+		[7]: var19_upvw (read and write)
+		[8]: var209_upvw (read and write)
+		[9]: var210_upvw (read and write)
+		[10]: var211_upvw (read and write)
+		[11]: QuestConditions_upvr (readonly)
+		[12]: var18_upvw (read and write)
+		[13]: var213_upvw (read and write)
+		[14]: var214_upvw (read and write)
+		[15]: var215_upvw (read and write)
+	]]
+	if not var16_upvw then
+		var16_upvw = Instance.new("Part")
+		var16_upvw.Name = "TrowelBoundingBox"
+		var16_upvw.Anchored = true
+		var16_upvw.CanCollide = false
+		var16_upvw.Transparency = 1
+		var16_upvw.Size = Vector3.new()
+		mouse_upvr.TargetFilter = var16_upvw
+		var16_upvw.Parent = workspace
+		local SelectionBox_2 = Instance.new("SelectionBox")
+		if var14_upvw.Mode.Value == "Clone" then
+			SelectionBox_2.Color3 = Color3.fromRGB(20, 255, 169)
+		else
+			SelectionBox_2.Color3 = Color3.fromRGB(13, 105, 172)
+		end
+		SelectionBox_2.LineThickness = 0.025
+		SelectionBox_2.Adornee = var16_upvw
+		SelectionBox_2.Parent = var16_upvw
+	end
+	if not var17_upvw then
+		var17_upvw = Instance.new("Handles")
+		var17_upvw.Name = "MoveHandle"
+		var17_upvw.Adornee = var16_upvw
+		var17_upvw.Visible = false
+		var17_upvw.Style = Enum.HandlesStyle.Movement
+		var17_upvw.Parent = LocalPlayer_upvr.PlayerGui
+		if var208_upvw then
+			var208_upvw:Disconnect()
+			var208_upvw = nil
+		end
+		var208_upvw = var17_upvw.MouseButton1Down:Connect(function(arg1) -- Line 401
+			--[[ Upvalues[4]:
+				[1]: var19_upvw (copied, read and write)
+				[2]: var209_upvw (copied, read and write)
+				[3]: var17_upvw (copied, read and write)
+				[4]: var16_upvw (copied, read and write)
+			]]
+			var19_upvw = true
+			var209_upvw = var17_upvw.Adornee.CFrame
+			var16_upvw:BreakJoints()
+			var17_upvw.Faces = Faces.new(arg1)
+			if isMobilePlayer() then
+				checkToLockCameraRotation()
+			end
+		end)
+		if var210_upvw then
+			var210_upvw:Disconnect()
+			var210_upvw = nil
+		end
+		var210_upvw = var17_upvw.MouseButton1Up:Connect(function(arg1) -- Line 415
+			--[[ Upvalues[5]:
+				[1]: var209_upvw (copied, read and write)
+				[2]: var17_upvw (copied, read and write)
+				[3]: var19_upvw (copied, read and write)
+				[4]: var14_upvw (copied, read and write)
+				[5]: var16_upvw (copied, read and write)
+			]]
+			local var219 = var209_upvw
+			var209_upvw = var17_upvw.Adornee.CFrame
+			var19_upvw = false
+			var17_upvw.Faces = Faces.new(Enum.NormalId.Back, Enum.NormalId.Bottom, Enum.NormalId.Front, Enum.NormalId.Left, Enum.NormalId.Right, Enum.NormalId.Top)
+			checkToUnlockCameraRotation()
+			local Value_3 = var14_upvw.Mode.Value
+			if var219 ~= var209_upvw or Value_3 == "Mirror" then
+				if Value_3 == "Mirror" then
+					local var221
+					if arg1 == Enum.NormalId.Right then
+						var221 = Vector3.new(var16_upvw.size.X / 2, 0, 0)
+					elseif arg1 == Enum.NormalId.Left then
+						var221 = Vector3.new(-var16_upvw.size.X / 2, 0, 0)
+					elseif arg1 == Enum.NormalId.Top then
+						var221 = Vector3.new(0, var16_upvw.size.Y / 2, 0)
+					elseif arg1 == Enum.NormalId.Bottom then
+						var221 = Vector3.new(0, -var16_upvw.size.Y / 2, 0)
+					elseif arg1 == Enum.NormalId.Back then
+						var221 = Vector3.new(0, 0, var16_upvw.size.Z / 2)
+					elseif arg1 == Enum.NormalId.Front then
+						var221 = Vector3.new(0, 0, -var16_upvw.size.Z / 2)
+					end
+					var209_upvw = CFrame.new((var219 * CFrame.new(var221)).p, var219.p)
+				end
+				performServerOperatoin(var219, var209_upvw)
+			end
+		end)
+		if var211_upvw then
+			var211_upvw:Disconnect()
+			var211_upvw = nil
+		end
+		var211_upvw = var17_upvw.MouseDrag:Connect(function(arg1, arg2) -- Line 450
+			--[[ Upvalues[5]:
+				[1]: var14_upvw (copied, read and write)
+				[2]: var209_upvw (copied, read and write)
+				[3]: LocalPlayer_upvr (copied, readonly)
+				[4]: var16_upvw (copied, read and write)
+				[5]: QuestConditions_upvr (copied, readonly)
+			]]
+			-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+			-- KONSTANTERROR: [0] 1. Error Block 58 start (CF ANALYSIS FAILED)
+			local var223
+			if var14_upvw.Mode.Value == "Mirror" then
+			else
+				local tonumber_result1 = tonumber(var14_upvw.ModeImage.More.Scale.TextBox.Text)
+				if tonumber_result1 ~= 0 then
+					var223 -= var223 % tonumber_result1
+				end
+				if arg1 == Enum.NormalId.Right then
+					-- KONSTANTWARNING: GOTO [105] #78
+				end
+				-- KONSTANTERROR: [0] 1. Error Block 58 end (CF ANALYSIS FAILED)
+				-- KONSTANTERROR: [41] 29. Error Block 59 start (CF ANALYSIS FAILED)
+				if arg1 == Enum.NormalId.Left then
+					local _ = var209_upvw * CFrame.new(-var223, 0, 0)
+				elseif arg1 == Enum.NormalId.Top then
+				elseif arg1 == Enum.NormalId.Bottom then
+				elseif arg1 == Enum.NormalId.Back then
+				elseif arg1 == Enum.NormalId.Front then
+				end
+				local SOME_2 = workspace:FindFirstChild(tostring(LocalPlayer_upvr.TeamColor).."Zone")
+				local var227 = true
+				local Size_3 = var16_upvw.Size
+				local function INLINED_4() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return isPartInZone(var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(-Size_3.X / 2, 0, 0), SOME_2)
+				end
+				local function INLINED_5() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return isPartInZone(var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(0, Size_3.Y / 2, 0), SOME_2)
+				end
+				local function INLINED_6() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return isPartInZone(var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(0, -Size_3.Y / 2, 0), SOME_2)
+				end
+				local function INLINED_7() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return isPartInZone(var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(0, 0, Size_3.Z / 2), SOME_2)
+				end
+				local function INLINED_8() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return isPartInZone(var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(0, 0, -Size_3.Z / 2), SOME_2)
+				end
+				local function INLINED_9() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return QuestConditions_upvr(SOME_2, var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(Size_3.X / 2, 0, 0), "", 0, LocalPlayer_upvr)
+				end
+				local function INLINED_10() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return QuestConditions_upvr(SOME_2, var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(-Size_3.X / 2, 0, 0), "", 0, LocalPlayer_upvr)
+				end
+				local function INLINED_11() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return QuestConditions_upvr(SOME_2, var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(0, Size_3.Y / 2, 0), "", 0, LocalPlayer_upvr)
+				end
+				local function INLINED_12() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return QuestConditions_upvr(SOME_2, var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(0, -Size_3.Y / 2, 0), "", 0, LocalPlayer_upvr)
+				end
+				local function INLINED_13() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return QuestConditions_upvr(SOME_2, var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(0, 0, Size_3.Z / 2), "", 0, LocalPlayer_upvr)
+				end
+				local function INLINED_14() -- Internal function, doesn't exist in bytecode
+					-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+					return QuestConditions_upvr(SOME_2, var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(0, 0, -Size_3.Z / 2), "", 0, LocalPlayer_upvr)
+				end
+				if not isPartInZone(var209_upvw * CFrame.new(0, 0, -var223) * CFrame.new(Size_3.X / 2, 0, 0), SOME_2) or not INLINED_4() or not INLINED_5() or not INLINED_6() or not INLINED_7() or not INLINED_8() or not INLINED_9() or not INLINED_10() or not INLINED_11() or not INLINED_12() or not INLINED_13() or not INLINED_14() then
+					var227 = false
+				end
+				if var227 then
+					local var229 = var209_upvw * CFrame.new(0, 0, -var223)
+					if not var229 then
+						var229 = var209_upvw
+					end
+					var16_upvw.CFrame = var229
+				end
+				-- KONSTANTERROR: [41] 29. Error Block 59 end (CF ANALYSIS FAILED)
+			end
+		end)
+		var18_upvw = Instance.new("ArcHandles")
+		var18_upvw.Name = "RotateHandle"
+		var18_upvw.Adornee = var16_upvw
+		var18_upvw.Visible = false
+		var18_upvw.Parent = LocalPlayer_upvr.PlayerGui
+		if var213_upvw then
+			var213_upvw:Disconnect()
+			var213_upvw = nil
+		end
+		var213_upvw = var18_upvw.MouseButton1Down:Connect(function(arg1) -- Line 512
+			--[[ Upvalues[4]:
+				[1]: var19_upvw (copied, read and write)
+				[2]: var209_upvw (copied, read and write)
+				[3]: var18_upvw (copied, read and write)
+				[4]: var16_upvw (copied, read and write)
+			]]
+			var19_upvw = true
+			var209_upvw = var18_upvw.Adornee.CFrame
+			var16_upvw:BreakJoints()
+			var18_upvw.Axes = Axes.new(arg1)
+			if isMobilePlayer() then
+				checkToLockCameraRotation()
+			end
+		end)
+		if var214_upvw then
+			var214_upvw:Disconnect()
+			var214_upvw = nil
+		end
+		var214_upvw = var18_upvw.MouseButton1Up:Connect(function(arg1) -- Line 526
+			--[[ Upvalues[3]:
+				[1]: var209_upvw (copied, read and write)
+				[2]: var18_upvw (copied, read and write)
+				[3]: var19_upvw (copied, read and write)
+			]]
+			local var232 = var209_upvw
+			var209_upvw = var18_upvw.Adornee.CFrame
+			var19_upvw = false
+			var18_upvw.Axes = Axes.new(Enum.Axis.X, Enum.Axis.Y, Enum.Axis.Z)
+			checkToUnlockCameraRotation()
+			if var232 ~= var209_upvw then
+				performServerOperatoin(var232, var209_upvw)
+			end
+		end)
+		var215_upvw = var18_upvw.MouseDrag:Connect(function(arg1, arg2, arg3) -- Line 538
+			--[[ Upvalues[5]:
+				[1]: var14_upvw (copied, read and write)
+				[2]: var209_upvw (copied, read and write)
+				[3]: LocalPlayer_upvr (copied, readonly)
+				[4]: var16_upvw (copied, read and write)
+				[5]: QuestConditions_upvr (copied, readonly)
+			]]
+			local tonumber_result1_2 = tonumber(var14_upvw.ModeImage.More.Scale.TextBox.Text)
+			local var235
+			if tonumber_result1_2 ~= 0 then
+				var235 -= var235 % math.rad(tonumber_result1_2)
+			end
+			local var236
+			if arg1 == Enum.Axis.X then
+				var236 = var209_upvw * CFrame.Angles(var235, 0, 0)
+			elseif arg1 == Enum.Axis.Y then
+				var236 = var209_upvw * CFrame.Angles(0, var235, 0)
+			elseif arg1 == Enum.Axis.Z then
+				var236 = var209_upvw * CFrame.Angles(0, 0, var235)
+			end
+			local SOME_4 = workspace:FindFirstChild(tostring(LocalPlayer_upvr.TeamColor).."Zone")
+			local var238 = true
+			local Size_4 = var16_upvw.Size
+			if not isPartInZone(var236 * CFrame.new(Size_4.X / 2, 0, 0), SOME_4) or not isPartInZone(var236 * CFrame.new(-Size_4.X / 2, 0, 0), SOME_4) or not isPartInZone(var236 * CFrame.new(0, Size_4.Y / 2, 0), SOME_4) or not isPartInZone(var236 * CFrame.new(0, -Size_4.Y / 2, 0), SOME_4) or not isPartInZone(var236 * CFrame.new(0, 0, Size_4.Z / 2), SOME_4) or not isPartInZone(var236 * CFrame.new(0, 0, -Size_4.Z / 2), SOME_4) or not QuestConditions_upvr(SOME_4, var236 * CFrame.new(Size_4.X / 2, 0, 0), "", 0, LocalPlayer_upvr) or not QuestConditions_upvr(SOME_4, var236 * CFrame.new(-Size_4.X / 2, 0, 0), "", 0, LocalPlayer_upvr) or not QuestConditions_upvr(SOME_4, var236 * CFrame.new(0, Size_4.Y / 2, 0), "", 0, LocalPlayer_upvr) or not QuestConditions_upvr(SOME_4, var236 * CFrame.new(0, -Size_4.Y / 2, 0), "", 0, LocalPlayer_upvr) or not QuestConditions_upvr(SOME_4, var236 * CFrame.new(0, 0, Size_4.Z / 2), "", 0, LocalPlayer_upvr) or not QuestConditions_upvr(SOME_4, var236 * CFrame.new(0, 0, -Size_4.Z / 2), "", 0, LocalPlayer_upvr) then
+				var238 = false
+			end
+			if var238 then
+				local var240 = var236
+				if not var240 then
+					var240 = var209_upvw
+				end
+				var16_upvw.CFrame = var240
+			end
+		end)
+	end
+	local getSelectedModels_result1 = getSelectedModels()
+	local len = #getSelectedModels_result1
+	if len < 1 then
+		removeBoundingBox()
+	else
+		local PrimaryPart_2 = getSelectedModels_result1[len].PrimaryPart
+		local GetBoundingBox_result1, GetBoundingBox_result2 = GetBoundingBox(getSelectedModels_result1, PrimaryPart_2.CFrame - PrimaryPart_2.Position)
+		var16_upvw.Size = GetBoundingBox_result2
+		var16_upvw.CFrame = GetBoundingBox_result1
+		updateHandles()
+	end
+end
+function removeBoundingBox() -- Line 603
+	--[[ Upvalues[3]:
+		[1]: var16_upvw (read and write)
+		[2]: var17_upvw (read and write)
+		[3]: var18_upvw (read and write)
+	]]
+	if var16_upvw then
+		var16_upvw:Destroy()
+		var16_upvw = nil
+	end
+	if var17_upvw then
+		var17_upvw:Destroy()
+		var17_upvw = nil
+	end
+	if var18_upvw then
+		var18_upvw:Destroy()
+		var18_upvw = nil
+	end
+end
+function uneq() -- Line 620
+	--[[ Upvalues[11]:
+		[1]: var23_upvw (read and write)
+		[2]: var8_upvw (read and write)
+		[3]: var9_upvw (read and write)
+		[4]: var10_upvw (read and write)
+		[5]: var11_upvw (read and write)
+		[6]: var12_upvw (read and write)
+		[7]: var13_upvw (read and write)
+		[8]: var22_upvw (read and write)
+		[9]: var27_upvw (read and write)
+		[10]: var21_upvw (read and write)
+		[11]: var14_upvw (read and write)
+	]]
+	var23_upvw = false
+	var8_upvw:Destroy()
+	var8_upvw = nil
+	var9_upvw:Disconnect()
+	var9_upvw = nil
+	var10_upvw:Disconnect()
+	var10_upvw = nil
+	var11_upvw:Disconnect()
+	var11_upvw = nil
+	var12_upvw:Disconnect()
+	var12_upvw = nil
+	var13_upvw:Disconnect()
+	var13_upvw = nil
+	var22_upvw:Disconnect()
+	var22_upvw = nil
+	var27_upvw:Disconnect()
+	var27_upvw = nil
+	if not var21_upvw then
+		clearSelected()
+		removeBoundingBox()
+	end
+	var14_upvw.ModeImage.Visible = false
+	var14_upvw.ModeButton.Visible = false
+	checkToUnlockCameraRotation()
+end
+function updateHandles() -- Line 652
+	--[[ Upvalues[4]:
+		[1]: var17_upvw (read and write)
+		[2]: var18_upvw (read and write)
+		[3]: var14_upvw (read and write)
+		[4]: var16_upvw (read and write)
+	]]
+	local var246
+	if not var17_upvw or not var18_upvw then
+	else
+		var246 = false
+		var17_upvw.Visible = var246
+		var246 = false
+		var18_upvw.Visible = var246
+		var246 = var14_upvw.Mode
+		local Value_5 = var246.Value
+		if Value_5 == "Move" then
+			var246 = var17_upvw
+			var246.Color3 = Color3.fromRGB(13, 105, 172)
+			var246 = var17_upvw
+			var246.Visible = true
+			var246 = var17_upvw
+			var246.Style = "Movement"
+		elseif Value_5 == "Rotate" then
+			var246 = var18_upvw
+			var246.Visible = true
+		elseif Value_5 == "Clone" then
+			var246 = var17_upvw
+			var246.Color3 = Color3.fromRGB(20, 255, 169)
+			var246 = var17_upvw
+			var246.Visible = true
+			var246 = var17_upvw
+			var246.Style = "Movement"
+		elseif Value_5 == "Mirror" then
+			var246 = var17_upvw
+			var246.Color3 = Color3.fromRGB(248, 37, 255)
+			var246 = var17_upvw
+			var246.Visible = true
+			var246 = var17_upvw
+			var246.Style = "Resize"
+		end
+		var246 = var16_upvw
+		if var246 then
+			var246 = var16_upvw:FindFirstChildOfClass("SelectionBox")
+		end
+		if var246 then
+			if Value_5 == "Clone" then
+				var246.Color3 = Color3.fromRGB(20, 255, 169)
+				return
+			end
+			if Value_5 == "Mirror" then
+				var246.Color3 = Color3.fromRGB(248, 37, 255)
+				return
+			end
+			var246.Color3 = Color3.fromRGB(13, 105, 172)
+		end
+	end
+end
+function modeChanged() -- Line 686
+	--[[ Upvalues[2]:
+		[1]: var17_upvw (read and write)
+		[2]: var18_upvw (read and write)
+	]]
+	if not var17_upvw or not var18_upvw then
+	else
+		updateBoundingBox()
+		local Visible = var17_upvw.Visible
+		if not Visible then
+			Visible = var18_upvw.Visible
+		end
+		if Visible then
+			updateHandles()
+		end
+	end
+end
+function eq() -- Line 697
+	--[[ Upvalues[11]:
+		[1]: var14_upvw (read and write)
+		[2]: LocalPlayer_upvr (readonly)
+		[3]: var9_upvw (read and write)
+		[4]: var10_upvw (read and write)
+		[5]: UserInputService_upvr (readonly)
+		[6]: var11_upvw (read and write)
+		[7]: var12_upvw (read and write)
+		[8]: var13_upvw (read and write)
+		[9]: var22_upvw (read and write)
+		[10]: var27_upvw (read and write)
+		[11]: var8_upvw (read and write)
+	]]
+	cleanUp()
+	var14_upvw = LocalPlayer_upvr.PlayerGui.TrowelToolDisplayGui
+	var9_upvw = LocalPlayer_upvr.Character.Humanoid.Died:Connect(died)
+	var10_upvw = UserInputService_upvr.InputChanged:Connect(inputChanged)
+	var11_upvw = UserInputService_upvr.InputBegan:Connect(inputBegan)
+	var12_upvw = UserInputService_upvr.InputEnded:Connect(inputEnded)
+	var13_upvw = UserInputService_upvr.TouchPinch:Connect(inputTouchPinch)
+	var22_upvw = var14_upvw.Mode:GetPropertyChangedSignal("Value"):Connect(modeChanged)
+	var27_upvw = LocalPlayer_upvr.Settings.ShareBlocks:GetPropertyChangedSignal("Value"):Connect(function() -- Line 713
+		clearSelected()
+		removeBoundingBox()
+	end)
+	var8_upvw = Instance.new("SelectionBox")
+	var8_upvw.Color3 = Color3.fromRGB(0, 134, 171)
+	var8_upvw.SurfaceColor3 = Color3.fromRGB(0, 97, 171)
+	var8_upvw.SurfaceTransparency = 1
+	var8_upvw.Parent = workspace
+	var14_upvw.ModeImage.Visible = true
+	var14_upvw.ModeButton.Visible = true
+end
+function cleanUp() -- Line 731
+	if workspace:FindFirstChild("SelectionBox") then
+		workspace.SelectionBox:Destroy()
+	end
+	if workspace:FindFirstChild("TrowelBoundingBox") then
+		workspace.TrowelBoundingBox:Destroy()
+	end
+	local children = workspace.Blocks:GetChildren()
+	for i_9 = 1, #children do
+		local children_4 = children[i_9]:GetChildren()
+		for i_10 = 1, #children_4 do
+			local var254 = children_4[i_10]
+			if var254:FindFirstChild("TrowelSB") then
+				var254.TrowelSB:Destroy()
+			end
+		end
+	end
+end
+function checkToLockCameraRotation() -- Line 753
+	--[[ Upvalues[1]:
+		[1]: var20_upvw (read and write)
+	]]
+	if not var20_upvw then
+		lockCameraRotation()
+	end
+end
+function lockCameraRotation() -- Line 759
+	--[[ Upvalues[3]:
+		[1]: var20_upvw (read and write)
+		[2]: CurrentCamera_upvr (readonly)
+		[3]: RunService_upvr (readonly)
+	]]
+	var20_upvw = true
+	CurrentCamera_upvr.CameraType = Enum.CameraType.Scriptable
+	local CameraSubject_upvw = CurrentCamera_upvr.CameraSubject
+	if CameraSubject_upvw:IsA("Humanoid") then
+		CameraSubject_upvw = CameraSubject_upvw.RootPart
+	end
+	local var257_upvr = CurrentCamera_upvr.CFrame - CurrentCamera_upvr.CFrame.p
+	local var258_upvr = CameraSubject_upvw.CFrame.p - CurrentCamera_upvr.CFrame.p
+	RunService_upvr:BindToRenderStep("cameraRotationLock", Enum.RenderPriority.Camera.Value, function() -- Line 772
+		--[[ Upvalues[4]:
+			[1]: CurrentCamera_upvr (copied, readonly)
+			[2]: var257_upvr (readonly)
+			[3]: CameraSubject_upvw (read and write)
+			[4]: var258_upvr (readonly)
+		]]
+		CurrentCamera_upvr.CFrame = var257_upvr + CameraSubject_upvw.CFrame.p - var258_upvr
+	end)
+end
+function checkToUnlockCameraRotation() -- Line 778
+	--[[ Upvalues[1]:
+		[1]: var20_upvw (read and write)
+	]]
+	if var20_upvw then
+		unlockCameraRotation()
+	end
+end
+function unlockCameraRotation() -- Line 784
+	--[[ Upvalues[3]:
+		[1]: RunService_upvr (readonly)
+		[2]: CurrentCamera_upvr (readonly)
+		[3]: var20_upvw (read and write)
+	]]
+	RunService_upvr:UnbindFromRenderStep("cameraRotationLock")
+	CurrentCamera_upvr.CameraType = Enum.CameraType.Custom
+	var20_upvw = false
+end
+local GuiService_upvr = game:GetService("GuiService")
+function inputBegan(arg1, arg2) -- Line 790
+	--[[ Upvalues[6]:
+		[1]: var23_upvw (read and write)
+		[2]: var24_upvw (read and write)
+		[3]: mouse_upvr (readonly)
+		[4]: var19_upvw (read and write)
+		[5]: GuiService_upvr (readonly)
+		[6]: var29_upvw (read and write)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [29] 20. Error Block 5 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [29] 20. Error Block 5 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [39] 28. Error Block 17 start (CF ANALYSIS FAILED)
+	if arg1.UserInputType == Enum.UserInputType.Gamepad1 then
+		if arg1.KeyCode == Enum.KeyCode.ButtonR2 and not GuiService_upvr.SelectedObject then
+			var23_upvw = true
+			var24_upvw = Vector2.new(mouse_upvr.X, mouse_upvr.Y)
+			active()
+			return
+		end
+		if arg1.KeyCode == Enum.KeyCode.ButtonL2 then
+			var29_upvw = true
+		end
+	end
+	-- KONSTANTERROR: [39] 28. Error Block 17 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [79] 54. Error Block 13 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [79] 54. Error Block 13 end (CF ANALYSIS FAILED)
+end
+function inputChanged(arg1, arg2) -- Line 813
+	if arg1.UserInputType == Enum.UserInputType.MouseMovement then
+		checkForDragSelection()
+		mouseMove()
+	elseif arg1.KeyCode == Enum.KeyCode.Thumbstick1 or arg1.KeyCode == Enum.KeyCode.Thumbstick2 then
+		checkForDragSelection()
+		mouseMove()
+	end
+end
+function inputEnded(arg1, arg2) -- Line 823
+	--[[ Upvalues[2]:
+		[1]: var23_upvw (read and write)
+		[2]: var29_upvw (read and write)
+	]]
+	if not arg2 then
+		if arg1.UserInputType == Enum.UserInputType.MouseButton1 then
+			var23_upvw = false
+			return
+		end
+		if arg1.UserInputType == Enum.UserInputType.Gamepad1 then
+			if arg1.KeyCode == Enum.KeyCode.ButtonR2 then
+				var23_upvw = false
+				return
+			end
+			if arg1.KeyCode == Enum.KeyCode.ButtonL2 then
+				var29_upvw = false
+			end
+		end
+	end
+end
+local var260_upvw
+function inputTouchPinch(arg1, arg2, arg3, arg4, arg5) -- Line 838
+	--[[ Upvalues[2]:
+		[1]: var260_upvw (read and write)
+		[2]: var25_upvw (read and write)
+	]]
+	if not arg5 then
+		local _1 = arg1[1]
+		local _2 = arg1[2]
+		if arg4 == Enum.UserInputState.Begin then
+			var260_upvw = (_2 - _1).Magnitude
+		end
+		if var260_upvw < 120 then
+			local var263 = true
+			if arg4 ~= Enum.UserInputState.Begin then
+				if arg4 ~= Enum.UserInputState.Change then
+					var263 = false
+				else
+					var263 = true
+				end
+			end
+			var25_upvw = var263
+			checkForDragSelection(true, _1, _2)
+		end
+	end
+end
+function doingShiftSelect() -- Line 856
+	--[[ Upvalues[2]:
+		[1]: UserInputService_upvr (readonly)
+		[2]: var29_upvw (read and write)
+	]]
+	local any_IsKeyDown_result1 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.LeftShift)
+	if not any_IsKeyDown_result1 then
+		any_IsKeyDown_result1 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.RightShift)
+		if not any_IsKeyDown_result1 then
+			any_IsKeyDown_result1 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.LeftControl)
+			if not any_IsKeyDown_result1 then
+				any_IsKeyDown_result1 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.RightControl)
+				if not any_IsKeyDown_result1 then
+					any_IsKeyDown_result1 = var29_upvw
+					if not any_IsKeyDown_result1 then
+						any_IsKeyDown_result1 = isMobilePlayer()
+					end
+				end
+			end
+		end
+	end
+	return any_IsKeyDown_result1
+end
+local var269_upvw = false
+function checkForDragSelection(arg1, arg2, arg3) -- Line 862
+	--[[ Upvalues[10]:
+		[1]: var23_upvw (read and write)
+		[2]: var25_upvw (read and write)
+		[3]: var14_upvw (read and write)
+		[4]: var24_upvw (read and write)
+		[5]: mouse_upvr (readonly)
+		[6]: var269_upvw (read and write)
+		[7]: var19_upvw (read and write)
+		[8]: GetBlockInfo_upvr (readonly)
+		[9]: LocalPlayer_upvr (readonly)
+		[10]: CurrentCamera_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local var299
+	local function INLINED_18() -- Internal function, doesn't exist in bytecode
+		var299 = not arg1
+		return var299
+	end
+	local function INLINED_19() -- Internal function, doesn't exist in bytecode
+		var299 = arg1
+		return var299
+	end
+	if not var23_upvw or not INLINED_18() or INLINED_19() then
+		var299 = var25_upvw
+	end
+	if not var299 then
+	else
+		local SelectionBox_3 = var14_upvw.SelectionBox
+		if not arg1 or not arg2 then
+			local var301 = var24_upvw
+		end
+		if not arg1 or not arg3 then
+			local vector2 = Vector2.new(mouse_upvr.X, mouse_upvr.Y)
+		end
+		SelectionBox_3.Position = UDim2.new(0, var301.X, 0, var301.Y)
+		SelectionBox_3.Size = UDim2.new(0, vector2.X - var301.X, 0, vector2.Y - var301.Y)
+		if var269_upvw or var19_upvw or not var301 then return end
+		if not arg1 and (vector2 - var301).Magnitude < 24 then return end
+		var269_upvw = true
+		if arg1 then
+			checkToLockCameraRotation()
+		end
+		SelectionBox_3.Visible = true
+		local var303
+		while var299 do
+			if not doingShiftSelect() or arg1 then
+				clearSelected()
+			end
+			var303 = SelectionBox_3.Position
+			var303 = SelectionBox_3.Size.Y
+			var303 = SelectionBox_3.Position.X
+			var303 = SelectionBox_3.Size.X.Offset
+			var303 = SelectionBox_3.Position
+			var303 = SelectionBox_3.Position.X.Offset
+			var303 = SelectionBox_3.Position.Y
+			var303 = SelectionBox_3.Position.Y.Offset + SelectionBox_3.Size.Y.Offset
+			var303 = workspace
+			local children_2 = var303.Blocks:GetChildren()
+			var303 = #children_2
+			for i_11 = 1, var303 do
+				local children_6 = children_2[i_11]:GetChildren()
+				for i_12 = 1, #children_6 do
+					local var306 = children_6[i_12]
+					local _, _, var3_result3_3 = GetBlockInfo_upvr(var306, LocalPlayer_upvr)
+					if var306.PrimaryPart and var3_result3_3 then
+						local any_WorldToScreenPoint_result1_2, any_WorldToScreenPoint_result2_2 = CurrentCamera_upvr:WorldToScreenPoint(var306.PrimaryPart.Position)
+						if any_WorldToScreenPoint_result2_2 and math.min(var303.X.Offset, var303 + SelectionBox_3.Size.X.Offset) < any_WorldToScreenPoint_result1_2.X and any_WorldToScreenPoint_result1_2.X < math.max(SelectionBox_3.Position.X.Offset, var303.Offset + var303) and math.min(SelectionBox_3.Position.Y.Offset, var303.Y.Offset + var303.Offset) < any_WorldToScreenPoint_result1_2.Y and any_WorldToScreenPoint_result1_2.Y < math.max(var303.Offset, var303) and not var306:FindFirstChild("TrowelSB") then
+							addSelection(var306)
+						end
+					end
+				end
+			end
+			var303 = wait
+			var303()
+			local function INLINED_20() -- Internal function, doesn't exist in bytecode
+				var303 = not arg1
+				return var303
+			end
+			if not var23_upvw or not INLINED_20() then
+				var303 = arg1
+				if var303 then
+					var303 = var25_upvw
+				end
+			end
+			var299 = var303
+		end
+		SelectionBox_3.Visible = false
+		updateBoundingBox()
+		if arg1 then
+			checkToUnlockCameraRotation()
+		end
+		var269_upvw = false
+	end
+end
+function mouseMove() -- Line 937
+	--[[ Upvalues[4]:
+		[1]: var8_upvw (read and write)
+		[2]: mouse_upvr (readonly)
+		[3]: GetBlockInfo_upvr (readonly)
+		[4]: LocalPlayer_upvr (readonly)
+	]]
+	if not var8_upvw then
+	else
+		local Target = mouse_upvr.Target
+		if not Target or not Target.Parent then
+			var8_upvw.Adornee = nil
+			return
+		end
+		local var3_result1_5, _, var3_result3_2 = GetBlockInfo_upvr(Target, LocalPlayer_upvr)
+		if var3_result3_2 then
+			var8_upvw.Adornee = var3_result1_5
+			return
+		end
+		var8_upvw.Adornee = nil
+	end
+end
+function died() -- Line 957
+	--[[ Upvalues[1]:
+		[1]: Parent_2_upvr (readonly)
+	]]
+	uneq()
+	clearSelected()
+	removeBoundingBox()
+	Parent_2_upvr:Destroy()
+end
+function getBlockValue(arg1) -- Line 964
+	local Name_2 = arg1.Name
+	local var317 = 1
+	if string.find(Name_2, "Block") then
+		local Size_2 = game.ReplicatedStorage.BuildingParts[Name_2].PrimaryPart.Size
+		local Size = arg1.PrimaryPart.Size
+		var317 = math.max((Size.X * Size.Y * Size.Z) / (Size_2.X * Size_2.Y * Size_2.Z), 1)
+	end
+	return var317
+end
+Parent_2_upvr.Equipped:connect(eq)
+Parent_2_upvr.Unequipped:connect(uneq)

@@ -1,0 +1,129 @@
+-- Decompiled with Velocity Script Decompiler
+local v_u_1 = game:GetService("MarketplaceService")
+local v_u_2 = game.Players.LocalPlayer
+local v_u_3 = false
+local v_u_4 = nil
+local v_u_5 = ""
+local v_u_6 = script.Parent.Parent:WaitForChild("ToName")
+function active()
+    -- upvalues: (ref) v_u_4, (copy) v_u_2, (ref) v_u_3
+    if v_u_4 then
+        if v_u_4 == v_u_2.UserId then
+            local v7 = script.Parent.Parent.Parent.TextBox
+            v7.Text = "Gifts must be purchased for another player."
+            v7.TextColor3 = Color3.fromRGB(255, 150, 3)
+            return
+        elseif not v_u_3 then
+            v_u_3 = true
+            spawn(coolDown)
+            repeat
+                wait()
+            until v_u_2.OtherData:FindFirstChild("LastGiftedID") and v_u_2.OtherData.LastGiftedID.Value == v_u_4
+            ShopBuy(script.Parent.Parent.Parent.FocusImage.Title.Text)
+        end
+    else
+        local v8 = script.Parent.Parent.Parent.TextBox
+        v8.Text = "Need existing player name to gift purchase."
+        v8.TextColor3 = Color3.fromRGB(255, 150, 3)
+        return
+    end
+end
+function coolDown()
+    -- upvalues: (ref) v_u_3
+    wait(1)
+    v_u_3 = false
+end
+function ShopBuy(p9)
+    -- upvalues: (copy) v_u_6, (copy) v_u_1
+    if p9 == "Gold+" then
+        workspace.PromptRobuxEvent:InvokeServer(964161982, "Product")
+    elseif p9 == "Gold++" then
+        workspace.PromptRobuxEvent:InvokeServer(964161904, "Product")
+    elseif p9 == "Gold+++" then
+        workspace.PromptRobuxEvent:InvokeServer(964162210, "Product")
+    elseif p9 == "Gold++++" then
+        workspace.PromptRobuxEvent:InvokeServer(1056494360, "Product")
+    elseif p9 == "+100 Glass Blocks" then
+        workspace.PromptRobuxEvent:InvokeServer(964160023, "Product")
+    elseif p9 == "+100 Wood Blocks" then
+        workspace.PromptRobuxEvent:InvokeServer(963875471, "Product")
+    elseif p9 == "+100 Neon Blocks" then
+        workspace.PromptRobuxEvent:InvokeServer(964160449, "Product")
+    elseif p9 == "+4 Huge Wheels" then
+        workspace.PromptRobuxEvent:InvokeServer(964161456, "Product")
+    elseif p9 == "+3 Egg Cannons" then
+        workspace.PromptRobuxEvent:InvokeServer(1161573830, "Product")
+    elseif p9 == "+5 Golden Harpoons" then
+        workspace.PromptRobuxEvent:InvokeServer(964161665, "Product")
+    elseif p9 == "+5 Ultra Thrusters" then
+        workspace.PromptRobuxEvent:InvokeServer(964161784, "Product")
+    elseif p9 == "+3 Ultra Jetpacks" then
+        workspace.PromptRobuxEvent:InvokeServer(964161185, "Product")
+    elseif p9 == "+3 Sonic Jet Turbines" then
+        workspace.PromptRobuxEvent:InvokeServer(964160627, "Product")
+    elseif p9 == "+4 Portals" then
+        workspace.PromptRobuxEvent:InvokeServer(964161557, "Product")
+    elseif p9 == "+5 Dragon Harpoons" then
+        workspace.PromptRobuxEvent:InvokeServer(1109792539, "Product")
+    elseif p9 == "+5 Duel Harpoons" then
+        workspace.PromptRobuxEvent:InvokeServer(1126344149, "Product")
+    elseif p9 == "+4 Cookie Wheels" then
+        workspace.PromptRobuxEvent:InvokeServer(1126385548, "Product")
+    else
+        if p9 ~= "+3 Ultra Boat Motors" then
+            print(p9 .. " not found in shop (gift)")
+            return
+        end
+        workspace.PromptRobuxEvent:InvokeServer(964161060, "Product")
+    end
+    v_u_6.TextEditable = false
+    v_u_1.PromptProductPurchaseFinished:Wait()
+    v_u_6.TextEditable = true
+end
+function trim(p10)
+    return string.gsub(p10, "^%s*(.-)%s*$", "%1")
+end
+local v_u_11 = script.Parent.MouseButton1Click:connect(active)
+script.Parent.MouseButton1Down:Connect(function()
+    script.Parent.Roundify1.Position = UDim2.new(0, -3, 0, -3)
+end)
+script.Parent.MouseButton1Up:Connect(function()
+    script.Parent.Roundify1.Position = UDim2.new(0, 0, 0, 0)
+end)
+v_u_6.Focused:Connect(function()
+    -- upvalues: (ref) v_u_11
+    v_u_11:Disconnect()
+    v_u_11 = nil
+end)
+v_u_6.FocusLost:Connect(function()
+    -- upvalues: (ref) v_u_4, (copy) v_u_6, (copy) v_u_2, (ref) v_u_5, (ref) v_u_11
+    v_u_4 = nil
+    local v_u_12 = trim(v_u_6.Text)
+    if v_u_12 == v_u_2.Name then
+        v_u_6.Text = v_u_5
+        local v13 = script.Parent.Parent.Parent.TextBox
+        v13.Text = "Gifts must be purchased for another player."
+        v13.TextColor3 = Color3.fromRGB(255, 150, 3)
+        v_u_11 = script.Parent.MouseButton1Click:connect(active)
+    else
+        v_u_5 = v_u_12
+        local v_u_14 = nil
+        pcall(function()
+            -- upvalues: (ref) v_u_14, (copy) v_u_12
+            v_u_14 = game.Players:GetUserIdFromNameAsync(v_u_12)
+        end)
+        if v_u_14 then
+            workspace.UpdateLastGiftedIDRE:FireServer(v_u_14, v_u_12)
+            v_u_6.Parent.ToPlayerImage.Image = game.Players:GetUserThumbnailAsync(v_u_14, 0, 2)
+            v_u_6.Parent.ToPlayerImage.Visible = true
+            v_u_6.Size = UDim2.new(0.55, 0, 0.065, 0)
+            v_u_6.Parent.Parent.Cost.Size = UDim2.new(0.525, 0, 0.1, 0)
+        else
+            v_u_6.Parent.ToPlayerImage.Visible = false
+            v_u_6.Size = UDim2.new(0.8, 0, 0.065, 0)
+            v_u_6.Parent.Parent.Cost.Size = UDim2.new(0.8, 0, 0.1, 0)
+        end
+        v_u_4 = v_u_14
+        v_u_11 = script.Parent.MouseButton1Click:connect(active)
+    end
+end)

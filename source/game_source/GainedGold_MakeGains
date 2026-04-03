@@ -1,0 +1,29 @@
+-- Decompiled with Velocity Script Decompiler
+local v_u_1 = game.Players.LocalPlayer
+v_u_1:WaitForChild("Data"):WaitForChild("Gold")
+local v_u_2 = v_u_1.Data.Gold.Value
+function active()
+    -- upvalues: (copy) v_u_1, (ref) v_u_2
+    local v3 = v_u_1.Data.Gold.Value
+    if v_u_2 ~= v3 then
+        local v4 = v3 - v_u_2
+        v_u_2 = v3
+        local v5 = script.Parent.Gain:Clone()
+        v5.Name = "GainClone"
+        v5.Parent = script.Parent
+        if v4 > 0 then
+            v5.Message.Text = "+" .. tostring(v4) .. " Gold"
+            v5.Message.TextColor3 = Color3.new(223, 223, 0)
+            v5.Message.TextStrokeColor3 = Color3.fromRGB(107, 91, 0)
+            v5.Message.TextStrokeTransparency = 0
+            v5.GoldGainedSound:Play()
+            return
+        end
+        v5.Message.Text = tostring(v4) .. " Gold"
+        v5.Message.TextColor3 = Color3.new(255, 0, 0)
+        v5.Message.TextStrokeTransparency = 1
+        local v6 = math.random
+        v5["PurchaseSound" .. tostring(v6(1, 3))]:Play()
+    end
+end
+v_u_1.Data.Gold.Changed:connect(active)

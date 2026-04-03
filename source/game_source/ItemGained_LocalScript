@@ -1,0 +1,408 @@
+-- Decompiled with Velocity Script Decompiler
+local v_u_1 = game:GetService("TweenService")
+local v_u_2 = game:GetService("Debris")
+local v_u_3 = game.Players.LocalPlayer
+local v4 = script.Parent
+local v_u_5 = v4.Parent
+local v_u_6 = {}
+local v_u_7 = false
+v_u_3.PlayerGui:WaitForChild("ShopGui"):WaitForChild("MainFrame")
+v_u_3.PlayerGui.ShopGui:WaitForChild("SideFrame")
+v_u_3.PlayerGui:WaitForChild("BuildGui"):WaitForChild("InventoryFrame"):WaitForChild("ScrollingFrame"):WaitForChild("BlocksFrame")
+local v_u_8 = {
+    ["Common Chest"] = { Color3.fromRGB(37, 186, 34), Color3.fromRGB(154, 255, 152) },
+    ["Uncommon Chest"] = { Color3.fromRGB(190, 194, 0), Color3.fromRGB(255, 240, 120) },
+    ["Rare Chest"] = { Color3.fromRGB(190, 24, 0), Color3.fromRGB(255, 90, 93) },
+    ["Epic Chest"] = { Color3.fromRGB(4, 176, 199), Color3.fromRGB(89, 217, 255) },
+    ["Legendary Chest"] = { Color3.fromRGB(155, 0, 158), Color3.fromRGB(246, 138, 255) }
+}
+function active(p9, p10)
+    -- upvalues: (copy) v_u_6, (ref) v_u_7, (copy) v_u_3
+    local v11 = v_u_6
+    table.insert(v11, { p9, p10 })
+    if not v_u_7 then
+        v_u_7 = true
+        local v12 = v_u_3.PlayerGui.ShopGui.MainFrame.Visible
+        v_u_3.PlayerGui.ShopGui.MainFrame.Visible = false
+        v_u_3.PlayerGui.ShopGui.SideFrame.Visible = false
+        local v_u_13 = game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Backpack)
+        if v_u_13 then
+            game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
+        end
+        local v14 = v_u_3.CharacterRemoving:Connect(function()
+            -- upvalues: (copy) v_u_13
+            if v_u_13 then
+                game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, true)
+            end
+        end)
+        showItems()
+        v14:Disconnect()
+        v_u_3.PlayerGui.ShopGui.MainFrame.Visible = v12
+        v_u_3.PlayerGui.ShopGui.SideFrame.Visible = true
+        if v_u_13 then
+            game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, true)
+        end
+        v_u_7 = false
+    end
+end
+function showItems()
+    -- upvalues: (copy) v_u_5
+    local v15 = v_u_5.LastItemBoughtName.Value
+    v_u_5.LastItemBoughtName.Value = ""
+    if string.find(string.lower(v15), "chest") then
+        showItemsChest(v15)
+    else
+        showItemsNoChest()
+    end
+end
+function getNextShownItem()
+    -- upvalues: (copy) v_u_6
+    local v16 = table.remove(v_u_6, 1)
+    if v16 then
+        local v17 = v16[1]
+        if game.ReplicatedStorage.BuildingParts:FindFirstChild(v17) then
+            return v16
+        else
+            return getNextShownItem()
+        end
+    else
+        return nil
+    end
+end
+function showItemsChest(p18)
+    -- upvalues: (copy) v_u_3, (copy) v_u_8, (copy) v_u_1, (copy) v_u_2
+    local v19 = getNextShownItem()
+    if v19 then
+        local v_u_20 = script.OpenChestAnimation:Clone()
+        v_u_20.Enabled = true
+        v_u_20.Parent = v_u_3.PlayerGui
+        local v_u_21 = v_u_20.BlackBackground
+        local v_u_22 = v_u_20.Items
+        local v_u_23 = v_u_21.ViewportFrame.WorldModel.Model
+        local v_u_24 = v_u_20.Close
+        local v25 = v_u_23.Chest_Opening
+        local v26 = v_u_23.Chest_Idle
+        local v_u_27 = v_u_23.AnimationController:LoadAnimation(v25)
+        local v_u_28 = v_u_23.AnimationController:LoadAnimation(v26)
+        v_u_27:Play()
+        v_u_27:AdjustSpeed(0)
+        local v_u_29 = v_u_8[p18][1]
+        local v_u_30 = v_u_8[p18][2]
+        local function v31()
+            -- upvalues: (copy) v_u_22, (copy) v_u_21, (ref) v_u_1, (copy) v_u_24, (copy) v_u_20
+            v_u_22:TweenPosition(UDim2.new(0.5, 0, -0.4, 0), "In", "Quad", 0.7, true)
+            v_u_21.ViewportFrame:TweenPosition(UDim2.new(0.5, 0, 1.2, 0), "In", "Quad", 0.7, true)
+            v_u_21.Rays:TweenPosition(UDim2.new(0.5, 0, 1.2, 0), "In", "Quad", 0.7, true)
+            v_u_1:Create(v_u_21.Rays, TweenInfo.new(0.7, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+                ["ImageTransparency"] = 1
+            }):Play()
+            v_u_1:Create(v_u_21.ViewportFrame, TweenInfo.new(0.7, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+                ["ImageTransparency"] = 1
+            }):Play()
+            v_u_24.Visible = false
+            wait(0.5)
+            v_u_1:Create(v_u_21, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                ["BackgroundTransparency"] = 1
+            }):Play()
+            v_u_1:Create(v_u_21.Vignette, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                ["ImageTransparency"] = 1
+            }):Play()
+            wait(1)
+            v_u_20:Destroy()
+        end
+        local function v32()
+            -- upvalues: (copy) v_u_21, (ref) v_u_1
+            v_u_21.BackgroundTransparency = 1
+            v_u_1:Create(v_u_21, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                ["BackgroundTransparency"] = 0.3
+            }):Play()
+            v_u_1:Create(v_u_21.Vignette, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                ["ImageTransparency"] = 0.7
+            }):Play()
+            v_u_21.Rays.Size = UDim2.new(0, 0, 0, 0)
+            v_u_21.Rays.Rotation = 0
+            game:GetService("TweenService"):Create(v_u_21.Rays, TweenInfo.new(20, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {
+                ["Rotation"] = 360
+            }):Play()
+            v_u_21.ViewportFrame.Visible = false
+        end
+        local function v37()
+            -- upvalues: (copy) v_u_20, (copy) v_u_21, (ref) v_u_1, (ref) v_u_2, (copy) v_u_23
+            for _ = 1, 20 do
+                local v33 = v_u_20.EffectGuiObjTemplates.Particles1:Clone()
+                local v34 = math.random(4, 15) * 0.1
+                v33.Parent = v_u_21
+                v33.Size = UDim2.new(0.2, 0, math.random(20, 40) * 0.01, 0)
+                v33.Position = v33.Position + UDim2.new(math.random(-10, 10) * 0.01, 0, math.random(-5, 15) * 0.01, 0)
+                v33:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", v34, true)
+                v33:TweenPosition(UDim2.new(math.random(-10, 100) * 0.01, 0, math.random(-40, 60) * 0.01, 0), "Out", "Quad", v34, true)
+                v_u_1:Create(v33, TweenInfo.new(v34, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+                    ["Rotation"] = v33.Rotation + math.random(200, 1000),
+                    ["ImageColor3"] = Color3.fromRGB(255, 255, 255)
+                }):Play()
+                v_u_2:AddItem(v33, 2)
+            end
+            local v35 = v_u_20.EffectGuiObjTemplates.Particles2:Clone()
+            v35.Parent = v_u_21
+            v35:TweenSize(UDim2.new(1.2, 0, 1, 0), "Out", "Quad", 1.5, true)
+            local v36 = v_u_20.EffectGuiObjTemplates.Particles3:Clone()
+            v36.Parent = v_u_21
+            v36:TweenSize(UDim2.new(1.8, 0, 1, 0), "Out", "Quad", 1, true)
+            v_u_1:Create(v35, TweenInfo.new(1.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+                ["ImageTransparency"] = 1
+            }):Play()
+            v_u_1:Create(v36, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+                ["ImageTransparency"] = 1
+            }):Play()
+            v_u_1:Create(v_u_23.Inside, TweenInfo.new(1.3, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+                ["Color"] = Color3.fromRGB(0, 0, 0)
+            }):Play()
+            v_u_2:AddItem(v35, 2)
+            v_u_2:AddItem(v36, 2)
+        end
+        local function v52(p38)
+            -- upvalues: (copy) v_u_20, (ref) v_u_3, (copy) v_u_22, (ref) v_u_1, (copy) v_u_21, (ref) v_u_2, (copy) v_u_24
+            local v39 = 0
+            local v40 = 1
+            local v41 = 0
+            while p38 do
+                v39 = v39 + 1
+                if v40 * 8 < v39 then
+                    v40 = v40 + 1
+                    v41 = v41 + 0.25
+                end
+                local v_u_42 = v_u_20.EffectGuiObjTemplates.Card:Clone()
+                v_u_42.Visible = true
+                local v43 = p38[1]
+                local v_u_44 = p38[2]
+                local v45 = game.ReplicatedStorage.BuildingParts:FindFirstChild(v43):IsA("Tool")
+                local v46 = not v45 and v_u_3.PlayerGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame[v43].Image or game.ReplicatedStorage.BuildingParts:FindFirstChild(v43).TextureId
+                local v47 = v45 and "" or (v_u_3.PlayerGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame[v43].TypeIcon.Image or "")
+                v_u_42.Name = "card" .. v40 .. "_" .. v39 - (v40 - 1) * 8
+                v_u_42.Frame.ItemImage.Image = v46
+                v_u_42.Frame.Icon.Image = v47
+                v_u_42.Parent = v_u_22
+                v_u_42.Position = UDim2.new(0.5, 0, 0.6, 0)
+                v_u_42.Size = UDim2.new(0.056, 0, 0.13, 0)
+                if v45 then
+                    v_u_42.BackgroundTransparency = 1
+                    v_u_42.Frame.BackgroundTransparency = 1
+                    v_u_42.Frame.Icon.Visible = false
+                    v_u_42.Frame.Number.Visible = false
+                    v_u_42.Frame.Visible = false
+                else
+                    v_u_1:Create(v_u_42.White, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        ["BackgroundTransparency"] = 0
+                    }):Play()
+                end
+                v_u_42:TweenPosition(UDim2.new(0.5, 0, 0.4, 0), "Out", "Back", 0.5, true)
+                v_u_42:TweenSize(UDim2.new(0.12, 0, 0.28, 0), "Out", "Back", 0.4, true)
+                v_u_42.ShortShine:Play()
+                for _ = 1, 30 do
+                    local v48 = v_u_20.EffectGuiObjTemplates.Particles1:Clone()
+                    v48.Visible = true
+                    local v49 = math.random(4, 15) * 0.1
+                    v48.ImageColor3 = Color3.fromRGB(255, 255, 255)
+                    v48.Parent = v_u_21
+                    v48.Size = UDim2.new(0.2, 0, math.random(5, 15) * 0.01, 0)
+                    v48.Position = UDim2.new(0.5 + math.random(-5, 5) * 0.01, 0, 0.5 + math.random(-5, 5) * 0.01, 0)
+                    v48:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", v49, true)
+                    v48:TweenPosition(UDim2.new(0.5 + math.random(-10, 20) * 0.01, 0, 0.5 - math.random(30, 80) * 0.01, 0), "Out", "Quad", v49, true)
+                    v_u_1:Create(v48, TweenInfo.new(v49, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+                        ["Rotation"] = v48.Rotation + math.random(200, 700)
+                    }):Play()
+                    v_u_2:AddItem(v48, 2)
+                end
+                if not v45 then
+                    delay(0.3, function()
+                        -- upvalues: (copy) v_u_42, (ref) v_u_1, (copy) v_u_44
+                        v_u_42.Frame.Visible = true
+                        v_u_42.BackgroundTransparency = 0
+                        v_u_1:Create(v_u_42.White, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                            ["BackgroundTransparency"] = 1
+                        }):Play()
+                        v_u_42.Shine:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.6, true)
+                        v_u_42.Frame.Number.Text = v_u_44
+                        wait(0.3)
+                        v_u_1:Create(v_u_42.Shine, TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+                            ["ImageTransparency"] = 1
+                        }):Play()
+                    end)
+                end
+                wait(0.5)
+                v_u_42:TweenPosition(UDim2.new((v39 - 1 - (v40 - 1) * 8) * 0.055 + 0.5, 0, v41, 0), "Out", "Quart", 0.4, true)
+                v_u_42:TweenSize(UDim2.new(0.1, 0, 0.233, 0), "Out", "Quad", 0.5, true)
+                if v39 - (v40 - 1) * 8 > 1 then
+                    for v50 = 1, v39 - 1 - (v40 - 1) * 8 do
+                        local v51 = v_u_22["card" .. v40 .. "_" .. v50]
+                        v51:TweenPosition(UDim2.new(v51.Position.X.Scale - 0.055, 0, v51.Position.Y.Scale, 0), "InOut", "Sine", 0.3, true)
+                    end
+                end
+                p38 = getNextShownItem()
+            end
+            v_u_24.Visible = true
+        end
+        (function()
+            -- upvalues: (copy) v_u_23, (copy) v_u_29, (copy) v_u_21, (copy) v_u_30, (copy) v_u_20
+            for _, v53 in pairs(v_u_23:GetChildren()) do
+                if v53.Name == "ColorPart" then
+                    v53.Color = v_u_29
+                end
+            end
+            v_u_21.Rays.ImageColor3 = v_u_30
+            v_u_20.EffectGuiObjTemplates["Particles" .. 1].ImageColor3 = v_u_30
+            v_u_20.EffectGuiObjTemplates["Particles" .. 2].ImageColor3 = v_u_30
+            v_u_20.EffectGuiObjTemplates["Particles" .. 3].ImageColor3 = v_u_30
+            v_u_23.Inside.Color = v_u_30
+            v_u_21.Vignette.ImageColor3 = v_u_29
+        end)()
+        v32()
+        wait(0.5);
+        (function()
+            -- upvalues: (copy) v_u_21, (copy) v_u_27, (copy) v_u_20, (copy) v_u_28
+            v_u_21.Rays:TweenSize(UDim2.new(0.5, 0, 0.9, 0), "Out", "Quad", 1.5, true)
+            v_u_21.ViewportFrame.Visible = true
+            v_u_27:AdjustSpeed(1)
+            wait(0.7)
+            v_u_20.ChestSound:Play()
+            v_u_27.Stopped:Connect(function()
+                -- upvalues: (ref) v_u_28
+                v_u_28:Play()
+            end)
+        end)()
+        wait(0.9)
+        v37()
+        v52(v19)
+        v_u_24.MouseButton1Click:Wait()
+        v31()
+    end
+end
+function showItemsNoChest()
+    -- upvalues: (copy) v_u_3, (copy) v_u_1, (copy) v_u_2
+    local v54 = getNextShownItem()
+    if v54 then
+        local v_u_55 = script.NoChestAnimation:Clone()
+        v_u_55.Enabled = true
+        v_u_55.Parent = v_u_3.PlayerGui
+        local v_u_56 = v_u_55.BlackBackground
+        local v_u_57 = v_u_55.Items
+        local v_u_58 = v_u_55.Close
+        local function v59()
+            -- upvalues: (copy) v_u_57, (copy) v_u_58, (ref) v_u_1, (copy) v_u_56, (copy) v_u_55
+            v_u_57:TweenPosition(UDim2.new(0.5, 0, -0.4, 0), "In", "Quad", 0.7, true)
+            v_u_58.Visible = false
+            wait(0.5)
+            v_u_1:Create(v_u_56, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                ["BackgroundTransparency"] = 1
+            }):Play()
+            wait(1)
+            v_u_55:Destroy()
+        end
+        local function v75(p60)
+            -- upvalues: (copy) v_u_55, (ref) v_u_3, (copy) v_u_57, (ref) v_u_1, (copy) v_u_56, (ref) v_u_2
+            local v61 = 0
+            local v62 = 1
+            local v63 = 0.1
+            while p60 do
+                v61 = v61 + 1
+                if v62 * 8 < v61 then
+                    v62 = v62 + 1
+                    v63 = v63 + 0.1
+                end
+                local v_u_64 = v_u_55.EffectGuiObjTemplates.Card:Clone()
+                v_u_64.Visible = true
+                local v65 = p60[1]
+                local v_u_66 = p60[2]
+                local v67 = game.ReplicatedStorage.BuildingParts:FindFirstChild(v65):IsA("Tool")
+                local v68 = not v67 and v_u_3.PlayerGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame[v65].Image or game.ReplicatedStorage.BuildingParts:FindFirstChild(v65).TextureId
+                local v69 = v67 and "" or (v_u_3.PlayerGui.BuildGui.InventoryFrame.ScrollingFrame.BlocksFrame[v65].TypeIcon.Image or "")
+                v_u_64.Name = "card" .. v62 .. "_" .. v61 - (v62 - 1) * 8
+                v_u_64.Frame.ItemImage.Image = v68
+                v_u_64.Frame.Icon.Image = v69
+                v_u_64.Parent = v_u_57
+                v_u_64.Position = UDim2.new(0.5, 0, 0.6, 0)
+                v_u_64.Size = UDim2.new(0.056, 0, 0.13, 0)
+                if v67 then
+                    v_u_64.BackgroundTransparency = 1
+                    v_u_64.Frame.BackgroundTransparency = 1
+                    v_u_64.Frame.Icon.Visible = false
+                    v_u_64.Frame.Number.Visible = false
+                    v_u_64.Frame.Visible = true
+                else
+                    v_u_1:Create(v_u_64.White, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        ["BackgroundTransparency"] = 0
+                    }):Play()
+                end
+                v_u_64:TweenPosition(UDim2.new(0.5, 0, 0.4, 0), "Out", "Back", 0.5, true)
+                v_u_64:TweenSize(UDim2.new(0.12, 0, 0.28, 0), "Out", "Back", 0.4, true)
+                local v70 = v_u_55.EffectGuiObjTemplates.Rays:Clone()
+                v70.Visible = true
+                v70.Rotation = 0
+                game:GetService("TweenService"):Create(v70, TweenInfo.new(20, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {
+                    ["Rotation"] = 360
+                }):Play()
+                v70.Parent = v_u_56
+                v70:TweenSize(UDim2.new(0.4, 0, 0.4, 0), "Out", "Quad", 1, true)
+                v_u_64.ShortShine:Play()
+                for _ = 1, 30 do
+                    local v71 = v_u_55.EffectGuiObjTemplates.Particles:Clone()
+                    v71.Visible = true
+                    local v72 = math.random(4, 15) * 0.1
+                    v71.ImageColor3 = Color3.fromRGB(255, 255, 255)
+                    v71.Parent = v_u_56
+                    v71.Size = UDim2.new(0.2, 0, math.random(5, 15) * 0.01, 0)
+                    v71.Position = UDim2.new(0.5 + math.random(-5, 5) * 0.01, 0, 0.5 + math.random(-5, 5) * 0.01, 0)
+                    v71:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", v72, true)
+                    v71:TweenPosition(UDim2.new(0.5 + math.random(-10, 20) * 0.01, 0, 0.5 - math.random(30, 80) * 0.01, 0), "Out", "Quad", v72, true)
+                    v_u_1:Create(v71, TweenInfo.new(v72, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+                        ["Rotation"] = v71.Rotation + math.random(200, 700)
+                    }):Play()
+                    v_u_2:AddItem(v71, 2)
+                end
+                if not v67 then
+                    delay(0.3, function()
+                        -- upvalues: (copy) v_u_64, (ref) v_u_1, (copy) v_u_66
+                        v_u_64.Frame.Visible = true
+                        v_u_64.BackgroundTransparency = 0
+                        v_u_1:Create(v_u_64.White, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                            ["BackgroundTransparency"] = 1
+                        }):Play()
+                        v_u_64.Shine:TweenPosition(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.6, true)
+                        v_u_64.Frame.Number.Text = v_u_66
+                        wait(0.3)
+                        v_u_1:Create(v_u_64.Shine, TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+                            ["ImageTransparency"] = 1
+                        }):Play()
+                    end)
+                end
+                wait(2.5)
+                v_u_1:Create(v70, TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    ["ImageTransparency"] = 1
+                }):Play()
+                v_u_2:AddItem(v70, 1)
+                v_u_64:TweenPosition(UDim2.new((v61 - 1 - (v62 - 1) * 8) * 0.055 + 0.5, 0, v63, 0), "Out", "Quart", 0.4, true)
+                v_u_64:TweenSize(UDim2.new(0.1, 0, 0.233, 0), "Out", "Quad", 0.5, true)
+                if v61 - (v62 - 1) * 8 > 1 then
+                    for v73 = 1, v61 - 1 - (v62 - 1) * 8 do
+                        local v74 = v_u_57["card" .. v62 .. "_" .. v73]
+                        v74:TweenPosition(UDim2.new(v74.Position.X.Scale - 0.055, 0, v74.Position.Y.Scale, 0), "InOut", "Sine", 0.3, true)
+                    end
+                end
+                p60 = getNextShownItem()
+            end
+        end
+        (function()
+            -- upvalues: (copy) v_u_56, (ref) v_u_1
+            v_u_56.BackgroundTransparency = 1
+            v_u_1:Create(v_u_56, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+                ["BackgroundTransparency"] = 0.3
+            }):Play()
+        end)()
+        wait(0.3)
+        v75(v54)
+        v_u_57:TweenPosition(UDim2.new(0.5, 0, 0.6, 0), "In", "Quad", 0.3, true)
+        wait(2)
+        v59()
+    end
+end
+v4.Event:Connect(active)

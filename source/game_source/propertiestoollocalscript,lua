@@ -1,0 +1,629 @@
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/brNTY8nX8t)
+-- Decompiled on 2026-02-27 07:48:15
+-- Luau version 6, Types version 3
+-- Time taken: 0.037937 seconds
+
+local UserInputService_upvr = game:GetService("UserInputService")
+local RunService_upvr = game:GetService("RunService")
+local GetBlockInfo_upvr = require(game.ReplicatedStorage.Scripts.GetBlockInfo)
+local LocalPlayer_upvr = game.Players.LocalPlayer
+local mouse_upvr = LocalPlayer_upvr:GetMouse()
+local Parent_upvr = script.Parent
+local CurrentCamera_upvr = workspace.CurrentCamera
+local var8_upvw
+local var9_upvw
+local var10_upvw
+local var11_upvw
+local var12_upvw
+local var13_upvw
+local var14_upvw
+local var15_upvw
+local tbl_upvw = {}
+local var17_upvw
+local var18_upvw
+local var19_upvw = false
+local var20_upvw = false
+local var21_upvw
+local var22_upvw = false
+local var23_upvw = false
+function isMobilePlayer() -- Line 31
+	--[[ Upvalues[1]:
+		[1]: UserInputService_upvr (readonly)
+	]]
+	local var24
+	if UserInputService_upvr:GetLastInputType() ~= Enum.UserInputType.Touch then
+		var24 = false
+	else
+		var24 = true
+	end
+	return var24
+end
+function getItemType(arg1) -- Line 36
+	--[[ Upvalues[1]:
+		[1]: var18_upvw (read and write)
+	]]
+	return var18_upvw.GetItemType(arg1)
+end
+function getSelectedModels() -- Line 40
+	--[[ Upvalues[1]:
+		[1]: tbl_upvw (read and write)
+	]]
+	for i = 1, #tbl_upvw do
+		local var26 = tbl_upvw[i]
+		local Adornee = var26.Adornee
+		if Adornee and var26.Parent and Adornee.Parent then
+			table.insert({}, Adornee)
+		end
+	end
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	return {}
+end
+function clearSelected() -- Line 53
+	--[[ Upvalues[1]:
+		[1]: tbl_upvw (read and write)
+	]]
+	for i_2 = 1, #tbl_upvw do
+		tbl_upvw[i_2]:Destroy()
+	end
+	tbl_upvw = {}
+end
+function addSelection(arg1) -- Line 60
+	--[[ Upvalues[2]:
+		[1]: var8_upvw (read and write)
+		[2]: tbl_upvw (read and write)
+	]]
+	local clone = var8_upvw:Clone()
+	clone.Name = "PropertiesSB"
+	clone.SurfaceTransparency = 0.5
+	clone.LineThickness = 0.1
+	clone.Parent = arg1
+	clone.Adornee = arg1
+	table.insert(tbl_upvw, clone)
+end
+function active(arg1) -- Line 71
+	--[[ Upvalues[4]:
+		[1]: var8_upvw (read and write)
+		[2]: GetBlockInfo_upvr (readonly)
+		[3]: LocalPlayer_upvr (readonly)
+		[4]: tbl_upvw (read and write)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [2] 3. Error Block 2 start (CF ANALYSIS FAILED)
+	do
+		return
+	end
+	-- KONSTANTERROR: [2] 3. Error Block 2 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [3] 4. Error Block 3 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [3] 4. Error Block 3 end (CF ANALYSIS FAILED)
+end
+function getAllSelectedProperties(arg1) -- Line 116
+	--[[ Upvalues[1]:
+		[1]: var18_upvw (read and write)
+	]]
+	local module = {}
+	for i_3 = 1, #arg1 do
+		local getItemType_result1 = getItemType(arg1[i_3])
+		if getItemType_result1 and not module[getItemType_result1] then
+			module[getItemType_result1] = var18_upvw[getItemType_result1]
+		end
+	end
+	if 0 < #arg1 then
+		module.All = var18_upvw.All
+	end
+	return module
+end
+local var33_upvw = false
+function showProperties() -- Line 131
+	--[[ Upvalues[3]:
+		[1]: var15_upvw (read and write)
+		[2]: var33_upvw (read and write)
+		[3]: Parent_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 30 start (CF ANALYSIS FAILED)
+	local getSelectedModels_result1_2_upvr = getSelectedModels()
+	local tbl_2 = {}
+	local tbl = {}
+	local _
+	for _, v in pairs(getAllSelectedProperties(getSelectedModels_result1_2_upvr)) do
+		local pairs_result1_upvr, pairs_result2_2, pairs_result3_upvr = pairs(v)
+		for i_5_upvr, v_2 in pairs_result1_upvr, pairs_result2_2, pairs_result3_upvr do
+			if not tbl[i_5_upvr] then
+				tbl[i_5_upvr] = true
+				v_2.propertieName = i_5_upvr
+				table.insert(tbl_2, v_2)
+			end
+		end
+	end
+	table.sort(tbl_2, function(arg1, arg2) -- Line 152
+		if arg2.OrderPriority < arg1.OrderPriority then
+			return true
+		end
+		return false
+	end)
+	local _ = 1
+	-- KONSTANTERROR: [0] 1. Error Block 30 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [82] 59. Error Block 34 start (CF ANALYSIS FAILED)
+	if pairs_result2_2 == "number" then
+	elseif pairs_result2_2 == "number+" then
+	end
+	var15_upvw.ScrollingFrame.PropertyNumPlus:Clone().Text.Text = pairs_result1_upvr
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	var15_upvw.ScrollingFrame.PropertyNumPlus:Clone().Name = pairs_result1_upvr
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	var15_upvw.ScrollingFrame.PropertyNumPlus:Clone().Position = UDim2.new(-3, 5, 0, 0 * 25 + 10)
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	var15_upvw.ScrollingFrame.PropertyNumPlus:Clone().Visible = true
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	var15_upvw.ScrollingFrame.PropertyNumPlus:Clone().Parent = var15_upvw.ScrollingFrame
+	-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+	var15_upvw.ScrollingFrame.PropertyNumPlus:Clone():TweenPosition(var15_upvw.ScrollingFrame.PropertyNumPlus:Clone().Position + UDim2.new(3, 0, 0, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.2, true)
+	local clone_2_upvw = var15_upvw.ScrollingFrame.PropertyNumPlus:Clone()
+	local function nextValueOnClickFunction() -- Line 183
+		--[[ Upvalues[5]:
+			[1]: var33_upvw (copied, read and write)
+			[2]: Parent_upvr (copied, readonly)
+			[3]: pairs_result1_upvr (readonly)
+			[4]: getSelectedModels_result1_2_upvr (readonly)
+			[5]: clone_2_upvw (read and write)
+		]]
+		if var33_upvw then
+		else
+			var33_upvw = true
+			Parent_upvr.SetPropertieRF:InvokeServer(pairs_result1_upvr, getSelectedModels_result1_2_upvr)
+			if clone_2_upvw.Parent and clone_2_upvw.Text.Text == "Key" then
+				for i_11 = 1, #getSelectedModels_result1_2_upvr do
+					local var57 = getSelectedModels_result1_2_upvr[i_11]
+					if var57.Parent and var57.Name == "Note" and var57.PrimaryPart then
+						var57.PrimaryPart.Sound:Play()
+					end
+				end
+			end
+			var33_upvw = false
+		end
+	end
+	local function _(arg1) -- Line 204, Named "round"
+		return math.floor(arg1 + 0.5)
+	end
+	clone_2_upvw.MouseButton1Click:Connect(nextValueOnClickFunction)
+	if pairs_result2_2 == "number+" then
+		clone_2_upvw.ArrowNext.MouseButton1Click:Connect(nextValueOnClickFunction)
+		clone_2_upvw.TextNum.FocusLost:Connect(function() -- Line 208, Named "nextValueOnClickFunctionPlus"
+			--[[ Upvalues[7]:
+				[1]: var33_upvw (copied, read and write)
+				[2]: pairs_result3_upvr (readonly)
+				[3]: i_5_upvr (readonly)
+				[4]: clone_2_upvw (read and write)
+				[5]: Parent_upvr (copied, readonly)
+				[6]: pairs_result1_upvr (readonly)
+				[7]: getSelectedModels_result1_2_upvr (readonly)
+			]]
+			-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+			if var33_upvw then
+			else
+				var33_upvw = true
+				local tonumber_result1 = tonumber(clone_2_upvw.TextNum.Text)
+				if not tonumber_result1 or string.match(tostring(tonumber_result1), "nan") then
+				end
+				Parent_upvr.SetPropertieRF:InvokeServer(pairs_result1_upvr, getSelectedModels_result1_2_upvr, math.max(math.min(math.floor(1 * 100 + 0.5) / 100, pairs_result3_upvr), i_5_upvr))
+				var33_upvw = false
+			end
+		end)
+	end
+	wait()
+	-- KONSTANTERROR: [82] 59. Error Block 34 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [48] 37. Error Block 33 start (CF ANALYSIS FAILED)
+	if pairs_result2_2 == "boolean" then
+		-- KONSTANTWARNING: GOTO [105] #74
+	end
+	-- KONSTANTERROR: [48] 37. Error Block 33 end (CF ANALYSIS FAILED)
+end
+function hideProperties() -- Line 248
+	--[[ Upvalues[1]:
+		[1]: var15_upvw (read and write)
+	]]
+	local children = var15_upvw.ScrollingFrame:GetChildren()
+	for i_6 = 1, #children do
+		if children[i_6]:IsA("GuiObject") and children[i_6].Visible then
+			children[i_6]:Destroy()
+		end
+	end
+	var15_upvw.ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+end
+function uneq() -- Line 260
+	--[[ Upvalues[10]:
+		[1]: var20_upvw (read and write)
+		[2]: var8_upvw (read and write)
+		[3]: var9_upvw (read and write)
+		[4]: var10_upvw (read and write)
+		[5]: var11_upvw (read and write)
+		[6]: var12_upvw (read and write)
+		[7]: var13_upvw (read and write)
+		[8]: var15_upvw (read and write)
+		[9]: var14_upvw (read and write)
+		[10]: var17_upvw (read and write)
+	]]
+	var20_upvw = false
+	var8_upvw:Destroy()
+	var8_upvw = nil
+	var9_upvw:Disconnect()
+	var9_upvw = nil
+	var10_upvw:Disconnect()
+	var10_upvw = nil
+	var11_upvw:Disconnect()
+	var11_upvw = nil
+	var12_upvw:Disconnect()
+	var12_upvw = nil
+	var13_upvw:Disconnect()
+	var13_upvw = nil
+	clearSelected()
+	hideProperties()
+	var15_upvw.ScrollingFrame.Visible = false
+	var15_upvw.SelectAll.Visible = false
+	var14_upvw:Disconnect()
+	var14_upvw = nil
+	if var17_upvw then
+		var17_upvw:Disconnect()
+		var17_upvw = nil
+	end
+end
+function eq() -- Line 290
+	--[[ Upvalues[14]:
+		[1]: var18_upvw (read and write)
+		[2]: Parent_upvr (readonly)
+		[3]: var15_upvw (read and write)
+		[4]: LocalPlayer_upvr (readonly)
+		[5]: var9_upvw (read and write)
+		[6]: var10_upvw (read and write)
+		[7]: UserInputService_upvr (readonly)
+		[8]: var11_upvw (read and write)
+		[9]: var12_upvw (read and write)
+		[10]: var13_upvw (read and write)
+		[11]: var8_upvw (read and write)
+		[12]: var14_upvw (read and write)
+		[13]: GetBlockInfo_upvr (readonly)
+		[14]: var17_upvw (read and write)
+	]]
+	if not var18_upvw then
+		var18_upvw = require(Parent_upvr.TypeProperties)
+	end
+	var15_upvw = LocalPlayer_upvr.PlayerGui.PropertiesToolDisplayGui
+	var9_upvw = game.Players.LocalPlayer.Character.Humanoid.Died:Connect(died)
+	var10_upvw = UserInputService_upvr.InputChanged:Connect(inputChanged)
+	var11_upvw = UserInputService_upvr.InputBegan:Connect(inputBegan)
+	var12_upvw = UserInputService_upvr.InputEnded:Connect(inputEnded)
+	var13_upvw = UserInputService_upvr.TouchPinch:Connect(inputTouchPinch)
+	var8_upvw = Instance.new("SelectionBox")
+	var8_upvw.Color3 = Color3.fromRGB(2, 136, 0)
+	var8_upvw.SurfaceColor3 = Color3.fromRGB(126, 172, 65)
+	var8_upvw.SurfaceTransparency = 1
+	var8_upvw.Parent = workspace
+	var15_upvw.ScrollingFrame.Visible = true
+	var15_upvw.SelectAll.Visible = true
+	var14_upvw = var15_upvw.SelectAll.MouseButton1Click:Connect(function() -- Line 315
+		--[[ Upvalues[2]:
+			[1]: GetBlockInfo_upvr (copied, readonly)
+			[2]: LocalPlayer_upvr (copied, readonly)
+		]]
+		clearSelected()
+		local children_2 = workspace.Blocks:GetChildren()
+		for i_7 = 1, #children_2 do
+			local children_3 = children_2[i_7]:GetChildren()
+			for i_8 = 1, #children_3 do
+				local var66 = children_3[i_8]
+				local _, _, var3_result3_3 = GetBlockInfo_upvr(var66, LocalPlayer_upvr)
+				if var3_result3_3 then
+					addSelection(var66)
+				end
+			end
+		end
+		hideProperties()
+		showProperties()
+	end)
+	var17_upvw = Parent_upvr.UpdateProperieDisplayRE.OnClientEvent:Connect(updatePropertyButtonsValues)
+end
+function checkToLockCameraRotation() -- Line 341
+	--[[ Upvalues[1]:
+		[1]: var19_upvw (read and write)
+	]]
+	if not var19_upvw then
+		lockCameraRotation()
+	end
+end
+function lockCameraRotation() -- Line 347
+	--[[ Upvalues[3]:
+		[1]: var19_upvw (read and write)
+		[2]: CurrentCamera_upvr (readonly)
+		[3]: RunService_upvr (readonly)
+	]]
+	var19_upvw = true
+	CurrentCamera_upvr.CameraType = Enum.CameraType.Scriptable
+	local CameraSubject_upvw = CurrentCamera_upvr.CameraSubject
+	if CameraSubject_upvw:IsA("Humanoid") then
+		CameraSubject_upvw = CameraSubject_upvw.RootPart
+	end
+	local var72_upvr = CurrentCamera_upvr.CFrame - CurrentCamera_upvr.CFrame.p
+	local var73_upvr = CameraSubject_upvw.CFrame.p - CurrentCamera_upvr.CFrame.p
+	RunService_upvr:BindToRenderStep("cameraRotationLock", Enum.RenderPriority.Camera.Value, function() -- Line 360
+		--[[ Upvalues[4]:
+			[1]: CurrentCamera_upvr (copied, readonly)
+			[2]: var72_upvr (readonly)
+			[3]: CameraSubject_upvw (read and write)
+			[4]: var73_upvr (readonly)
+		]]
+		CurrentCamera_upvr.CFrame = var72_upvr + CameraSubject_upvw.CFrame.p - var73_upvr
+	end)
+end
+function checkToUnlockCameraRotation() -- Line 366
+	--[[ Upvalues[1]:
+		[1]: var19_upvw (read and write)
+	]]
+	if var19_upvw then
+		unlockCameraRotation()
+	end
+end
+function unlockCameraRotation() -- Line 372
+	--[[ Upvalues[3]:
+		[1]: RunService_upvr (readonly)
+		[2]: CurrentCamera_upvr (readonly)
+		[3]: var19_upvw (read and write)
+	]]
+	RunService_upvr:UnbindFromRenderStep("cameraRotationLock")
+	CurrentCamera_upvr.CameraType = Enum.CameraType.Custom
+	var19_upvw = false
+end
+local GuiService_upvr = game:GetService("GuiService")
+function inputBegan(arg1, arg2) -- Line 378
+	--[[ Upvalues[5]:
+		[1]: var20_upvw (read and write)
+		[2]: var21_upvw (read and write)
+		[3]: mouse_upvr (readonly)
+		[4]: GuiService_upvr (readonly)
+		[5]: var23_upvw (read and write)
+	]]
+	if not arg2 then
+		if arg1.UserInputType == Enum.UserInputType.MouseButton1 then
+			var20_upvw = true
+			var21_upvw = Vector2.new(mouse_upvr.X, mouse_upvr.Y)
+			active()
+			return
+		end
+		if arg1.UserInputType == Enum.UserInputType.Touch then
+			mouseMove()
+			active(true)
+			return
+		end
+		if arg1.UserInputType == Enum.UserInputType.Gamepad1 then
+			if arg1.KeyCode == Enum.KeyCode.ButtonR2 and not GuiService_upvr.SelectedObject then
+				var20_upvw = true
+				var21_upvw = Vector2.new(mouse_upvr.X, mouse_upvr.Y)
+				active()
+				return
+			end
+			if arg1.KeyCode == Enum.KeyCode.ButtonL2 then
+				var23_upvw = true
+			end
+		end
+	end
+end
+function inputChanged(arg1, arg2) -- Line 399
+	if arg1.UserInputType == Enum.UserInputType.MouseMovement then
+		checkForDragSelection()
+		mouseMove()
+	elseif arg1.KeyCode == Enum.KeyCode.Thumbstick1 or arg1.KeyCode == Enum.KeyCode.Thumbstick2 then
+		checkForDragSelection()
+		mouseMove()
+	end
+end
+function inputEnded(arg1, arg2) -- Line 409
+	--[[ Upvalues[2]:
+		[1]: var20_upvw (read and write)
+		[2]: var23_upvw (read and write)
+	]]
+	if not arg2 then
+		if arg1.UserInputType == Enum.UserInputType.MouseButton1 then
+			var20_upvw = false
+			return
+		end
+		if arg1.UserInputType == Enum.UserInputType.Gamepad1 then
+			if arg1.KeyCode == Enum.KeyCode.ButtonR2 then
+				var20_upvw = false
+				return
+			end
+			if arg1.KeyCode == Enum.KeyCode.ButtonL2 then
+				var23_upvw = false
+			end
+		end
+	end
+end
+local var75_upvw
+function inputTouchPinch(arg1, arg2, arg3, arg4, arg5) -- Line 424
+	--[[ Upvalues[2]:
+		[1]: var75_upvw (read and write)
+		[2]: var22_upvw (read and write)
+	]]
+	if not arg5 then
+		local _1 = arg1[1]
+		local _2 = arg1[2]
+		if arg4 == Enum.UserInputState.Begin then
+			var75_upvw = (_2 - _1).Magnitude
+		end
+		if var75_upvw < 120 then
+			local var78 = true
+			if arg4 ~= Enum.UserInputState.Begin then
+				if arg4 ~= Enum.UserInputState.Change then
+					var78 = false
+				else
+					var78 = true
+				end
+			end
+			var22_upvw = var78
+			checkForDragSelection(true, _1, _2)
+		end
+	end
+end
+function updatePropertyButtonsValues() -- Line 442
+	--[[ Upvalues[1]:
+		[1]: var15_upvw (read and write)
+	]]
+	local getSelectedModels_result1 = getSelectedModels()
+	local children_8 = var15_upvw.ScrollingFrame:GetChildren()
+	for i_9 = 1, #children_8 do
+		local var84 = children_8[i_9]
+		if var84:IsA("GuiObject") and var84.Visible then
+			for _, v_3 in pairs(getAllSelectedProperties(getSelectedModels_result1)) do
+				local var88 = v_3[var84.Text.Text]
+				if var88 then
+					var88.UpdatePropertyButtonFunction(var84, getSelectedModels_result1)
+				end
+			end
+		end
+	end
+end
+function doingShiftSelect() -- Line 468
+	--[[ Upvalues[2]:
+		[1]: UserInputService_upvr (readonly)
+		[2]: var23_upvw (read and write)
+	]]
+	local any_IsKeyDown_result1_4 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.LeftShift)
+	if not any_IsKeyDown_result1_4 then
+		any_IsKeyDown_result1_4 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.RightShift)
+		if not any_IsKeyDown_result1_4 then
+			any_IsKeyDown_result1_4 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.LeftControl)
+			if not any_IsKeyDown_result1_4 then
+				any_IsKeyDown_result1_4 = UserInputService_upvr:IsKeyDown(Enum.KeyCode.RightControl)
+				if not any_IsKeyDown_result1_4 then
+					any_IsKeyDown_result1_4 = var23_upvw
+					if not any_IsKeyDown_result1_4 then
+						any_IsKeyDown_result1_4 = isMobilePlayer()
+					end
+				end
+			end
+		end
+	end
+	return any_IsKeyDown_result1_4
+end
+local var94_upvw = false
+function checkForDragSelection(arg1, arg2, arg3) -- Line 474
+	--[[ Upvalues[9]:
+		[1]: var20_upvw (read and write)
+		[2]: var22_upvw (read and write)
+		[3]: var15_upvw (read and write)
+		[4]: var21_upvw (read and write)
+		[5]: mouse_upvr (readonly)
+		[6]: var94_upvw (read and write)
+		[7]: GetBlockInfo_upvr (readonly)
+		[8]: LocalPlayer_upvr (readonly)
+		[9]: CurrentCamera_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local var124
+	local function INLINED_4() -- Internal function, doesn't exist in bytecode
+		var124 = not arg1
+		return var124
+	end
+	local function INLINED_5() -- Internal function, doesn't exist in bytecode
+		var124 = arg1
+		return var124
+	end
+	if not var20_upvw or not INLINED_4() or INLINED_5() then
+		var124 = var22_upvw
+	end
+	if not var124 then
+	else
+		local SelectionBox = var15_upvw.SelectionBox
+		if not arg1 or not arg2 then
+			local var126 = var21_upvw
+		end
+		if not arg1 or not arg3 then
+			local vector2 = Vector2.new(mouse_upvr.X, mouse_upvr.Y)
+		end
+		SelectionBox.Position = UDim2.new(0, var126.X, 0, var126.Y)
+		SelectionBox.Size = UDim2.new(0, vector2.X - var126.X, 0, vector2.Y - var126.Y)
+		if var94_upvw or not var126 then return end
+		if not arg1 and (vector2 - var126).Magnitude < 24 then return end
+		var94_upvw = true
+		if arg1 then
+			checkToLockCameraRotation()
+		end
+		SelectionBox.Visible = true
+		local var128
+		while var124 do
+			if not doingShiftSelect() or arg1 then
+				clearSelected()
+			end
+			var128 = SelectionBox.Position
+			var128 = SelectionBox.Size.Y
+			var128 = SelectionBox.Position.X
+			var128 = SelectionBox.Size.X.Offset
+			var128 = SelectionBox.Position
+			var128 = SelectionBox.Position.X.Offset
+			var128 = SelectionBox.Position.Y
+			var128 = SelectionBox.Position.Y.Offset + SelectionBox.Size.Y.Offset
+			var128 = workspace
+			local children_5 = var128.Blocks:GetChildren()
+			var128 = #children_5
+			for i_12 = 1, var128 do
+				local children_4 = children_5[i_12]:GetChildren()
+				for i_13 = 1, #children_4 do
+					local var131 = children_4[i_13]
+					local _, _, var3_result3_2 = GetBlockInfo_upvr(var131, LocalPlayer_upvr)
+					if var131.PrimaryPart and var3_result3_2 then
+						local any_WorldToScreenPoint_result1_2, any_WorldToScreenPoint_result2 = CurrentCamera_upvr:WorldToScreenPoint(var131.PrimaryPart.Position)
+						if any_WorldToScreenPoint_result2 and math.min(var128.X.Offset, var128 + SelectionBox.Size.X.Offset) < any_WorldToScreenPoint_result1_2.X and any_WorldToScreenPoint_result1_2.X < math.max(SelectionBox.Position.X.Offset, var128.Offset + var128) and math.min(SelectionBox.Position.Y.Offset, var128.Y.Offset + var128.Offset) < any_WorldToScreenPoint_result1_2.Y and any_WorldToScreenPoint_result1_2.Y < math.max(var128.Offset, var128) and not var131:FindFirstChild("PropertiesSB") then
+							addSelection(var131)
+						end
+					end
+				end
+			end
+			var128 = wait
+			var128()
+			local function INLINED_6() -- Internal function, doesn't exist in bytecode
+				var128 = not arg1
+				return var128
+			end
+			if not var20_upvw or not INLINED_6() then
+				var128 = arg1
+				if var128 then
+					var128 = var22_upvw
+				end
+			end
+			var124 = var128
+		end
+		SelectionBox.Visible = false
+		if arg1 then
+			checkToUnlockCameraRotation()
+		end
+		hideProperties()
+		showProperties()
+		var94_upvw = false
+	end
+end
+function mouseMove() -- Line 553
+	--[[ Upvalues[4]:
+		[1]: var8_upvw (read and write)
+		[2]: mouse_upvr (readonly)
+		[3]: GetBlockInfo_upvr (readonly)
+		[4]: LocalPlayer_upvr (readonly)
+	]]
+	if not var8_upvw then
+	else
+		local Target = mouse_upvr.Target
+		if not Target or not Target.Parent then
+			var8_upvw.Adornee = nil
+			return
+		end
+		local var3_result1, _, var3_result3 = GetBlockInfo_upvr(Target, LocalPlayer_upvr)
+		if var3_result3 then
+			var8_upvw.Adornee = var3_result1
+			return
+		end
+		var8_upvw.Adornee = nil
+	end
+end
+function died() -- Line 573
+	uneq()
+	script.Parent:Destroy()
+end
+script.Parent.Equipped:connect(eq)
+script.Parent.Unequipped:connect(uneq)
